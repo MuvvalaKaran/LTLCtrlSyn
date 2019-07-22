@@ -1,2 +1,6 @@
 #Ignore directory 
 venv
+.idea
+*.txt
+*.csv
+
