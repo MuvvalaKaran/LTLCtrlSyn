@@ -1,5 +1,6 @@
 from read_data import ReadData
 import numpy as np
+import cdd
 
 class TransSysToPolytope:
     Ain = []
@@ -46,12 +47,28 @@ class TransSysToPolytope:
         #format while in our case of python it is being stored as str
         tmplist = []
         for j in range(len(lst[i])):
-            signs = pow(-1,int(lst[i][j]))
-            tmplist.append(signs)
-            print(signs)
-        signs.append(tmplist[i])
+            sign = pow(-1,int(lst[i][j]))
+            tmplist.append(sign)
+            # print(sign)
+        signs.append(tmplist)
         print("*******************************************************")
-        # H = np.array(np.diag(np.diag(signs))*Ain)
+        H_A = np.matmul(np.diag(signs[i]),Ain)
+        H_A = np.append(H_A,ReadData.A[len(ReadData.A)-1],0)
+        # H_B = np.matmul(np.matmul(np.ones(10), signs[i]),Bin)
+
+        # H_B = np.matmul(np.array(signs[i]),Bin)
+        # H_B = np.append(H_B,ReadData.B[len(ReadData.B-1)],0)
+        # H = np.insert(H,[2,2],0)
+        # print(np.dot(np.array(signs[i]),Bin))
+        # C = np.array(signs[i]).dot(Bin)
+        # for k in range(len(signs[i])):
+        #     signs[i][k] = -1*signs[i][k]
+        H_B = np.diag(np.outer(np.array(signs[i]),Bin))
+        # print(ReadData.B[len(ReadData.B)-1].shape)
+        H_B = np.append(H_B[:,None],ReadData.B[len(ReadData.B)-1],0)
+        np.multiply(-1,H_B,H_B)
+        print(H_B.shape)
+        poly = cdd.Polyhedron()
     # print(type(lst[1]))
 
 
