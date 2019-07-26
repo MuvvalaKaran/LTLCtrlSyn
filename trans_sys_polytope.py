@@ -1,6 +1,9 @@
 from read_data import ReadData
 import numpy as np
+import matplotlib.pyplot as plt
+import sys
 import cdd
+import polytope as pc
 
 class TransSysToPolytope:
     Ain = []
@@ -12,8 +15,8 @@ class TransSysToPolytope:
         Bin.append(ReadData.B[i])
     Bin = np.array(Bin)
     x,n = Ain.shape
-    Nh,y = Bin.shape
-    sp_no = 0
+    Nh,y = Bin.shape # numbr of hyperplanes
+    sp_no = 0 #subpolytop number
     N_p = len(ReadData.A) - 1
     ind = []
     # Nh = 11
@@ -38,11 +41,13 @@ class TransSysToPolytope:
     #print(ind)
     lst = []
     signs = [] #probably should be initialized inside the for loop
+    Tp_vert = [] # equivalent of Tp.Vert
+    Tp_Signs = [] # equivalent of Tp.signs
     for i in range(pow(2,Nh) -1):
 
         a = format(i,'b')
         addZeros = 10 - len(a)
-        string_val   = "".join('0' for i in range(addZeros))
+        string_val   = "".join('0' for i in range(addZeros)) #this is out s
         lst.append(string_val + a) # this is equivalent to matlab dec2bin except matlab stores the numbers in matrix
         #format while in our case of python it is being stored as str
         tmplist = []
@@ -51,7 +56,7 @@ class TransSysToPolytope:
             tmplist.append(sign)
             # print(sign)
         signs.append(tmplist)
-        print("*******************************************************")
+        # print("*******************************************************")
         H_A = np.matmul(np.diag(signs[i]),Ain)
         H_A = np.append(H_A,ReadData.A[len(ReadData.A)-1],0)
         # H_B = np.matmul(np.matmul(np.ones(10), signs[i]),Bin)
@@ -67,9 +72,107 @@ class TransSysToPolytope:
         # print(ReadData.B[len(ReadData.B)-1].shape)
         H_B = np.append(H_B[:,None],ReadData.B[len(ReadData.B)-1],0)
         np.multiply(-1,H_B,H_B)
-        print(H_B.shape)
-        poly = cdd.Polyhedron()
-    # print(type(lst[1]))
+        # create a vertex representation of usb -polytopes (if such a polytope exists)
+        Spol_P = pc.Polytope(H_A,H_B)
+        Spol = pc.extreme(Spol_P)
+        # if(Spol is_instance None):
+        if(isinstance(Spol,type(None))):
+            pass
+        else:
+            # print(Spol.shape[0])
+            # A = np.array([[2,2],[3,2]])
+            #
+            # sample = np.hstack((A,np.ones((A.shape[0],1))))
+            # print(sample)
+            # print(np.array([Spol, np.ones((Spol.shape[0],1))]))
+            # print(np.hstack((Spol,np.ones((Spol.shape[0],1)))))
+            if (Spol.shape[0] > n and np.linalg.matrix_rank(np.hstack((Spol,np.ones((Spol.shape[0],1))))) == n+1):
+                #print("good") #all them are good in our case
+                sp_no = sp_no + 1
+
+                # Tp_vert2 = np.empty((1,len(lst[i])))
+
+                Tp_vert.append(Spol)
+                # Tp_Signs.append(lst[i])
+                # a loop only to strip each element in list and add it manually to an array
+                # Tp_Signs.append(list(lst[i]))
+                tmp_lst_of_ints = [int(x) for x in lst[i]]
+                Tp_Signs.append(np.array(tmp_lst_of_ints))
+                # for element in range(len(lst[i])):
+                #     # print(element)
+                # # print("***************************************\n")
+                #     lst_to_array = np.empty((1,len(lst[i])))
+                #     # lst_to_array[1,element] = lst[i]
+                #     np.insert(lst_to_array,element,int(lst[i][element]))
+                # Tp_Signs.append(lst_to_array)
+
+
+                # tmp = pc.qhull(Spol)
+                # tmp.plot()
+                # plt.show()
+                # print("yay")
+
+    # print(Tp_Signs[0].shape)
+    print("Done with the first loop and now entering the second loop")
+
+    Tp_Q = [i for i in range(sp_no)] #sp_no should have been 34
+    Tp_adj = np.empty((sp_no,sp_no))
+    Tp_obs = np.zeros((1,sp_no))
+    # print(set(Tp_obs_as_list))
+    for i in range(sp_no):
+        #find adjacency for polytope i
+        signs = Tp_Signs[i]
+        Tp_adj[i][i] = 1
+
+        # j~=i; it's possible to have more than one difference of sign between 2
+        # adjacent states (see below) - if some props define the same hyperplane
+        j =  set(list(range(1, sp_no))).difference(set(i))
+        # inequal =
+
+
+
+
+
+
+
+
+        # print(H_B.shape)
+        # abc = []
+        # abc.append(H_A)
+        # abc.append(H_B)
+    # print(abc)
+
+    # p1 = pc.box2poly([[0,2],[0,2]])
+    # p2 = pc.box2poly([[2,3],[0,2]])
+    # r = pc.Region([p1,p2])
+    # for polytope in r:
+    #     print(polytope)
+    # print(r)
+    # p1.plot()
+    # if len(sys.argv) < 2:
+    #     N = 3
+    # else:
+    #     N = int(sys.argv[1])
+    #
+    # V = np.random.rand(N, 2)
+    #
+    # print("Sampled " + str(N) + " points:")
+    # print(V)
+    #
+    # P = pc.qhull(V)
+    # print("Computed the convex hull:")
+    # print(P)
+    #
+    # V_min = pc.extreme(P)
+    # print("which has extreme points:")
+    # print(V_min)
+    #
+    # P.plot()
+    # plt.show()
+
+    # r.plot()
+
+
 
 
     # for i in range(10):
