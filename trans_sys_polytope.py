@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 import cdd
 import polytope as pc
+import time
 
 class TransSysToPolytope:
     Ain = []
@@ -116,18 +117,73 @@ class TransSysToPolytope:
     print("Done with the first loop and now entering the second loop")
 
     Tp_Q = [i for i in range(sp_no)] #sp_no should have been 34
-    Tp_adj = np.empty((sp_no,sp_no))
+    # TODO if this guy should be initiliazed as empty or zeros as empty inserts sporadic numbers
+    Tp_adj = np.zeros((sp_no,sp_no))
     Tp_obs = np.zeros((1,sp_no))
     # print(set(Tp_obs_as_list))
     for i in range(sp_no):
         #find adjacency for polytope i
         signs = Tp_Signs[i]
         Tp_adj[i][i] = 1
+        # print(signs)
 
         # j~=i; it's possible to have more than one difference of sign between 2
         # adjacent states (see below) - if some props define the same hyperplane
-        j =  set(list(range(1, sp_no))).difference(set(i))
-        # inequal =
+        # print(set(list(range(1, sp_no))))
+        # print({i})
+        j =  set(list(range(1, sp_no))).difference({i+1})
+        # print(j)
+        for index in j:
+            # print(index)
+            # print(Tp_Signs[index])
+            # [[x[0],x[1],y[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9]] for x in Tp_Signs[index] for y in signs if x[0] == y[0]]
+            counter = 1
+            for x,y in zip(signs, Tp_Signs[index]):
+                # print(xy)
+
+                # print(x,y)
+                if(x == y):
+                    counter = counter + 1
+                    # pass
+                else:
+                    inequal = counter #propositions giving differences between signs of states i and j
+                    # print(inequal)
+                    break
+        if (np.linalg.matrix_rank(np.array([Ain[inequal,:],Bin[inequal,:]])) == 1):
+            # print("good")
+            Tp_adj[i,index]  = 1
+        # print(Tp_adj)
+        # print("************************************************************")
+
+        # find observable(s) of subpolytope i;observables are indices from alphabet_set (so there is only one observable
+        # per state)
+        #start with no observable and add observables in a vector (ap_obs will contain numbers (not indices in alphabet) of observed atomic props in current state)
+        ap_obs = []
+        # for each atomic proposition
+        for j in range(1,N_p):
+            # print(ReadData.A[j].shape[0])
+            # all signs corresponding to porp j are 0, so rop j is satisfied by current polytope (i)
+            # signs[0:ReadData.A[j].shape[0]]
+            if ReadData.A[j].ndim == 1:
+                tmp = signs[0:1]
+            else:
+                tmp = signs[0:ReadData.A[j].shape[0]]
+        print(tmp)
+            # check if tmp is all zeroes or not
+        #     if not np.any(tmp):
+        #         ap_obs.append(j)
+        #     print(ap_obs)
+        print("##############################")
+        # print(signs[0:ReadData.A[j].shape[0]])
+
+
+        # condition = indices(signs, lambda Tp_signs: >2)
+        # inequal = np.extract(condition=,arr=
+
+        # [[x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9]]for x in signs for y in Tp_Signs[j,:] if x[0] != y[0]]
+
+        def indices(a, func):
+            return [i for (i, val) in enumerate(a) if func(val)]
 
 
 
