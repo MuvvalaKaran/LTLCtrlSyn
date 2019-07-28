@@ -120,7 +120,7 @@ class TransSysToPolytope:
     Tp_Q = [i for i in range(sp_no)]
     # TODO if this guy should be initiliazed as empty or zeros as empty inserts sporadic numbers
     Tp_adj = np.zeros((sp_no,sp_no))
-    Tp_obs = np.zeros((1,sp_no))
+    Tp_obs = np.zeros((1,sp_no)) #can start from one only as starting form zeros will return null
     # print(set(Tp_obs_as_list))
     for i in range(0,sp_no):
         #find adjacency for polytope i
@@ -174,16 +174,39 @@ class TransSysToPolytope:
             # signs[0:ReadData.A[j].shape[0]]
             if ReadData.A[j].ndim == 1:
                 tmp = signs[0:1]
+                if not np.any(tmp):
+                    ap_obs.append(j)
+                signs = np.delete(signs, np.s_[0:1])
             else:
                 tmp = signs[0:ReadData.A[j].shape[0]]
+                if not np.any(tmp):
+                    ap_obs.append(j)
+                signs = np.delete(signs, np.s_[0:ReadData.A[j].shape[0]])
             # print(tmp)
             # check if tmp is all zeroes or not
-            if not np.any(tmp):
-                ap_obs.append(j)
-            print(ap_obs)
-            signs[0] = 9
-            signs[1] = 9
-                # print(ap_obs)
+            # if not np.any(tmp):
+            #     ap_obs.append(j)
+            # signs = np.delete(signs, np.s_[0:ReadData.A])
+        def convert(list):
+
+            # Converting integer list to string list
+            # and joining the list using join()
+            # res = str("".join(map(str, list)))
+            s = [str(i) for i in list]
+            res = "".join(s)
+            return res
+
+        print(ap_obs)
+        if np.size(ap_obs) == 0:
+            Tp_obs[0][i] = pow(2,N_p)
+        else:
+            alph_ind = np.zeros((1,N_p),int)
+            for alp_index in ap_obs:
+                alph_ind[0][alp_index] = 1
+            #covert the laph_ind into one string
+            tmp = convert(alph_ind.tolist()[0])
+            Tp_obs[0][i] = int(tmp,2)
+        print(Tp_obs)
         print("##############################")
         # print(signs[0:ReadData.A[j].shape[0]])
 
