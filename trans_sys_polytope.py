@@ -37,19 +37,20 @@ class TransSysToPolytope:
 
 
     else:
-        for i in range(pow(2,Nh)-1):
+        for i in range(pow(2,Nh)):
             ind.append(i)
     #print(ind)
     lst = []
     signs = [] #probably should be initialized inside the for loop
     Tp_vert = [] # equivalent of Tp.Vert
     Tp_Signs = [] # equivalent of Tp.signs
-    for i in range(pow(2,Nh) -1):
+    for i in range(pow(2,Nh)):
 
         a = format(i,'b')
         addZeros = 10 - len(a)
-        string_val   = "".join('0' for i in range(addZeros)) #this is out s
+        string_val   = "".join('0' for i in range(addZeros)) #this is our s
         lst.append(string_val + a) # this is equivalent to matlab dec2bin except matlab stores the numbers in matrix
+
         #format while in our case of python it is being stored as str
         tmplist = []
         for j in range(len(lst[i])):
@@ -73,7 +74,7 @@ class TransSysToPolytope:
         # print(ReadData.B[len(ReadData.B)-1].shape)
         H_B = np.append(H_B[:,None],ReadData.B[len(ReadData.B)-1],0)
         np.multiply(-1,H_B,H_B)
-        # create a vertex representation of usb -polytopes (if such a polytope exists)
+        # create a vertex representation of sub -polytopes (if such a polytope exists)
         Spol_P = pc.Polytope(H_A,H_B)
         Spol = pc.extreme(Spol_P)
         # if(Spol is_instance None):
@@ -115,13 +116,13 @@ class TransSysToPolytope:
 
     # print(Tp_Signs[0].shape)
     print("Done with the first loop and now entering the second loop")
-
-    Tp_Q = [i for i in range(sp_no)] #sp_no should have been 34
+    signs = []
+    Tp_Q = [i for i in range(sp_no)]
     # TODO if this guy should be initiliazed as empty or zeros as empty inserts sporadic numbers
     Tp_adj = np.zeros((sp_no,sp_no))
     Tp_obs = np.zeros((1,sp_no))
     # print(set(Tp_obs_as_list))
-    for i in range(sp_no):
+    for i in range(0,sp_no):
         #find adjacency for polytope i
         signs = Tp_Signs[i]
         Tp_adj[i][i] = 1
@@ -131,13 +132,14 @@ class TransSysToPolytope:
         # adjacent states (see below) - if some props define the same hyperplane
         # print(set(list(range(1, sp_no))))
         # print({i})
-        j =  set(list(range(1, sp_no))).difference({i+1})
+        j = set(list(range(0, sp_no))).difference({i})
         # print(j)
         for index in j:
             # print(index)
             # print(Tp_Signs[index])
             # [[x[0],x[1],y[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9]] for x in Tp_Signs[index] for y in signs if x[0] == y[0]]
-            counter = 1
+            counter = 0
+            inequal = []
             for x,y in zip(signs, Tp_Signs[index]):
                 # print(xy)
 
@@ -146,12 +148,18 @@ class TransSysToPolytope:
                     counter = counter + 1
                     # pass
                 else:
-                    inequal = counter #propositions giving differences between signs of states i and j
+                    inequal.append(counter)# =  #propositions giving differences between signs of states i and j
+                    counter = counter + 1
                     # print(inequal)
-                    break
-        if (np.linalg.matrix_rank(np.array([Ain[inequal,:],Bin[inequal,:]])) == 1):
-            # print("good")
-            Tp_adj[i,index]  = 1
+                    # break
+            tmp_array_for_rank = []
+            for row in inequal:
+                # np.hstack
+                tmp_array_for_rank.append(np.hstack([[Ain[row,:]],[Bin[row,:]]]))
+            tmp_array_for_rank = np.vstack(tmp_array_for_rank)
+            if (np.linalg.matrix_rank(tmp_array_for_rank) == 1):
+                # print("good")
+                Tp_adj[i,index]  = 1
         # print(Tp_adj)
         # print("************************************************************")
 
@@ -160,7 +168,7 @@ class TransSysToPolytope:
         #start with no observable and add observables in a vector (ap_obs will contain numbers (not indices in alphabet) of observed atomic props in current state)
         ap_obs = []
         # for each atomic proposition
-        for j in range(1,N_p):
+        for j in range(0,N_p):
             # print(ReadData.A[j].shape[0])
             # all signs corresponding to porp j are 0, so rop j is satisfied by current polytope (i)
             # signs[0:ReadData.A[j].shape[0]]
@@ -168,11 +176,14 @@ class TransSysToPolytope:
                 tmp = signs[0:1]
             else:
                 tmp = signs[0:ReadData.A[j].shape[0]]
-        print(tmp)
+            # print(tmp)
             # check if tmp is all zeroes or not
-        #     if not np.any(tmp):
-        #         ap_obs.append(j)
-        #     print(ap_obs)
+            if not np.any(tmp):
+                ap_obs.append(j)
+            print(ap_obs)
+            signs[0] = 9
+            signs[1] = 9
+                # print(ap_obs)
         print("##############################")
         # print(signs[0:ReadData.A[j].shape[0]])
 
