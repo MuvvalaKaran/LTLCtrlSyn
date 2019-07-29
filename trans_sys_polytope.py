@@ -2,9 +2,11 @@ from read_data import ReadData
 import numpy as np
 import matplotlib.pyplot as plt
 import polytope as pc
+import os
 
 
 class TransSysToPolytope:
+    start = os.times()[4]
     Ain = []
     Bin = []
     for i in range(len(ReadData.A)-1):
@@ -144,3 +146,6 @@ class TransSysToPolytope:
         "Tp.adj":Tp_adj,
         "Tp.obs":Tp_obs
     }
+    print("---------------------------------------------------------------")
+    end = os.times()[4]
+    print("class time"  + str(end-start))
