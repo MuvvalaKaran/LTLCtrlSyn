@@ -1,4 +1,5 @@
 import polytope as pc
+from polytope import plot
 import numpy as np
 from read_data import ReadData
 import nose
@@ -7,7 +8,42 @@ import matplotlib.pyplot as plt
 import sys
 from trans_sys_polytope import TransSysToPolytope as tran_sys
 
+def _get_patch(poly1, **kwargs):
+    """Return matplotlib patch for given Polytope.
 
+    Example::
+
+    > # Plot Polytope objects poly1 and poly2 in the same plot
+    > import matplotlib.pyplot as plt
+    > fig = plt.figure()
+    > ax = fig.add_subplot(111)
+    > p1 = _get_patch(poly1, color="blue")
+    > p2 = _get_patch(poly2, color="yellow")
+    > ax.add_patch(p1)
+    > ax.add_patch(p2)
+    > ax.set_xlim(xl, xu) # Optional: set axis max/min
+    > ax.set_ylim(yl, yu)
+    > plt.show()
+
+    @type poly1: L{Polytope}
+    @param kwargs: any keyword arguments valid for
+        matplotlib.patches.Polygon
+    """
+    import matplotlib as mpl
+    V = pc.extreme(poly1)
+    rc, xc = pc.cheby_ball(poly1)
+    x = V[:, 1] - xc[1]
+    y = V[:, 0] - xc[0]
+    mult = np.sqrt(x**2 + y**2)
+    x = x / mult
+    angle = np.arccos(x)
+    corr = np.ones(y.size) - 2 * (y < 0)
+    angle = angle * corr
+    ind = np.argsort(angle)
+    # create patch
+    patch = mpl.patches.Polygon(V[ind, :], True, **kwargs)
+    patch.set_zorder(0)
+    return patch
 
 A =np.asarray(ReadData.A[len(ReadData.A) -1])
 b =np.asarray(ReadData.B[len(ReadData.B) -1])
@@ -46,19 +82,25 @@ class PlotTraSys:
         xmax = np.amax(Bound[:,0]) + ep[0]
         ymin = np.amin(Bound[:,1]) - ep[1]
         ymax = np.amax(Bound[:,1]) + ep[1]
-        # p.plot()
-        plt.xlim(xmin,xmax)
-        plt.ylim(ymin,ymax)
+         # p.plot()
+        # plt.xlim(xmin,xmax)
+        # plt.ylim(ymin,ymax)
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+
         # plt.figure(1)
         pad_no = str(len(str(len(tran_sys.Tp_Q))) +1)
         centr = np.zeros((len(tran_sys.Tp_Q),n))
         for i in range(len(tran_sys.Tp_Q)):
             k = pc.qhull(tran_sys.Tp_vert[i])
-            k.plot()
+            tmp = _get_patch(k,color="blue")
+            ax.add_patch(tmp)
+
+
             plt.xlim(xmin, xmax)
             plt.ylim(ymin, ymax)
             # plt.figure(1)
-            # plt.show()
+            plt.show()
 
 
 
