@@ -3,10 +3,14 @@ from polytope import plot
 import numpy as np
 from read_data import ReadData
 import nose
+
 import unittest
+import time
 import matplotlib.pyplot as plt
 import sys
 from trans_sys_polytope import TransSysToPolytope as tran_sys
+from itertools import cycle
+
 
 def _get_patch(poly1, **kwargs):
     """Return matplotlib patch for given Polytope.
@@ -44,6 +48,11 @@ def _get_patch(poly1, **kwargs):
     patch = mpl.patches.Polygon(V[ind, :], True, **kwargs)
     patch.set_zorder(0)
     return patch
+
+def get_cmap(n, name='hsv'):
+    '''Returns a function that maps each index in 0, 1, ..., n-1 to a distinct
+    RGB color; the keyword argument name must be a standard mpl colormap name.'''
+    return plt.cm.get_cmap(name, n)
 
 A =np.asarray(ReadData.A[len(ReadData.A) -1])
 b =np.asarray(ReadData.B[len(ReadData.B) -1])
@@ -89,18 +98,24 @@ class PlotTraSys:
         ax = fig.add_subplot(111)
 
         # plt.figure(1)
+        cycol = cycle('bgrcmk')
         pad_no = str(len(str(len(tran_sys.Tp_Q))) +1)
         centr = np.zeros((len(tran_sys.Tp_Q),n))
         for i in range(len(tran_sys.Tp_Q)):
             k = pc.qhull(tran_sys.Tp_vert[i])
-            tmp = _get_patch(k,color="blue")
+            c = get_cmap(len(tran_sys.Tp_Q))
+            tmp = _get_patch(k,color=next(cycol))
             ax.add_patch(tmp)
 
 
             plt.xlim(xmin, xmax)
             plt.ylim(ymin, ymax)
             # plt.figure(1)
-            plt.show()
+            plt.pause(0.1)
+            # plt.show()
+            # plt.close(fig)
+            # time.sleep(0.1)
+            # plt.show()
 
 
 
