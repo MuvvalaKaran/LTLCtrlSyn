@@ -137,12 +137,14 @@ class ReadData:
         alphabet = ['p01', 'p02', 'p03', 'p04', 'p05', 'p06', 'p07', 'p08', 'p09', 'p10', 'p11', 'p12'] #it will ave the same number as above with naming scheme changed
         A = [np.array([0,1]),np.array([1,-1]),np.array([4,1]),np.array([4,-7]),np.array([-2,-1]),np.array([-1,-12]),np.array([-1,-1]),np.array([1,0]),np.array([0,-1]),np.array([-6,-4.5]),
              np.array([[-1,0],[1,0],[0,-1],[0,1],[-3,-5],[1,-1],[-1,2.5],[-2,2.5]])]
+        # A = np.array([[0,1],[1,-1],[4,1],[4,-7],[-2,-1],[-1,-12],[-1,-1],[1,0],[0,-1],[-6,4.5],[[-1,0],[1,0],[0,-1],[0,1],[-3,-5],[1,-1],[-1,2.5],[-2,2.5]]])
         B = [np.array([0]),np.array([0]),np.array([12]),np.array([34]),np.array([4]),np.array([31]),np.array([11]),np.array([-3]),np.array([-1.5]),np.array([-12]),np.array([[-5],[-7],[-3],[-6],[-15],[-7],[-15],[-17.5]])]
         D_A = np.array([[0.2,-0.3],[0.5,-0.5]])
         D_b = np.array([[0.5],[0.5]])
         D_B = np.array([[1,0],[0,1]])
         U_A = np.array([[0,2],[2,0],[0,-2],[-2,0]])
         U_b = np.array([[0],[0],[0],[0]])
+        # use this guy in fiture - np.concatenate
 
     # print(A,"\n")
     # print(B,"\n")
