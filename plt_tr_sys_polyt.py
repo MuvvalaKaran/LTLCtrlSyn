@@ -6,10 +6,12 @@ import nose
 
 import unittest
 import time
+import matplotlib.patches
 import matplotlib.pyplot as plt
 import sys
 from trans_sys_polytope import TransSysToPolytope as tran_sys
 from itertools import cycle
+from invalidate_transitions import Invalid_Transition as newTp
 
 
 def _get_patch(poly1, **kwargs):
@@ -91,12 +93,14 @@ class PlotTraSys:
         xmax = np.amax(Bound[:,0]) + ep[0]
         ymin = np.amin(Bound[:,1]) - ep[1]
         ymax = np.amax(Bound[:,1]) + ep[1]
-         # p.plot()
+
+        # p.plot()
         # plt.xlim(xmin,xmax)
         # plt.ylim(ymin,ymax)
         fig = plt.figure()
         ax = fig.add_subplot(111)
-
+        ax.add_patch(_get_patch(p,edgecolor="Black", linewidth=0.5, facecolor=None, fill=False))
+        plt.pause(0.1)
         # plt.figure(1)
         cycol = cycle('bgrcmk')
         pad_no = str(len(str(len(tran_sys.Tp_Q))) +1)
@@ -104,7 +108,8 @@ class PlotTraSys:
         for i in range(len(tran_sys.Tp_Q)):
             k = pc.qhull(tran_sys.Tp_vert[i])
             c = get_cmap(len(tran_sys.Tp_Q))
-            tmp = _get_patch(k,color=next(cycol))
+            # tmp = _get_patch(k,color=next(cycol))
+            tmp = _get_patch(k,edgecolor="Black", linewidth=0.15, facecolor=None, fill=False)
             ax.add_patch(tmp)
 
 
@@ -118,26 +123,38 @@ class PlotTraSys:
             # plt.show()
             centr[i,:] = np.mean(tran_sys.Tp_vert[i],axis=0) #taking mean along the columns
 
-            for i in range(len(tran_sys.Tp_Q)):
-                neigh = np.nonzero(tran_sys.Tp_adj[i,:])
-                neig_w_smaller_index = np.where((neigh[i] < i))
-                neig_w_smaller_index = [int(x) for x in neig_w_smaller_index[0]]
-                for i in neig_w_smaller_index:
-                    neigh = []
-                    neigh.append(i)
-                # for j in neigh[neig_w_smaller_index]: #might give an issue
-                for j in neigh:
-                    if (tran_sys.Tp_adj[j,i] == 0):
-                        plt.plot(centr[i,:],centr[j,:],'ro-')
-                neigh_w_larger_index = np.where(neigh[i] > i)
-                neigh_w_larger_index = [int(x) for x in neigh_w_larger_index[0]]
-                for j in neigh[neigh_w_larger_index]:
-                    if(tran_sys.Tp_adj[j,i] == 0):
-                        plt.plot(centr[i,:],centr[j,:],'ro-')
-                    else :
-                        plt.plot(centr[i,:],centr[j,:],'ro-')
-                if (tran_sys.Tp_adj[j,i] != 0):
-                    plt.plot(centr[i,:],'ro')
+        for i in range(len(tran_sys.Tp_Q)):
+            neigh = []
+            tmp_neigh = np.nonzero(newTp.updated_Tp_adj[i,:])
+            neig_w_smaller_index = np.where((tmp_neigh[0] < i))
+            neig_w_smaller_index = [int(x) for x in neig_w_smaller_index[0]]
+            for j in  neig_w_smaller_index:
+                neigh.append(tmp_neigh[0][j])
+
+            # for j in neigh[neig_w_smaller_index]: #might give an issue
+            # if(len(neigh) != 0):
+            #     for j in neigh:
+            #         if (newTp.updated_Tp_adj[i,j] == 0):
+            #             plt.plot(centr[i,:],centr[j,:],'ro-')
+            #             plt.pause(0.1)
+
+            neigh_w_larger_index = np.where(tmp_neigh[0] > i)
+            neigh_w_larger_index = [int(x) for x in neigh_w_larger_index[0]]
+            for j in neigh_w_larger_index:
+                neigh.append(tmp_neigh[0][j])
+
+            # if(len(neigh) != 0):
+            #     for j in neigh:
+            #         if(newTp.updated_Tp_adj[i,j] == 0):
+            #             plt.plot(centr[i,:],centr[j,:],'ro-')
+            #             plt.pause(0.1)
+            #         else :
+            #             plt.plot(centr[i,:],centr[j,:],'ro-')
+            #             plt.pause(0.1)
+
+            if (newTp.updated_Tp_adj[i,j] != 0):
+                plt.plot(centr[i,:],'r.')
+                plt.pause(0.1)
 
         plt.show()
 
@@ -158,7 +175,7 @@ class PlotTraSys:
     #
     # tmp = pc.qhull(V_rep)
     # print(tmp)
-    print("$#$####")
+    # print("$#$####")
 
 # if __name__ == '__main__':
 #     unittest.main()
