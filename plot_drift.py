@@ -28,3 +28,14 @@ class Plot_Drift:
         # ax.yaxis.set_ticks([])
         ax.show()
 
+    if(n ==3):
+        z_start = np.amin(Bound_V[:,2],axis=0)
+        z_stop = np.amax(Bound_V[:,2],axis=0)
+        lin_z = np.array(z_start,z_stop,p_no)
+        X, Y, Z = np.meshgrid(lin_x, lin_y,lin_z)
+        Gx = ReadData.D_A[0, 0] * X + ReadData.D_A[0, 1] * Y + ReadData.D_b[0, 0]
+        Gy = ReadData.D_A[1, 0] * X + ReadData.D_A[1, 1] * Y + ReadData.D_b[1, 0]
+        Gz = ReadData.D_A[2, 0] * X + ReadData.D_A[2, 1] * Y + ReadData.D_b[2, 0]
+        ax.quiver(X, Y, Z, Gx, Gy, Gz)
+        ax.show()
+
