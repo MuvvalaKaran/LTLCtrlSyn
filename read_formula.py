@@ -12,3 +12,4 @@ class Read_formula:
     for i in rev_Np:
         formula = re.sub(orig_alph[i],alphabet[i],formula)
     print(formula)
+
