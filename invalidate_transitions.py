@@ -13,9 +13,11 @@ import scipy.optimize as opt
 n = ReadData.D_A.shape[0]
 m = ReadData.U_A.shape[1]
 prec = pow(10,5)*np.finfo(float).eps
-print(prec)
 updated_Tp_adj = trans_sys.Tp_adj
-# print(n,m)
+rank_method = True  # this is faster but more restrictive method that eliminates lots of possible transitions
+linprog_method = True  # this method is slightly slower but has more spurious transitions
+# a mix and match also gives a mixed result but seems to be the closest one.
+
 for i in range(0,len(trans_sys.Tp.get("Tp.Q"))):
     V = trans_sys.Tp.get("Tp.vert")[i]
     H = pc.qhull(V)
@@ -44,17 +46,6 @@ for i in range(0,len(trans_sys.Tp.get("Tp.Q"))):
             ret = np.reshape(array,(1,np.shape(array)[0]))
         return ret
 
-    # def findin1d(array,val):
-    #     # ret = False
-    #     for x in range(np.shape(array)[0]):
-    #         # for y in range(np.shape(array)[1]):
-    #         if array[i][y] == 1:
-    #             ret = True
-    #             break
-    #         else:
-    #             continue
-    #     return ret
-
     F_v = check(np.abs(F_v),prec)
     centr = np.mean(V,axis=0)
     F_n = np.zeros((f_no,n))
@@ -66,18 +57,12 @@ for i in range(0,len(trans_sys.Tp.get("Tp.Q"))):
 
         vect = V[index,:] - centr
         vect_transpose = np.reshape(vect,(np.shape(vect)[0],1))
-        # print(np.matmul(H.A[k,:], vect_transpose))
-        # print(np.ndim(np.sign(np.matmul(H.A[k,:], vect_transpose))))
-        # print("########################################################")
         if(np.shape(np.sign(np.matmul(H.A[k,:], vect_transpose)))[0] == 1):
-            # tmp =  np.reshape(np.sign(np.matmul(H.A[i,:], vect_transpose)),(1,1))
             tmp =  np.asscalar(np.sign(np.matmul(H.A[k,:], vect_transpose)))
             F_n[k,:] =  (tmp * H.A[k,:])/np.linalg.norm(H.A[k,:])
         else:
             F_n[k, :] = (np.matmul(np.sign(np.matmul(H.A[k,:], vect_transpose)),H.A[k, :])) / np.linalg.norm(H.A[k, :])
 
-        # print(F_n)
-    # j = set(list(range(0, sp_no))).difference({i})
     # test f exits to neighbours are feasible (due to control restrictions and drift)
     index_for_neigh = []
     for counter,x in enumerate(updated_Tp_adj[i,:],0):
@@ -88,7 +73,6 @@ for i in range(0,len(trans_sys.Tp.get("Tp.Q"))):
     #  for each neighbour find if transition is possible
     #   first find the common fact of polytope si and sj (which is also the exit facet for si)
 
-    # print(np.mean(trans_sys.Tp_vert[], axis=0))
     for j in neigh:
         tmp = np.matmul(H.A,np.transpose(np.mean(trans_sys.Tp_vert[j], axis=0)))
         counter = 0
@@ -102,7 +86,7 @@ for i in range(0,len(trans_sys.Tp.get("Tp.Q"))):
         ex_f = counter
 
     # for all vertices of si check feasibility by checking non-emptiness of optimisation set (imposed by restrictions)
-        for l in range(v_no): #check if it should go from zero or not (BTW range by default starts from 0)
+        for l in range(v_no):
             index_for_in_f = []
             for counter, x in enumerate(F_v[:, l], 0):
                 if x != 0:
@@ -110,113 +94,95 @@ for i in range(0,len(trans_sys.Tp.get("Tp.Q"))):
             # list_A_for_in_f = index_for_in_f
             in_f = set(list(index_for_in_f)).difference({ex_f})
             in_f = list(in_f)
-            # H_rep_A = np.array([ReadData.U_A , np.matmul(-1*F_n[ex_f,:],ReadData.D_B), [0 ,0]]) #, np.matmul(F_n[in_f,:],ReadData.D_B)])
-            H_rep_A = np.vstack((ReadData.U_A,np.matmul(-1*F_n[ex_f,:],ReadData.D_B)))
-            if(len(in_f) == 1):
-                # H_rep_A = np.vstack((H_rep_A,np.matmul(F_n[range(0:1),:],ReadData.D_B))
-                H_rep_A = np.vstack((H_rep_A ,np.matmul(F_n[in_f[0],:],ReadData.D_B)))
-                # print(H_rep_A)
-            else:
-                H_rep_A = np.vstack((H_rep_A, np.matmul(F_n[in_f[0]:in_f[1], :], ReadData.D_B)))
 
-            abc =  np.matmul(ReadData.D_A,tranfosefor1dvector(V[l,:],1)) + ReadData.D_b
-            H_rep_B = np.vstack((-1 * ReadData.U_b, (np.matmul(F_n[ex_f,:],abc) - prec) ))
-            abc = np.matmul(ReadData.D_A,tranfosefor1dvector(V[l,:],1)) + ReadData.D_b
-            if(len(in_f) == 1):
-                H_rep_B = np.vstack((H_rep_B ,np.matmul(-1 * F_n[in_f[0],:] ,abc) - prec))
-                # print(H_rep_B)
-            else:
-                H_rep_B = np.vstack((H_rep_B, np.matmul(-1 * F_n[in_f[0]:in_f[1], :], abc) - prec))
-            p = pc.Polytope(H_rep_A,H_rep_B)
+            if(rank_method):
+                H_rep_A = np.vstack((ReadData.U_A,np.matmul(-1*F_n[ex_f,:],ReadData.D_B)))
+                if(len(in_f) == 1):
+                    H_rep_A = np.vstack((H_rep_A ,np.matmul(F_n[in_f[0],:],ReadData.D_B)))
+                else:
+                    H_rep_A = np.vstack((H_rep_A, np.matmul(F_n[in_f[0]:in_f[1], :], ReadData.D_B)))
 
-            try:
-                V_rep = pc.extreme(p)
-                # print(V_rep)
-            except:
-                #if error from v-rep of polytope then disable this transition
-                # trans_sys.Tp_adj[i,j] = 0
-                updated_Tp_adj[i,j] = 0
+                abc =  np.matmul(ReadData.D_A,tranfosefor1dvector(V[l,:],1)) + ReadData.D_b
+                H_rep_B = np.vstack((-1 * ReadData.U_b, (np.matmul(F_n[ex_f,:],abc) - prec) ))
+                abc = np.matmul(ReadData.D_A,tranfosefor1dvector(V[l,:],1)) + ReadData.D_b
+                if(len(in_f) == 1):
+                    H_rep_B = np.vstack((H_rep_B ,np.matmul(-1 * F_n[in_f[0],:] ,abc) - prec))
+                else:
+                    H_rep_B = np.vstack((H_rep_B, np.matmul(-1 * F_n[in_f[0]:in_f[1], :], abc) - prec))
+                p = pc.Polytope(H_rep_A,H_rep_B)
 
-            # abc = np.ones((np.shape(V_rep)[0],1))
-            # if(np.linalg.matrix_rank(np.vstack((V_rep, abc)))) != (m+1):
-            #the above two lines a re a better alternative than this
-            # if (isinstance(V_rep , type(None))):
-            #     # trans_sys.Tp_adj[i,j] = 0
-            #     updated_Tp_adj[i,j] = 0
-            #     break
-            # abcd = np.matmul(F_n[in_f,:],ReadData.D_B)
+                try:
+                    V_rep = pc.extreme(p)
+                except:
+                    #if error from v-rep of polytope then disable this transition
+                    updated_Tp_adj[i,j] = 0
 
-            if(len(in_f) == 1):
-                abcd1 = np.vstack((np.matmul(-1*F_n[ex_f,:],ReadData.D_B),np.matmul(F_n[in_f[0],:],ReadData.D_B)))
-            else:
-                abcd1 = np.vstack((np.matmul(-1 * F_n[ex_f, :], ReadData.D_B), np.matmul(F_n[in_f[0]:in_f[1], :], ReadData.D_B)))
-            A_check = np.vstack((ReadData.U_A,abcd1))
+                # abc = np.ones((np.shape(V_rep)[0],1))
+                # if(np.linalg.matrix_rank(np.vstack((V_rep, abc)))) != (m+1):
+                # the above two lines a re a better alternative than this
+                if (isinstance(V_rep , type(None))):
+                    # trans_sys.Tp_adj[i,j] = 0
+                    updated_Tp_adj[i,j] = 0
+                    break
 
-            tmp  = np.matmul(ReadData.D_A,tranfosefor1dvector(V[l,:],1)) + ReadData.D_b
-            # tmp1 = np.matmul(-1*F_n[in_f,:],tmp) + ReadData.D_b
-            if(len(in_f) == 1):
-                last_stack = np.matmul(-1*F_n[in_f[0],:],tmp) - prec
-            else:
-                last_stack = np.matmul(-1*F_n[in_f[0]:in_f[1],:],tmp) - prec
-            tmp = np.matmul(ReadData.D_A,tranfosefor1dvector(V[l,:],1)) + ReadData.D_b
-            second_last_stack = np.matmul(F_n[ex_f,:],tmp) - prec
-            abcd2 = np.vstack((second_last_stack,last_stack))
-            B_check = np.vstack((-1*ReadData.U_b,abcd2))
-            # c = np.matmul(-1*F_n[ex_f,:],ReadData.D_B)
-            sol = opt.linprog(np.matmul(-1*F_n[ex_f,:],ReadData.D_B),A_check,B_check,None, None, bounds=(None, None))
-            if(sol.__getattr__("success") == False):
-                updated_Tp_adj[i,j] = 0
-            break
+            if(linprog_method):
+                if(len(in_f) == 1):
+                    abcd1 = np.vstack((np.matmul(-1*F_n[ex_f,:],ReadData.D_B),np.matmul(F_n[in_f[0],:],ReadData.D_B)))
+                else:
+                    abcd1 = np.vstack((np.matmul(-1 * F_n[ex_f, :], ReadData.D_B), np.matmul(F_n[in_f[0]:in_f[1], :], ReadData.D_B)))
+                A_check = np.vstack((ReadData.U_A,abcd1))
 
-
-
-    # print(np.shape(H.b))
-    # print(np.ndim(H.b))
-    # print(np.matmul(H.A,V.T))
-    # print(np.transpose(H.b).shape)
-    # print(np.tile(H.b,(1,3)))
-    # print(np.tile(np.transpose(H.b),3))
-    # print(trans_sys.H_A)
-    # print(H.dim)
+                tmp  = np.matmul(ReadData.D_A,tranfosefor1dvector(V[l,:],1)) + ReadData.D_b
+                # tmp1 = np.matmul(-1*F_n[in_f,:],tmp) + ReadData.D_b
+                if(len(in_f) == 1):
+                    last_stack = np.matmul(-1*F_n[in_f[0],:],tmp) - prec
+                else:
+                    last_stack = np.matmul(-1*F_n[in_f[0]:in_f[1],:],tmp) - prec
+                tmp = np.matmul(ReadData.D_A,tranfosefor1dvector(V[l,:],1)) + ReadData.D_b
+                second_last_stack = np.matmul(F_n[ex_f,:],tmp) - prec
+                abcd2 = np.vstack((second_last_stack,last_stack))
+                B_check = np.vstack((-1*ReadData.U_b,abcd2))
+                sol = opt.linprog(np.matmul(-1*F_n[ex_f,:],ReadData.D_B),A_check,B_check,None, None, bounds=(None, None))
+                if(sol.__getattr__("success") == False):
+                    updated_Tp_adj[i,j] = 0
+                break
 
     for m in range(0,v_no):
         in_f = np.nonzero(F_v[:,m])
-        if(len(in_f) == 1 ):
-            H_rep_A = np.vstack((ReadData.U_A, np.matmul(F_n[in_f[0], :], ReadData.D_B)))
+        if(rank_method):
+            if(len(in_f) == 1 ):
+                H_rep_A = np.vstack((ReadData.U_A, np.matmul(F_n[in_f[0], :], ReadData.D_B)))
+                tmp = np.matmul(ReadData.D_A,tranfosefor1dvector(V[m,:],1)) + ReadData.D_b
+                H_rep_B = np.vstack((-1*ReadData.U_b, np.matmul(-1 * F_n[in_f[0], :], tmp)))
+            else:
+                H_rep_A = np.vstack((ReadData.U_A, np.matmul(F_n[in_f[0]:in_f[1], :], ReadData.D_B)))
+                tmp = np.matmul(ReadData.D_A, tranfosefor1dvector(V[m, :], 1)) + ReadData.D_b
+                H_rep_B = np.vstack((-1 * ReadData.U_b, np.matmul(-1 * F_n[in_f[0]:in_f[1], :], tmp)))
+            p = pc.Polytope(H_rep_A, H_rep_B)
+            try:
+                V_rep = pc.extreme(p)
+
+            except:
+                updated_Tp_adj[i, i] = 0
+
+            if(isinstance(V_rep,type(None))):
+                # trans_sys.Tp_adj[i,i] = 0
+                updated_Tp_adj[i, i] = 0
+
+        if(linprog_method):
+            if(len(in_f) == 1):
+                tmp = np.matmul(F_n[in_f[0],:],ReadData.D_B)
+            else:
+                tmp = np.matmul(F_n[in_f[0]:in_f[1],:],ReadData.D_B)
+            A_check = np.vstack((ReadData.U_A,tmp))
             tmp = np.matmul(ReadData.D_A,tranfosefor1dvector(V[m,:],1)) + ReadData.D_b
-            H_rep_B = np.vstack((-1*ReadData.U_b, np.matmul(-1* F_n[in_f[0],:], tmp)))
-        else:
-            H_rep_A = np.vstack((ReadData.U_A, np.matmul(F_n[in_f[0]:in_f[1], :], ReadData.D_B)))
-            tmp = np.matmul(ReadData.D_A, tranfosefor1dvector(V[m, :], 1)) + ReadData.D_b
-            H_rep_B = np.vstack((-1 * ReadData.U_b, np.matmul(-1 * F_n[in_f[0]:in_f[1], :], tmp)))
-        p = pc.Polytope(H_rep_A, H_rep_B)
-        try:
-            V_rep = pc.extreme(p)
-            # print(V_rep)
-        except:
-            # trans_sys.Tp_adj[i,i] = 0
-            updated_Tp_adj[i,i] = 0
+            if(len(in_f) == 1):
+                B_check = np.vstack((-1*ReadData.U_b,np.matmul(-1*F_n[in_f[0],:],tmp)))
+            else:
+                B_check = np.vstack((-1*ReadData.U_b,np.matmul(-1*F_n[in_f[0]:in_f[1],:],tmp)))
 
-        # if(isinstance(V_rep,type(None))):
-        #     # trans_sys.Tp_adj[i,i] = 0
-        #     updated_Tp_adj[i,i] = 0
-        if(len(in_f) == 1):
-            tmp = np.matmul(F_n[in_f[0],:],ReadData.D_B)
-        else:
-            tmp = np.matmul(F_n[in_f[0]:in_f[1],:],ReadData.D_B)
-        A_check = np.vstack((ReadData.U_A,tmp))
-        tmp = np.matmul(ReadData.D_A,tranfosefor1dvector(V[m,:],1)) + ReadData.D_b
-        if(len(in_f) == 1):
-            B_check = np.vstack((-1*ReadData.U_b,np.matmul(-1*F_n[in_f[0],:],tmp)))
-        else:
-            B_check = np.vstack((-1*ReadData.U_b,np.matmul(-1*F_n[in_f[0]:in_f[1],:],tmp)))
-
-        sol = opt.linprog(V[m,:] - centr, A_check, B_check, None, None, bounds=(None, None))
-        if (sol.__getattr__("success") == False):
-            updated_Tp_adj[i, i] = 0
-        break
-
-    # print(trans_sys.Tp_adj,i)
-    # if(i == 33):
-    #     view = trans_sys.Tp_adj
-print("All done")
+            sol = opt.linprog(V[m,:] - centr, A_check, B_check, None, None, bounds=(None, None))
+            if (sol.__getattr__("success") == False):
+                updated_Tp_adj[i, i] = 0
+            break
+print("testing")
