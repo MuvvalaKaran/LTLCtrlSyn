@@ -156,7 +156,7 @@ class PlotTraSys:
                 plt.plot(centr[i,:],'r.')
                 plt.pause(0.1)
 
-        plt.show()
+        # plt.show()
 
     elif( n ==3):
         print()
