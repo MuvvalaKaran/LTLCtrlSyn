@@ -139,7 +139,6 @@ class PlotTraSys:
                 if (tran_sys.Tp_adj[j,i] != 0):
                     plt.plot(centr[i,:],'ro')
 
-
         plt.show()
 
     elif( n ==3):
