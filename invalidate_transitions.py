@@ -2,17 +2,19 @@ from trans_sys_polytope import TransSysToPolytope as trans_sys
 from read_data import ReadData
 import polytope as pc
 import numpy as np
+import scipy.optimize as opt
 
-# eliminate from Tp tansitions that cannot be saisfied due to drift and restrictions on control
+# eliminate from Tp transitions that cannot be satisfied due to drift and restrictions on control
 # Tp currently has transitions based only on adjacency of states, and loops in every state
-# due to system dynamics, come transitions canot be satisfied (we cannot gurantee that from every inital state in a polytope we will reach a neighbour polytope )
+# due to system dynamics, some transitions canot be satisfied (we cannot gurantee that from every inital state in a polytope we will reach a neighbour polytope )
 # Also, it is possible that not all initial conditions from a polytope can be kept inside, case in which we will eliminate the self-loop
-# Transitions will be invalidate if we cannot find control for all the vertices such that some properties be satisfied
+# Transitions will be invalidated if we cannot find control for all the vertices such that some properties be satisfied
 
 n = ReadData.D_A.shape[0]
 m = ReadData.U_A.shape[1]
 prec = pow(10,5)*np.finfo(float).eps
 print(prec)
+updated_Tp_adj = trans_sys.Tp_adj
 # print(n,m)
 for i in range(0,len(trans_sys.Tp.get("Tp.Q"))):
     V = trans_sys.Tp.get("Tp.vert")[i]
@@ -78,7 +80,7 @@ for i in range(0,len(trans_sys.Tp.get("Tp.Q"))):
     # j = set(list(range(0, sp_no))).difference({i})
     # test f exits to neighbours are feasible (due to control restrictions and drift)
     index_for_neigh = []
-    for counter,x in enumerate(trans_sys.Tp_adj[i,:],0):
+    for counter,x in enumerate(updated_Tp_adj[i,:],0):
         if x != 0:
             index_for_neigh.append(counter)
 
@@ -132,13 +134,39 @@ for i in range(0,len(trans_sys.Tp.get("Tp.Q"))):
                 # print(V_rep)
             except:
                 #if error from v-rep of polytope then disable this transition
-                trans_sys.Tp_adj[i,j] = 0
+                # trans_sys.Tp_adj[i,j] = 0
+                updated_Tp_adj[i,j] = 0
 
             # abc = np.ones((np.shape(V_rep)[0],1))
             # if(np.linalg.matrix_rank(np.vstack((V_rep, abc)))) != (m+1):
             #the above two lines a re a better alternative than this
-            if (isinstance(V_rep , type(None))):
-                trans_sys.Tp_adj[i,j] = 0
+            # if (isinstance(V_rep , type(None))):
+            #     # trans_sys.Tp_adj[i,j] = 0
+            #     updated_Tp_adj[i,j] = 0
+            #     break
+            # abcd = np.matmul(F_n[in_f,:],ReadData.D_B)
+
+            if(len(in_f) == 1):
+                abcd1 = np.vstack((np.matmul(-1*F_n[ex_f,:],ReadData.D_B),np.matmul(F_n[in_f[0],:],ReadData.D_B)))
+            else:
+                abcd1 = np.vstack((np.matmul(-1 * F_n[ex_f, :], ReadData.D_B), np.matmul(F_n[in_f[0]:in_f[1], :], ReadData.D_B)))
+            A_check = np.vstack((ReadData.U_A,abcd1))
+
+            tmp  = np.matmul(ReadData.D_A,tranfosefor1dvector(V[l,:],1)) + ReadData.D_b
+            # tmp1 = np.matmul(-1*F_n[in_f,:],tmp) + ReadData.D_b
+            if(len(in_f) == 1):
+                last_stack = np.matmul(-1*F_n[in_f[0],:],tmp) - prec
+            else:
+                last_stack = np.matmul(-1*F_n[in_f[0]:in_f[1],:],tmp) - prec
+            tmp = np.matmul(ReadData.D_A,tranfosefor1dvector(V[l,:],1)) + ReadData.D_b
+            second_last_stack = np.matmul(F_n[ex_f,:],tmp) - prec
+            abcd2 = np.vstack((second_last_stack,last_stack))
+            B_check = np.vstack((-1*ReadData.U_b,abcd2))
+            # c = np.matmul(-1*F_n[ex_f,:],ReadData.D_B)
+            sol = opt.linprog(np.matmul(-1*F_n[ex_f,:],ReadData.D_B),A_check,B_check,None, None, bounds=(None, None))
+            if(sol.__getattr__("success") == False):
+                updated_Tp_adj[i,j] = 0
+            break
 
 
 
@@ -166,11 +194,29 @@ for i in range(0,len(trans_sys.Tp.get("Tp.Q"))):
             V_rep = pc.extreme(p)
             # print(V_rep)
         except:
-            trans_sys.Tp_adj[i,i] = 0
+            # trans_sys.Tp_adj[i,i] = 0
+            updated_Tp_adj[i,i] = 0
 
-        if(isinstance(V_rep,type(None))):
-            trans_sys.Tp_adj[i,i] = 0
-    print(trans_sys.Tp_adj,i)
-    if(i == 33):
-        view = trans_sys.Tp_adj
-# print(view)
+        # if(isinstance(V_rep,type(None))):
+        #     # trans_sys.Tp_adj[i,i] = 0
+        #     updated_Tp_adj[i,i] = 0
+        if(len(in_f) == 1):
+            tmp = np.matmul(F_n[in_f[0],:],ReadData.D_B)
+        else:
+            tmp = np.matmul(F_n[in_f[0]:in_f[1],:],ReadData.D_B)
+        A_check = np.vstack((ReadData.U_A,tmp))
+        tmp = np.matmul(ReadData.D_A,tranfosefor1dvector(V[m,:],1)) + ReadData.D_b
+        if(len(in_f) == 1):
+            B_check = np.vstack((-1*ReadData.U_b,np.matmul(-1*F_n[in_f[0],:],tmp)))
+        else:
+            B_check = np.vstack((-1*ReadData.U_b,np.matmul(-1*F_n[in_f[0]:in_f[1],:],tmp)))
+
+        sol = opt.linprog(V[m,:] - centr, A_check, B_check, None, None, bounds=(None, None))
+        if (sol.__getattr__("success") == False):
+            updated_Tp_adj[i, i] = 0
+        break
+
+    # print(trans_sys.Tp_adj,i)
+    # if(i == 33):
+    #     view = trans_sys.Tp_adj
+print("All done")

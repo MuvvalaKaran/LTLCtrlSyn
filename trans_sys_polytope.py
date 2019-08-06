@@ -77,13 +77,13 @@ class TransSysToPolytope:
     print("Done with the first loop and now entering the second loop")
     signs = []
     Tp_Q = [i for i in range(sp_no)]
-    # TODO if this guy should be initiliazed as empty or zeros as empty inserts sporadic numbers
+    # TODO if this guy should be initiliazed as empty or zeros_as_empty inserts sporadic numbers
     Tp_adj = np.zeros((sp_no,sp_no))
     Tp_obs = np.zeros((1,sp_no)) #can start from one only as starting form zeros will return null
     for i in range(0,sp_no):
         #find adjacency for polytope i
         signs = Tp_Signs[i]
-        Tp_adj[i][i] = 1
+        Tp_adj[i,i] = 1
         # j~=i; it's possible to have more than one difference of sign between 2
         # adjacent states (see below) - if some props define the same hyperplane
         j = set(list(range(0, sp_no))).difference({i})
@@ -101,7 +101,7 @@ class TransSysToPolytope:
                 tmp_array_for_rank.append(np.hstack([[Ain[row,:]],[Bin[row,:]]]))
             tmp_array_for_rank = np.vstack(tmp_array_for_rank)
             if (np.linalg.matrix_rank(tmp_array_for_rank) == 1):
-                Tp_adj[i,index]  = 1
+                Tp_adj[i, index] = 1
 
         # find observable(s) of subpolytope i;observables are indices from alphabet_set (so there is only one observable
         # per state)

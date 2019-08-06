@@ -142,9 +142,9 @@ class ReadData:
         D_A = np.array([[0.2,-0.3],[0.5,-0.5]])
         D_b = np.array([[0.5],[0.5]])
         D_B = np.array([[1,0],[0,1]])
-        U_A = np.array([[0,2],[2,0],[0,-2],[-2,0]])
-        U_b = np.array([[0],[0],[0],[0]])
-        # use this guy in fiture - np.concatenate
+        U_A = np.array([[1,0],[0,1],[-1,0],[0,-1]])
+        U_b = np.array([[-2],[-2],[-2],[-2]])
+        # use this guy in future - np.concatenate
 
     # print(A,"\n")
     # print(B,"\n")
