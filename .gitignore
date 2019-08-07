@@ -3,4 +3,15 @@ venv
 .idea
 *.txt
 *.csv
+src/gltl2ba.py
+src/__pycache__
+ltl2ba-1.2
+patch-from-1.1
+__pycacha__
+pycdd
+.git
+*.pyc
+testing.py
+
+
 

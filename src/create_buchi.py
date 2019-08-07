@@ -7,8 +7,45 @@ import re
 import sys
 import os
 
+def is_title(line):
+    return prog_title.match(line) is not None
+
+# @staticmethod
+def get_title(line):
+    assert is_title(line)
+    return prog_title.search(line).group(1)
+
+def is_node(line):
+    return prog_node.match(line) is not None
+
+def get_node(line):
+    assert is_node(line)
+    prefix, label = prog_node.search(line).groups()
+    return (prefix + "_" + label, label,
+            True if prefix == "accept" else False)
+
+def is_edge(line):
+    return prog_edge.match(line) is not None
+
+def get_edge(line):
+    assert is_edge(line)
+    label, dst_node = prog_edge.search(line).groups()
+    return (dst_node, label)
+
+def is_skip(line):
+    return prog_skip.match(line) is not None
+
+def is_ignore(line):
+    return prog_ignore.match(line) is not None
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
+
+def remove_redundancy_from_list(list):
+    ret = []
+    for i in list:
+        if i not in ret:
+            ret.append(i)
+    return ret
 
 formula = old_formula.Read_formula.formula
 Alph_s = Alph.Alphs_set.Alph_s
@@ -43,108 +80,100 @@ str2 = "never {"
 
 output = output.replace(str1,"")
 output = output.replace(str2,"")
-print(output)
+# print(output)
 
 s_ind = [m.start() for m in re.finditer('T0_S7', output)]
-print(s_ind)
+# print(s_ind)
 
-class Graph:
-    def __init__(self):
-        self.dot = Digraph()
+# regex core
+prog_title = re.compile('^never\s+{\s+/\* (.+?) \*/$')
+prog_node = re.compile('^([^_]+?)_([^_]+?):$')
+prog_edge = re.compile('^\s+:: (.+?) -> goto (.+?)$')
+prog_skip = re.compile('^\s+(?:skip)$')
+prog_ignore = re.compile('(?:^\s+do)|(?:^\s+if)|(?:^\s+od)|'
+                         '(?:^\s+fi)|(?:})|(?:^\s+false);?$')
 
-    def title(self, str):
-        self.dot.graph_attr.update(label=str)
+S_names = [] # they are all the source nodes
+dst_nodes = []
+edges = []
+src_node = None
+node_counter = -1
+for line in output.split("\n"):
+    # print(str(counter) + " " + line)
+    # counter = counter + 1
+    if is_title(line):
+        title = get_title(line)
+    elif is_node(line):
+        name, label, accepting  = get_node(line)  # the third value is boolean based on if it has "accepting" as prefix
+        # print(name +  " " + label + " " + str(accepting))
+        S_names.append(name)
+        src_node = name
+        # print(label)
+        node_counter = node_counter + 1
+    elif is_edge(line):
+        assert src_node is not None
+        dst_node, label = get_edge(line)
+        edges.append((node_counter,label))
+        dst_nodes.append(dst_node)
 
-    def node(self, name, label, accepting=False):
-        num_peripheries = '2' if accepting else '1'
-        self.dot.node(name, label, shape='circle', peripheries=num_peripheries)
+        # print(dst_node)
+        # print(label)
+    elif is_skip(line):
+        assert src_node is not None
+    elif is_ignore(line):
+        pass
+    # else:
+        # print("--{}--".format(line))
+        # raise ValueError("{}: invalid input:\n{}")
 
-    def edge(self, src, dst, label):
-        self.dot.edge(src, dst, label)
+states_no = len(S_names) # no . of state
+# print(S_names)
+B_S = np.arange(0,states_no) # numeric indices for states
+B_S0 = [True if re.search("init", i) else False for i in S_names]
+for counter,i in enumerate(B_S0):
+    if i == True:
+        B_S0 = counter
+B_F = [True if re.search("accept",i) else False for i in S_names]
+for counter,i in enumerate(B_F):
+    if i == True:
+        B_F = counter
 
-    def show(self):
-        self.dot.render(view=True)
+ # a multidimensional list containning labels - shape = (states_np,states_no)
+B_trans = [[[] for i in range(len(S_names))] for i in range(len(S_names))]
+B_trans[0][0] = "Hey, I should be in the first block"
+# print(edges)
+for i in range(states_no):
+    if i != states_no:
+        str = output
 
-    def save_render(self, path, on_screen):
-        self.dot.render(path, view=on_screen)
+Edges_no = len(edges)
+# print(edges)
 
-    def save_dot(self, path):
-        self.dot.save(path)
+# ONLY {& (and), ! (not), 1 (any=True)} can appear on each row with respect to propositions (|| (OR) operator results in 2 rows)
+# if 1 appears, it is the first element and there is no atomic proposition on current row
+# print(B_S)
 
-    def __str__(self):
-        return str(self.dot)
-
-class Ltl2baParser:
-    prog_title = re.compile('^never\s+{\s+/\* (.+?) \*/$')
-    prog_node = re.compile('^([^_]+?)_([^_]+?):$')
-    prog_edge = re.compile('^\s+:: (.+?) -> goto (.+?)$')
-    prog_skip = re.compile('^\s+(?:skip)$')
-    prog_ignore = re.compile('(?:^\s+do)|(?:^\s+if)|(?:^\s+od)|'
-                             '(?:^\s+fi)|(?:})|(?:^\s+false);?$')
-
-    @staticmethod
-    def parse(ltl2ba_output, ignore_title=True):
-        graph = Graph()
-        src_node = None
-        for line in ltl2ba_output.split('\n'):
-            if Ltl2baParser.is_title(line):
-                title = Ltl2baParser.get_title(line)
-                if not ignore_title:
-                    graph.title(title)
-            elif Ltl2baParser.is_node(line):
-                name, label, accepting = Ltl2baParser.get_node(line)
-                graph.node(name, label, accepting)
-                src_node = name
-            elif Ltl2baParser.is_edge(line):
-                dst_node, label = Ltl2baParser.get_edge(line)
-                assert src_node is not None
-                graph.edge(src_node, dst_node, label)
-            elif Ltl2baParser.is_skip(line):
-                assert src_node is not None
-                graph.edge(src_node, src_node, "(1)")
-            elif Ltl2baParser.is_ignore(line):
-                pass
-            else:
-                print("--{}--".format(line))
-                raise ValueError("{}: invalid input:\n{}".format(Ltl2baParser.__name__, line))
-
-        return graph
-
-    @staticmethod
-    def is_title(line):
-        return Ltl2baParser.prog_title.match(line) is not None
-
-    @staticmethod
-    def get_title(line):
-        assert Ltl2baParser.is_title(line)
-        return Ltl2baParser.prog_title.search(line).group(1)
-
-    @staticmethod
-    def is_node(line):
-        return Ltl2baParser.prog_node.match(line) is not None
-
-    @staticmethod
-    def get_node(line):
-        assert Ltl2baParser.is_node(line)
-        prefix, label = Ltl2baParser.prog_node.search(line).groups()
-        return (prefix + "_" + label, label,
-                True if prefix == "accept" else False)
-
-    @staticmethod
-    def is_edge(line):
-        return Ltl2baParser.prog_edge.match(line) is not None
-
-    @staticmethod
-    def get_edge(line):
-        assert Ltl2baParser.is_edge(line)
-        label, dst_node = Ltl2baParser.prog_edge.search(line).groups()
-        return (dst_node, label)
-
-    @staticmethod
-    def is_skip(line):
-        return Ltl2baParser.prog_skip.match(line) is not None
-
-    @staticmethod
-    def is_ignore(line):
-        return Ltl2baParser.prog_ignore.match(line) is not None
-
+counter = 0
+# n is i and transition state is our k
+for n,edge in edges: # n represents the node counter
+    transiting_to_state = dst_nodes[counter]
+    counter = counter + 1
+    # print(transiting_to_state)
+    for index,j in enumerate(S_names):
+        if(transiting_to_state == j):
+            column_index = index
+    # print(edge)
+    # look_for_ap = re.compile('(([p]+\d+)+)')
+    p =look_for_ap = re.findall('([!p]+\d+)',edge)
+    # lets remove strings(ap) that are repeated
+    p = remove_redundancy_from_list(p)
+    # print(p)
+    label = sig
+    look_for_not_ap = re.compile('^!')
+    # for i in p:
+    #     tmp = look_for_not_ap.search(i)
+    #     print(tmp)
+    for i in p:
+        if True if look_for_not_ap.search(i) else False:
+            print("Found a negative Ap")
+    print(p)
