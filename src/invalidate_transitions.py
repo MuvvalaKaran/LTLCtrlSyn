@@ -1,5 +1,5 @@
-from trans_sys_polytope import TransSysToPolytope as trans_sys
-from read_data import ReadData
+from src.trans_sys_polytope import TransSysToPolytope as trans_sys
+from src.read_data import ReadData
 import polytope as pc
 import numpy as np
 import scipy.optimize as opt

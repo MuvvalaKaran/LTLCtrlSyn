@@ -1,4 +1,4 @@
-from read_data import ReadData
+from src.read_data import ReadData
 import numpy as np
 
 alphabet = ReadData.alphabet

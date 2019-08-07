@@ -1,7 +1,7 @@
 import polytope as pc
 from polytope import plot
 import numpy as np
-from read_data import ReadData
+from src.read_data import ReadData
 import nose
 
 import unittest
@@ -9,9 +9,9 @@ import time
 import matplotlib.patches
 import matplotlib.pyplot as plt
 import sys
-from trans_sys_polytope import TransSysToPolytope as tran_sys
+from src.trans_sys_polytope import TransSysToPolytope as tran_sys
 from itertools import cycle
-from invalidate_transitions import Invalid_Transition as newTp
+from src.invalidate_transitions import Invalid_Transition as newTp
 
 
 def _get_patch(poly1, **kwargs):

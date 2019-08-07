@@ -1,5 +1,5 @@
-import plt_tr_sys_polyt as trans_plot
-from read_data import ReadData
+import src.plt_tr_sys_polyt as trans_plot
+from src.read_data import ReadData
 import numpy as np
 import polytope as pc
 
