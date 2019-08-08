@@ -3,6 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/pycdd/pycddlib" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/rand_cmap" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/rand_cmap" vcs="" />
   </component>
 </project>

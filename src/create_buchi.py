@@ -164,16 +164,31 @@ for n,edge in edges: # n represents the node counter
             column_index = index
     # print(edge)
     # look_for_ap = re.compile('(([p]+\d+)+)')
-    p =look_for_ap = re.findall('([!p]+\d+)',edge)
+    look_for_ap = re.findall('([!p]+\d+)',edge) # normal
+    # look_for_ap_wo_not = re.findall('([p]+\d+)', edge) # without the ! sign
     # lets remove strings(ap) that are repeated
-    p = remove_redundancy_from_list(p)
+    p = remove_redundancy_from_list(look_for_ap)
     # print(p)
-    label = sig
+    # label = sig
+    labels = []
     look_for_not_ap = re.compile('^!')
     # for i in p:
     #     tmp = look_for_not_ap.search(i)
     #     print(tmp)
+
     for i in p:
+        label = []
         if True if look_for_not_ap.search(i) else False:
-            print("Found a negative Ap")
-    print(p)
+            # print("Found a negative Ap")
+            i = re.sub("!","",i)
+            for counter,elements in enumerate(Alph_s):
+                if elements.find(i) == -1:
+                    label.append(counter)
+        else:
+            for counter,elements in enumerate(Alph_s):
+                if elements.find(i) != -1:
+                    label.append(counter)
+            # label = sig
+        labels.append(label)
+        print(label)
+        print("**********************************************")
