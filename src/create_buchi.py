@@ -41,11 +41,25 @@ def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 def remove_redundancy_from_list(list):
-    ret = []
-    for i in list:
-        if i not in ret:
-            ret.append(i)
-    return ret
+    # ret = []
+    # for i in list:
+    #     for j in ret:
+    #         if j == i:
+    #             pass
+    #         else:
+    #             ret.append(i)
+    #     # if i != [j for j in ret]:
+    #     #     ret.append(i)
+    newlist = [ii for n, ii in enumerate(list) if ii not in list[:n]]
+    return newlist
+
+def addinglistwithoutredundancy(list):
+    list_size = len(list)
+    new_list = list[0]
+    for i in range(list_size - 1):
+        list_two = set(list[i+1])
+        new_list.extend(y for y in list_two if y in new_list)
+    return new_list
 
 formula = old_formula.Read_formula.formula
 Alph_s = Alph.Alphs_set.Alph_s
@@ -140,7 +154,7 @@ for counter,i in enumerate(B_F):
 
  # a multidimensional list containning labels - shape = (states_np,states_no)
 B_trans = [[[] for i in range(len(S_names))] for i in range(len(S_names))]
-B_trans[0][0] = "Hey, I should be in the first block"
+# B_trans[0][0] = "Hey, I should be in the first block"
 # print(edges)
 for i in range(states_no):
     if i != states_no:
@@ -153,42 +167,51 @@ Edges_no = len(edges)
 # if 1 appears, it is the first element and there is no atomic proposition on current row
 # print(B_S)
 
-counter = 0
+counter_dst_nodes = 0
 # n is i and transition state is our k
 for n,edge in edges: # n represents the node counter
-    transiting_to_state = dst_nodes[counter]
-    counter = counter + 1
+    transiting_to_state = dst_nodes[counter_dst_nodes]
+    counter_dst_nodes = counter_dst_nodes + 1
     # print(transiting_to_state)
     for index,j in enumerate(S_names):
         if(transiting_to_state == j):
             column_index = index
+            break
     # print(edge)
     # look_for_ap = re.compile('(([p]+\d+)+)')
-    look_for_ap = re.findall('([!p]+\d+)',edge) # normal
-    # look_for_ap_wo_not = re.findall('([p]+\d+)', edge) # without the ! sign
-    # lets remove strings(ap) that are repeated
-    p = remove_redundancy_from_list(look_for_ap)
-    # print(p)
-    # label = sig
-    labels = []
-    look_for_not_ap = re.compile('^!')
-    # for i in p:
-    #     tmp = look_for_not_ap.search(i)
-    #     print(tmp)
+    if edge != '(1)':
+        look_for_ap = re.findall('([!p]+\d+)',edge) # normal
+        # look_for_ap_wo_not = re.findall('([p]+\d+)', edge) # without the ! sign
+        # lets remove strings(ap) that are repeated
+        p = remove_redundancy_from_list(look_for_ap)
+        # print(p)
+        # label = sig
+        labels = []
+        look_for_not_ap = re.compile('^!')
+        # for i in p:
+        #     tmp = look_for_not_ap.search(i)
+        #     print(tmp)
 
-    for i in p:
-        label = []
-        if True if look_for_not_ap.search(i) else False:
-            # print("Found a negative Ap")
-            i = re.sub("!","",i)
-            for counter,elements in enumerate(Alph_s):
-                if elements.find(i) == -1:
-                    label.append(counter)
-        else:
-            for counter,elements in enumerate(Alph_s):
-                if elements.find(i) != -1:
-                    label.append(counter)
-            # label = sig
-        labels.append(label)
+        for i in p:
+            label = []
+            if True if look_for_not_ap.search(i) else False:
+                # print("Found a negative Ap")
+                i = re.sub("!","",i)
+                for counter,elements in enumerate(Alph_s):
+                    if elements.find(i) == -1:
+                        label.append(counter)
+            else:
+                for counter,elements in enumerate(Alph_s):
+                    if elements.find(i) != -1:
+                        label.append(counter)
+            #insert that label to i,j B_trans
+            labels.append(label)
+        B_trans[int(n)][int(column_index)] = set.intersection(*map(set,labels))
+                # label = sig
+
         print(label)
         print("**********************************************")
+    else:
+        B_trans[int(n)][int(column_index)] = list(sig)
+B_trans[len(S_names)][len(S_names)] = list(sig) #the accepting state will always have a self transition
+print("Done with loop")
