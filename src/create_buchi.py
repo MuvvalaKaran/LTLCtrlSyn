@@ -74,6 +74,15 @@ def unionoflists(list):
 formula = old_formula.Read_formula.formula
 Alph_s = Alph.Alphs_set.Alph_s
 
+#ltl2ba produces p010 instead of p10 so need to make tmp change to the ALph_s set
+new_Alph_s = []
+for word in Alph_s:
+    word = re.sub("p10","p010",word)
+    new_Alph_s.append(word)
+
+
+
+
 formula = re.sub('&','&&',formula)
 formula = re.sub('\|','||',formula)
 formula = re.sub('R','V',formula)
@@ -215,11 +224,11 @@ for n,edge in edges: # n represents the node counter
                     subLabel = []
                     if True if look_for_not_ap.search(ap) else False:
                         ap = re.sub("!","",ap)
-                        for counter, elements in enumerate(Alph_s):
+                        for counter, elements in enumerate(new_Alph_s):
                             if elements.find(ap) == -1:
                                 subLabel.append(counter)
                     else:
-                        for counter, elements in enumerate(Alph_s):
+                        for counter, elements in enumerate(new_Alph_s):
                             if elements.find(ap) != -1:
                                 subLabel.append(counter)
                     labels.append(subLabel)
@@ -238,11 +247,11 @@ for n,edge in edges: # n represents the node counter
                 if True if look_for_not_ap.search(i) else False:
                     # print("Found a negative Ap")
                     i = re.sub("!","",i)
-                    for counter,elements in enumerate(Alph_s):
+                    for counter,elements in enumerate(new_Alph_s):
                         if elements.find(i) == -1:
                             label.append(counter)
                 else:
-                    for counter,elements in enumerate(Alph_s):
+                    for counter,elements in enumerate(new_Alph_s):
                         if elements.find(i) != -1:
                             label.append(counter)
                 #insert that label to i,j B_trans
