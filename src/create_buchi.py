@@ -61,6 +61,16 @@ def addinglistwithoutredundancy(list):
         new_list.extend(y for y in list_two if y in new_list)
     return new_list
 
+def unionoflists(list):
+    list_size = len(list)
+    new_list = list[0]
+    for i in range(list_size - 1):
+        list_two = set(list[i+1])
+        new_list.extend(y for y in list_two if y not in new_list)
+
+    # new_list = remove_redundancy_from_list(new_list)
+    return new_list
+
 formula = old_formula.Read_formula.formula
 Alph_s = Alph.Alphs_set.Alph_s
 
@@ -166,7 +176,7 @@ Edges_no = len(edges)
 # ONLY {& (and), ! (not), 1 (any=True)} can appear on each row with respect to propositions (|| (OR) operator results in 2 rows)
 # if 1 appears, it is the first element and there is no atomic proposition on current row
 # print(B_S)
-
+counter_for_ORs = 0
 counter_dst_nodes = 0
 # n is i and transition state is our k
 for n,edge in edges: # n represents the node counter
@@ -186,32 +196,63 @@ for n,edge in edges: # n represents the node counter
         p = remove_redundancy_from_list(look_for_ap)
         # print(p)
         # label = sig
-        labels = []
+
         look_for_not_ap = re.compile('^!')
         # for i in p:
         #     tmp = look_for_not_ap.search(i)
         #     print(tmp)
 
-        for i in p:
-            label = []
-            if True if look_for_not_ap.search(i) else False:
-                # print("Found a negative Ap")
-                i = re.sub("!","",i)
-                for counter,elements in enumerate(Alph_s):
-                    if elements.find(i) == -1:
-                        label.append(counter)
-            else:
-                for counter,elements in enumerate(Alph_s):
-                    if elements.find(i) != -1:
-                        label.append(counter)
-            #insert that label to i,j B_trans
-            labels.append(label)
-        B_trans[int(n)][int(column_index)] = set.intersection(*map(set,labels))
-                # label = sig
+        look_for_ORs = edge.split(" || ")
+        # print(look_for_ORs)
+        if(len(look_for_ORs) > 1):
+            part_Label = []
+            for part in look_for_ORs:
+                labels = []
+                size_of_sub_string = len(part)
+                look_for_ap = re.findall('([!p]+\d+)',part)
+                AtomicProp = remove_redundancy_from_list(look_for_ap)
+                for ap in AtomicProp:
+                    subLabel = []
+                    if True if look_for_not_ap.search(ap) else False:
+                        ap = re.sub("!","",ap)
+                        for counter, elements in enumerate(Alph_s):
+                            if elements.find(ap) == -1:
+                                subLabel.append(counter)
+                    else:
+                        for counter, elements in enumerate(Alph_s):
+                            if elements.find(ap) != -1:
+                                subLabel.append(counter)
+                    labels.append(subLabel)
+                print(part)
+                # labels = unionoflists(labels)
+                labels = set.intersection(*map(set,labels))
+                part_Label.append(list(labels))
+            # part_Label = set.intersection(*map(set,part_Label))
+            part_Label = unionoflists(part_Label)
+            B_trans[int(n)][int(column_index)] = part_Label
 
-        print(label)
-        print("**********************************************")
+        else:
+            labels = []
+            for i in p:
+                label = []
+                if True if look_for_not_ap.search(i) else False:
+                    # print("Found a negative Ap")
+                    i = re.sub("!","",i)
+                    for counter,elements in enumerate(Alph_s):
+                        if elements.find(i) == -1:
+                            label.append(counter)
+                else:
+                    for counter,elements in enumerate(Alph_s):
+                        if elements.find(i) != -1:
+                            label.append(counter)
+                #insert that label to i,j B_trans
+                labels.append(label)
+            B_trans[int(n)][int(column_index)] = set.intersection(*map(set,labels))
+                    # label = sig
+
+            print(label)
+            print("**********************************************")
     else:
         B_trans[int(n)][int(column_index)] = list(sig)
-B_trans[len(S_names)][len(S_names)] = list(sig) #the accepting state will always have a self transition
+B_trans[len(S_names)-1][len(S_names)-1] = list(sig) #the accepting state will always have a self transition
 print("Done with loop")
