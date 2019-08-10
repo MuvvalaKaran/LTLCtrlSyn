@@ -10,7 +10,6 @@ import os
 def is_title(line):
     return prog_title.match(line) is not None
 
-# @staticmethod
 def get_title(line):
     assert is_title(line)
     return prog_title.search(line).group(1)
@@ -41,15 +40,6 @@ def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 def remove_redundancy_from_list(list):
-    # ret = []
-    # for i in list:
-    #     for j in ret:
-    #         if j == i:
-    #             pass
-    #         else:
-    #             ret.append(i)
-    #     # if i != [j for j in ret]:
-    #     #     ret.append(i)
     newlist = [ii for n, ii in enumerate(list) if ii not in list[:n]]
     return newlist
 
@@ -67,18 +57,16 @@ def unionoflists(list):
     for i in range(list_size - 1):
         list_two = set(list[i+1])
         new_list.extend(y for y in list_two if y not in new_list)
-
-    # new_list = remove_redundancy_from_list(new_list)
     return new_list
 
 formula = old_formula.Read_formula.formula
 Alph_s = Alph.Alphs_set.Alph_s
 
 #ltl2ba produces p010 instead of p10 so need to make tmp change to the ALph_s set
-new_Alph_s = []
-for word in Alph_s:
-    word = re.sub("p10","p010",word)
-    new_Alph_s.append(word)
+# new_Alph_s = []
+# for word in Alph_s:
+#     word = re.sub("p10","p010",word)
+#     new_Alph_s.append(word)
 
 
 
@@ -132,35 +120,26 @@ edges = []
 src_node = None
 node_counter = -1
 for line in output.split("\n"):
-    # print(str(counter) + " " + line)
-    # counter = counter + 1
+
     if is_title(line):
         title = get_title(line)
     elif is_node(line):
         name, label, accepting  = get_node(line)  # the third value is boolean based on if it has "accepting" as prefix
-        # print(name +  " " + label + " " + str(accepting))
         S_names.append(name)
         src_node = name
-        # print(label)
         node_counter = node_counter + 1
     elif is_edge(line):
         assert src_node is not None
         dst_node, label = get_edge(line)
         edges.append((node_counter,label))
         dst_nodes.append(dst_node)
-
-        # print(dst_node)
-        # print(label)
     elif is_skip(line):
         assert src_node is not None
     elif is_ignore(line):
         pass
-    # else:
-        # print("--{}--".format(line))
-        # raise ValueError("{}: invalid input:\n{}")
 
 states_no = len(S_names) # no . of state
-# print(S_names)
+
 B_S = np.arange(0,states_no) # numeric indices for states
 B_S0 = [True if re.search("init", i) else False for i in S_names]
 for counter,i in enumerate(B_S0):
@@ -173,95 +152,78 @@ for counter,i in enumerate(B_F):
 
  # a multidimensional list containning labels - shape = (states_np,states_no)
 B_trans = [[[] for i in range(len(S_names))] for i in range(len(S_names))]
-# B_trans[0][0] = "Hey, I should be in the first block"
-# print(edges)
+
 for i in range(states_no):
     if i != states_no:
         str = output
 
 Edges_no = len(edges)
-# print(edges)
 
 # ONLY {& (and), ! (not), 1 (any=True)} can appear on each row with respect to propositions (|| (OR) operator results in 2 rows)
 # if 1 appears, it is the first element and there is no atomic proposition on current row
 # print(B_S)
 counter_for_ORs = 0
 counter_dst_nodes = 0
-# n is i and transition state is our k
+
 for n,edge in edges: # n represents the node counter
     transiting_to_state = dst_nodes[counter_dst_nodes]
     counter_dst_nodes = counter_dst_nodes + 1
-    # print(transiting_to_state)
     for index,j in enumerate(S_names):
         if(transiting_to_state == j):
             column_index = index
             break
-    # print(edge)
-    # look_for_ap = re.compile('(([p]+\d+)+)')
     if edge != '(1)':
         look_for_ap = re.findall('([!p]+\d+)',edge) # normal
-        # look_for_ap_wo_not = re.findall('([p]+\d+)', edge) # without the ! sign
-        # lets remove strings(ap) that are repeated
-        p = remove_redundancy_from_list(look_for_ap)
-        # print(p)
-        # label = sig
-
         look_for_not_ap = re.compile('^!')
-        # for i in p:
-        #     tmp = look_for_not_ap.search(i)
-        #     print(tmp)
-
         look_for_ORs = edge.split(" || ")
-        # print(look_for_ORs)
+
         if(len(look_for_ORs) > 1):
             part_Label = []
             for part in look_for_ORs:
                 labels = []
                 size_of_sub_string = len(part)
                 look_for_ap = re.findall('([!p]+\d+)',part)
-                AtomicProp = remove_redundancy_from_list(look_for_ap)
-                for ap in AtomicProp:
+
+                for ap in look_for_ap:
+                    if len(ap) == 4:
+                        ap = ap[0] + ap[2:]
                     subLabel = []
                     if True if look_for_not_ap.search(ap) else False:
                         ap = re.sub("!","",ap)
-                        for counter, elements in enumerate(new_Alph_s):
+                        for counter, elements in enumerate(Alph_s):
                             if elements.find(ap) == -1:
                                 subLabel.append(counter)
                     else:
-                        for counter, elements in enumerate(new_Alph_s):
+                        for counter, elements in enumerate(Alph_s):
                             if elements.find(ap) != -1:
                                 subLabel.append(counter)
                     labels.append(subLabel)
-                print(part)
-                # labels = unionoflists(labels)
+
                 labels = set.intersection(*map(set,labels))
                 part_Label.append(list(labels))
-            # part_Label = set.intersection(*map(set,part_Label))
+
             part_Label = unionoflists(part_Label)
             B_trans[int(n)][int(column_index)] = part_Label
 
         else:
             labels = []
-            for i in p:
+            for i in look_for_ap:
+                if len(i) == 4:
+                     i = i[0] + i[2:]
                 label = []
                 if True if look_for_not_ap.search(i) else False:
-                    # print("Found a negative Ap")
+
                     i = re.sub("!","",i)
-                    for counter,elements in enumerate(new_Alph_s):
+                    for counter,elements in enumerate(Alph_s):
                         if elements.find(i) == -1:
                             label.append(counter)
                 else:
-                    for counter,elements in enumerate(new_Alph_s):
+                    for counter,elements in enumerate(Alph_s):
                         if elements.find(i) != -1:
                             label.append(counter)
                 #insert that label to i,j B_trans
                 labels.append(label)
-            B_trans[int(n)][int(column_index)] = set.intersection(*map(set,labels))
-                    # label = sig
-
-            print(label)
-            print("**********************************************")
+            B_trans[int(n)][int(column_index)] = list(set.intersection(*map(set,labels)))
     else:
         B_trans[int(n)][int(column_index)] = list(sig)
 B_trans[len(S_names)-1][len(S_names)-1] = list(sig) #the accepting state will always have a self transition
-print("Done with loop")

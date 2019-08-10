@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f13f4232-87ef-4ff2-a7ac-0c1c92a25039" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pycdd/pycddlib/test/test_polyhedron.py" beforeDir="false" afterPath="$PROJECT_DIR$/pycdd/pycddlib/test/test_polyhedron.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/create_buchi.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/create_buchi.py" afterDir="false" />
     </list>
@@ -19,8 +20,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/create_buchi.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="241" lean-forward="true" selection-start-line="241" selection-end-line="241" />
+            <state relative-caret-position="395">
+              <caret line="229" selection-start-line="229" selection-end-line="229" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -31,8 +32,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/alphabet_set.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+            <state>
+              <caret line="1" column="18" lean-forward="true" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -50,7 +51,7 @@
         <entry file="file://$PROJECT_DIR$/src/read_formula.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
-              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+              <caret line="19" selection-start-line="19" selection-end-line="19" />
             </state>
           </provider>
         </entry>
@@ -70,10 +71,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="233" column="26" lean-forward="true" selection-start-line="233" selection-start-column="26" selection-end-line="233" selection-end-column="26" />
+            <state relative-caret-position="310">
+              <caret line="263" column="43" lean-forward="true" selection-start-line="263" selection-start-column="43" selection-end-line="263" selection-end-column="43" />
               <folding>
-                <element signature="e#280#289#0" expanded="true" />
+                <element signature="e#280#311#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -82,8 +83,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-1258493228/builtins.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="4277" column="8" selection-start-line="4277" selection-start-column="8" selection-end-line="4277" selection-end-column="8" />
+            <state relative-caret-position="155">
+              <caret line="4692" column="11" lean-forward="true" selection-start-line="4692" selection-start-column="11" selection-end-line="4692" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -122,6 +123,7 @@
       <find>run_ltl2ba</find>
       <find>labels</find>
       <find>Alph_s</find>
+      <find>new_Alph_s</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -324,10 +326,20 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="992" y="24" width="928" height="1056" extended-state="4" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49372384" visible="true" weight="0.1300905" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49372384" visible="true" weight="0.13235295" />
       <window_info id="Structure" order="1" sideWeight="0.50627613" side_tool="true" weight="0.24095023" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32918552" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -336,11 +348,11 @@
       <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39958158" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3294979" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3294979" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3294979" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50113124" side_tool="true" weight="0.3294979" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3294979" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.2498618" />
@@ -413,14 +425,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/create_buchi.py</url>
-          <line>265</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/create_buchi.py</url>
-          <line>266</line>
-          <option name="timeStamp" value="23" />
+          <url>file://$PROJECT_DIR$/testing.py</url>
+          <line>272</line>
+          <option name="timeStamp" value="41" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -707,13 +714,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-1258493228/builtins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="4277" column="8" selection-start-line="4277" selection-start-column="8" selection-end-line="4277" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gltl2ba.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="257">
@@ -724,10 +724,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/read_formula.py">
+    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-1258493228/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        <state relative-caret-position="155">
+          <caret line="4692" column="11" lean-forward="true" selection-start-line="4692" selection-start-column="11" selection-end-line="4692" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/alphabet_set.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="1" column="18" lean-forward="true" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -738,27 +745,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/alphabet_set.py">
+    <entry file="file://$PROJECT_DIR$/src/read_formula.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="255">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/testing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="233" column="26" lean-forward="true" selection-start-line="233" selection-start-column="26" selection-end-line="233" selection-end-column="26" />
+        <state relative-caret-position="310">
+          <caret line="263" column="43" lean-forward="true" selection-start-line="263" selection-start-column="43" selection-end-line="263" selection-end-column="43" />
           <folding>
-            <element signature="e#280#289#0" expanded="true" />
+            <element signature="e#280#311#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/create_buchi.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="241" lean-forward="true" selection-start-line="241" selection-end-line="241" />
+        <state relative-caret-position="395">
+          <caret line="229" selection-start-line="229" selection-end-line="229" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
