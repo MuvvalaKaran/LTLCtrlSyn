@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f13f4232-87ef-4ff2-a7ac-0c1c92a25039" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pycdd/pycddlib/test/test_polyhedron.py" beforeDir="false" afterPath="$PROJECT_DIR$/pycdd/pycddlib/test/test_polyhedron.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/create_buchi.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/create_buchi.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/create_buchi.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="229" selection-start-line="229" selection-end-line="229" />
+            <state relative-caret-position="1341">
+              <caret line="215" column="40" lean-forward="true" selection-start-line="215" selection-start-column="40" selection-end-line="215" selection-end-column="40" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -344,8 +342,8 @@
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32918552" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49886876" weight="0.32008368" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39958158" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49886876" visible="true" weight="0.32008368" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39958158" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3294979" />
@@ -764,8 +762,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/create_buchi.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="229" selection-start-line="229" selection-end-line="229" />
+        <state relative-caret-position="1341">
+          <caret line="215" column="40" lean-forward="true" selection-start-line="215" selection-start-column="40" selection-end-line="215" selection-end-column="40" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>

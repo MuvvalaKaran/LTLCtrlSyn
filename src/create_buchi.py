@@ -150,6 +150,9 @@ for counter,i in enumerate(B_F):
     if i == True:
         B_F = counter
 
+if len(B_F) == 0:
+    B_F = B_S0
+
  # a multidimensional list containning labels - shape = (states_np,states_no)
 B_trans = [[[] for i in range(len(S_names))] for i in range(len(S_names))]
 
