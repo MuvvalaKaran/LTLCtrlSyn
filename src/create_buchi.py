@@ -150,7 +150,7 @@ for counter,i in enumerate(B_F):
     if i == True:
         B_F = counter
 
-if len(B_F) == 0:
+if isinstance(B_F, type(None)):
     B_F = B_S0
 
  # a multidimensional list containning labels - shape = (states_np,states_no)
@@ -230,3 +230,10 @@ for n,edge in edges: # n represents the node counter
     else:
         B_trans[int(n)][int(column_index)] = list(sig)
 B_trans[len(S_names)-1][len(S_names)-1] = list(sig) #the accepting state will always have a self transition
+
+for i in range(len(S_names)-1):
+    for j in range(len(S_names)-1):
+        B_trans[i][j].sort()
+# print("hmmm")
+# yay = B_trans[0][1]
+# print(yay)
