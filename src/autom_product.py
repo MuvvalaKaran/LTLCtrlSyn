@@ -1,6 +1,6 @@
 from src.trans_sys_polytope import TransSysToPolytope as Trans_Sys
 from src.invalidate_transitions import Invalid_Transition
-from src.accepted_init_states import Accepted_Q0
+# from src.accepted_init_states import Accepted_Q0
 # from src.cartesian_product import Cartesian_product
 import src.create_buchi as Buchi
 import numpy as np
@@ -124,7 +124,8 @@ def CartesianProduct(Tp_Q, B_S):
 
 
 
-class AutomProduct:
+# class AutomProduct:
+def AutomatonProduct(Tp_Q0, flag):
     # print(type(Trans_Sys.Tp_Q))
     # def tranfosefor1dvector(array, val):
     #     # val = 1 for vertical vector n x 1 matrix and 2 for 1 x n matrix
@@ -133,21 +134,28 @@ class AutomProduct:
     #     elif (val == 2):
     #         ret = np.reshape(array, (1, np.shape(array)[0]))
     #     return ret
-
+    counter_for_to_maintain_Tp_size = flag
     B_S = Buchi.B_S
     B_S0 = Buchi.B_S0
     B_F = Buchi.B_F
     B_trans = Buchi.B_trans
 
-    Tp_Q0 = Accepted_Q0.Tp_Q0
-    Tp_Q = Trans_Sys.Tp_Q
+    # Tp_Q0 = Accepted_Q0.Tp_Q0
+    Tp_Q0 = Tp_Q0
+    _Tp_Q = Trans_Sys.Tp_Q[0:35]
+    # Tp_Q = Tp_Q
     Tp_obs = Trans_Sys.Tp_obs
     Tp_adj = Invalid_Transition.updated_Tp_adj
-    st_no_T = len(Tp_Q)
-    Tp_Q.append(st_no_T)
-
+    # Tp_adj = Tp_adj
+    st_no_T = len(_Tp_Q)
+    if(counter_for_to_maintain_Tp_size == 0):
+        _Tp_Q.append(st_no_T)
+        # counter_for_to_maintain_Tp_size = counter_for_to_maintain_Tp_size + 1
+    else:
+        #_Tp_Q[35] = st_no_T
+        _Tp_Q.append(st_no_T)
     # print(Tp_Q)
-    tmp = np.zeros((1,st_no_T))
+    # tmp = np.zeros((1,st_no_T))
 
     Tp_adj = np.vstack((Tp_adj,np.zeros((1, st_no_T))))
     Tp_adj = np.hstack((Tp_adj, np.transpose(np.zeros((1, st_no_T + 1)))))  # no state can transit in dummy one
@@ -155,9 +163,9 @@ class AutomProduct:
     Tp_Q0 = st_no_T # new initial state
 
     #call a class called cartesian product
-    P_S = CartesianProduct(Tp_Q=Tp_Q, B_S=B_S)
+    P_S = CartesianProduct(Tp_Q=_Tp_Q, B_S=B_S)
     init_st = CartesianProduct(Tp_Q=Tp_Q0,B_S=B_S0)
-    fin_st = CartesianProduct(Tp_Q[0:st_no_T], B_F)
+    fin_st = CartesianProduct(_Tp_Q[0:st_no_T], B_F)
 
     P_S0 = []
     P_F = []
@@ -185,13 +193,13 @@ class AutomProduct:
         P_F.append(match_index)
 
     P_trans = np.zeros((np.shape(P_S)[0], np.shape(P_S)[0]))
-    tr_q = []
-    tr_s = []
+    # tr_q = []
+    # tr_s = []
     for i in range(np.shape(P_S)[0]):
         tr_q = np.nonzero(Tp_adj[int(P_S[i,0]),:])
         tr_s = np.nonzero(B_trans[int(P_S[i,1])][:])
         if np.size(tr_q) == 0 or np.size(tr_s) == 0:
-            break
+            continue
         # abcderfg = np.shape(tr_q)[0]
         # if np.shape(tr_q)[0] != 0:
         for j in range(len(tr_q)):
@@ -212,4 +220,5 @@ class AutomProduct:
 
     # print("Done")
 
+    return P_F,P_S0,P_S,P_trans
 
