@@ -24,7 +24,7 @@ def FindRuns(P_F,P_S0,P_S,P_trans):
     for i in range(len(P_S0)):
         prefix = FindPaths(P_trans,P_S0[i],P_F)
         new_prefix = np.nonzero(findemptycellsinlist(prefix))
-        print("In Find runs")
+        print("In Find runs" , prefix)
 
         if len(prefix[0]) != 0:
             print("Hey This is my first prefix")

@@ -135,7 +135,7 @@ class ReadData:
         N_p = 10
         orig_alph = ['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10','p11'] #just check how many these do you need
         alphabet = ['p01', 'p02', 'p03', 'p04', 'p05', 'p06', 'p07', 'p08', 'p09', 'p10', 'p11'] #it will ave the same number as above with naming scheme changed
-        A = [np.array([0,1]),np.array([1,-1]),np.array([4,1]),np.array([4,-7]),np.array([-2,-1]),np.array([-1,-12]),np.array([-1,-1]),np.array([1,0]),np.array([0,-1]),np.array([-6,-4.5]),
+        A = [np.array([0,1]),np.array([1,-1]),np.array([4,1]),np.array([4,-7]),np.array([-2,-1]),np.array([-1,-12]),np.array([-1,-1]),np.array([1,0]),np.array([0,-1]),np.array([-6,4.5]),
              np.array([[-1,0],[1,0],[0,-1],[0,1],[-3,-5],[1,-1],[-1,2.5],[-2,2.5]])]
         # A = np.array([[0,1],[1,-1],[4,1],[4,-7],[-2,-1],[-1,-12],[-1,-1],[1,0],[0,-1],[-6,4.5],[[-1,0],[1,0],[0,-1],[0,1],[-3,-5],[1,-1],[-1,2.5],[-2,2.5]]])
         B = [np.array([0]),np.array([0]),np.array([12]),np.array([34]),np.array([4]),np.array([31]),np.array([11]),np.array([-3]),np.array([-1.5]),np.array([-12]),np.array([[-5],[-7],[-3],[-6],[-15],[-7],[-15],[-17.5]])]

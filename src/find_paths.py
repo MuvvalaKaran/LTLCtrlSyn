@@ -34,7 +34,7 @@ def findMatchesForNotZero(a,b,c,d):
 def indiceswhere0Elements(n):
     #n is a 1 X n  matrix
     ret = []
-    for counter,i in enumerate(n):
+    for counter, i in enumerate(n):
         if i == 0:
             ret.append(counter)
     return ret

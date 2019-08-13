@@ -186,3 +186,4 @@ class Invalid_Transition:
                 if (sol.__getattr__("success") == False):
                     updated_Tp_adj[i, i] = 0
                 break
+    # print("DOne")
