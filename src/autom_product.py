@@ -125,7 +125,7 @@ def CartesianProduct(Tp_Q, B_S):
 
 
 # class AutomProduct:
-def AutomatonProduct(Tp_Q0, flag):
+def AutomatonProduct(Tp_Q0, flag, count):
     # print(type(Trans_Sys.Tp_Q))
     # def tranfosefor1dvector(array, val):
     #     # val = 1 for vertical vector n x 1 matrix and 2 for 1 x n matrix
@@ -138,11 +138,11 @@ def AutomatonProduct(Tp_Q0, flag):
     B_S = Buchi.B_S
     B_S0 = Buchi.B_S0
     B_F = Buchi.B_F
-    B_trans = Buchi.B_trans
+    B_trans = Buchi.B_trans1
 
     # Tp_Q0 = Accepted_Q0.Tp_Q0
     Tp_Q0 = Tp_Q0
-    _Tp_Q = Trans_Sys.Tp_Q[0:35]
+    _Tp_Q = Trans_Sys.Tp_Q[0:count]
     # Tp_Q = Tp_Q
     Tp_obs = Trans_Sys.Tp_obs
     Tp_adj = Invalid_Transition.updated_Tp_adj

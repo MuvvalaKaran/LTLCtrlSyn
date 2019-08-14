@@ -16,7 +16,7 @@ class Invalid_Transition:
     prec = pow(10,5)*np.finfo(float).eps
     updated_Tp_adj = trans_sys.Tp_adj
     rank_method = True  # this is faster but more restrictive method that eliminates lots of possible transitions
-    linprog_method = True  # this method is slightly slower but has more spurious transitions
+    linprog_method = False  # this method is slightly slower but has more spurious transitions
     # a mix and match also gives a mixed result but seems to be the closest one.
 
     for i in range(0,len(trans_sys.Tp.get("Tp.Q"))):

@@ -149,11 +149,13 @@ if (full_descrition):
     for counter, i in enumerate(B_S0):
         if i == True:
             B_S0 = counter
-    B_F = [True if re.search("accept", i) else False for i in S_names]  # careful it is actually accept_0
-    for counter, i in enumerate(B_F):
-        if i == True:
-            B_F = counter
+    tmp_B_F = [True if re.search("^accept", i) else False for i in S_names]  # careful it is actually accept_0
 
+    B_F = []
+    for counter, i in enumerate(tmp_B_F):
+        if i == True:
+            # B_F = counter
+            B_F.append(counter)
     if isinstance(B_F, type(None)):
         B_F = B_S0
 
@@ -161,7 +163,7 @@ if (full_descrition):
     # print(B_S0)
     # print(B_F)
     # a multidimensional list containning labels - shape = (states_np,states_no)
-    B_trans = [[[] for i in range(len(S_names))] for i in range(len(S_names))]
+    B_trans1 = [[[] for i in range(len(S_names))] for i in range(len(S_names))]
 
     for i in range(states_no):
         edges_of_the_node = []
@@ -177,29 +179,64 @@ if (full_descrition):
             k = re.search("-> (\S*)",row)
             tmp_dst_node = k.group(1)
 
-            for match_index,i in enumerate(S_names):
-                if i == tmp_dst_node:
+            for match_index,names in enumerate(S_names):
+                if names == tmp_dst_node:
                     k = match_index
                     break
-            if row[0] == 1:
-                B_trans[i][k] = sig
+            if row[0] == '1':
+                B_trans1[i][k] = sig.tolist()
                 continue
 
             # prop = re.search("(\S*) ->",row)
             # prop = re.search("(?<!-)\S*",row)
             prop = re.findall("(?<!-)\S*\s",row)
-            for counter,i in enumerate(prop):
-                if i == "& " or  i == "-> ":
+            prop = [ap.replace(" ", "") for ap in prop]
+            for counter,pr in enumerate(prop):
+                if pr == "&" or pr == "->":
                     prop.pop(counter)
 
+            labels = []
+            direct = False
+            indirect = False
             for ap in prop:
-                if re.search('^p',ap) or re.search('^!',ap) is None:
-                    labels = sig
+                if re.search('^p',ap) is None and re.search('^!',ap) is None:
+                    labels.append(sig.tolist())
+                    direct = True
                     continue
-
+                # listOfLabels = []
+                subLabel = []
                 if re.search('^!',ap) or re.search('^p',ap):
+                    # subLabel = []
                     if re.search('^!',ap):
-                        labels = set.intersection(*map(set,labels))
+                        ap = re.sub("!", "", ap)
+                        if len(ap) > 4:
+                            ap = ap[0] + ap[2:3]
+                        # labels = set.intersection(*map(set,labels))
+                        indirect = True
+                        for counter, elements in enumerate(Alph_s):
+                            if elements.find(ap) == -1:
+                                subLabel.append(counter)
+                    elif re.search('^p',ap):
+                        if len(ap) > 3:
+                            ap = ap[0] + ap[2:3]
+                        indirect = True
+                        for counter,elements in enumerate(Alph_s):
+                            if elements.find(ap) != -1:
+                                subLabel.append(counter)
+                    # listOfLabels.append(subLabel)
+                labels.append(subLabel)
+            if not direct or indirect:
+                labels = list(set.intersection(*map(set,labels)))
+                indirect = False
+            else:
+                direct = False
+                labels = labels[0]
+
+            B_trans1[i][k] = list(set(B_trans1[i][k]).union(set(labels)))
+
+    for i in range(len(S_names)-1):
+        for j in range(len(S_names)-1):
+            B_trans1[i][j].sort()
 
 
 
@@ -274,10 +311,12 @@ else:
     for counter,i in enumerate(B_S0):
         if i == True:
             B_S0 = counter
-    B_F = [True if re.search("accept",i) else False for i in S_names]
-    for counter,i in enumerate(B_F):
+
+    tmp_B_F = [True if re.search("accept",i) else False for i in S_names]
+    B_F = []
+    for counter,i in enumerate(tmp_B_F):
         if i == True:
-            B_F = counter
+            B_F.append(counter)
 
     if isinstance(B_F, type(None)):
         B_F = B_S0
