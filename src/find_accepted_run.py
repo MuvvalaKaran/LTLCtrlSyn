@@ -15,8 +15,8 @@ def findemptycellsinlist(list):
     for index,i in enumerate(list):
         #i itself is a sublist(cell)
         if len(i) != 0:
-            i == 1
-            list[index] = 1
+            if i == 1:
+                list[index] = 1
     return list
 
 def FindRuns(P_F,P_S0,P_S,P_trans):

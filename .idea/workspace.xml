@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f13f4232-87ef-4ff2-a7ac-0c1c92a25039" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pycdd/pycddlib/test/test_polyhedron.py" beforeDir="false" afterPath="$PROJECT_DIR$/pycdd/pycddlib/test/test_polyhedron.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/accepted_init_states.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/accepted_init_states.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/autom_product.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/autom_product.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/create_buchi.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/create_buchi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/read_formula.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/read_formula.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/find_accepted_run.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/find_accepted_run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/find_paths.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/find_paths.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/invalidate_transitions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/invalidate_transitions.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,8 +24,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/create_buchi.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
-              <caret line="318" column="30" selection-start-line="318" selection-start-column="30" selection-end-line="318" selection-end-column="30" />
+            <state relative-caret-position="6015">
+              <caret line="406" column="6" selection-start-line="406" selection-start-column="6" selection-end-line="406" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -33,25 +34,25 @@
         <entry file="file://$PROJECT_DIR$/src/find_accepted_run.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
-              <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+              <caret line="24" selection-start-line="24" selection-end-line="24" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/read_formula.py">
+        <entry file="file://$PROJECT_DIR$/src/find_paths.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="17" column="118" selection-start-line="17" selection-start-column="118" selection-end-line="17" selection-end-column="118" />
+            <state relative-caret-position="450">
+              <caret line="85" column="34" lean-forward="true" selection-start-line="85" selection-start-column="34" selection-end-line="85" selection-end-column="34" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/invalidate_transitions.py">
+        <entry file="file://$PROJECT_DIR$/src/autom_product.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-690">
-              <caret line="26" column="2" selection-start-line="26" selection-start-column="2" selection-end-line="26" selection-end-column="2" />
+            <state relative-caret-position="275">
+              <caret line="161" column="24" lean-forward="true" selection-start-line="161" selection-start-column="24" selection-end-line="161" selection-end-column="24" />
               <folding>
                 <element signature="e#0#66#0" expanded="true" />
               </folding>
@@ -60,18 +61,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/autom_product.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="538">
-              <caret line="224" lean-forward="true" selection-start-line="224" selection-end-line="224" />
-              <folding>
-                <element signature="e#0#66#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/accepted_init_states.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="420">
@@ -86,8 +75,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="255" column="14" selection-start-line="255" selection-start-column="14" selection-end-line="255" selection-end-column="14" />
+            <state relative-caret-position="6045">
+              <caret line="411" selection-start-line="411" selection-end-line="411" />
               <folding>
                 <element signature="e#100#118#0" expanded="true" />
               </folding>
@@ -114,6 +103,7 @@
       <find>new_Alph_s</find>
       <find>Tp_Q</find>
       <find>labels</find>
+      <find>Tp_obs</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -133,14 +123,14 @@
         <option value="$PROJECT_DIR$/src/cartesian_product.py" />
         <option value="$PROJECT_DIR$/src/find_accepted.py" />
         <option value="$PROJECT_DIR$/src/read_data.py" />
-        <option value="$PROJECT_DIR$/src/find_accepted_run.py" />
         <option value="$PROJECT_DIR$/src/alphabet_set.py" />
-        <option value="$PROJECT_DIR$/src/invalidate_transitions.py" />
-        <option value="$PROJECT_DIR$/src/find_paths.py" />
-        <option value="$PROJECT_DIR$/testing.py" />
         <option value="$PROJECT_DIR$/src/read_formula.py" />
         <option value="$PROJECT_DIR$/src/accepted_init_states.py" />
         <option value="$PROJECT_DIR$/src/create_buchi.py" />
+        <option value="$PROJECT_DIR$/src/invalidate_transitions.py" />
+        <option value="$PROJECT_DIR$/src/find_accepted_run.py" />
+        <option value="$PROJECT_DIR$/testing.py" />
+        <option value="$PROJECT_DIR$/src/find_paths.py" />
         <option value="$PROJECT_DIR$/src/autom_product.py" />
       </list>
     </option>
@@ -236,7 +226,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="create_buchi" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="find_paths" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="test" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -248,7 +238,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/create_buchi.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/find_paths.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -257,7 +247,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="read_formula" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="invalidate_transitions" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="test" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -269,7 +259,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/read_formula.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/invalidate_transitions.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -302,10 +292,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.accepted_init_states" />
+        <item itemvalue="Python.find_paths" />
         <item itemvalue="Python.autom_product" />
-        <item itemvalue="Python.create_buchi" />
         <item itemvalue="Python.testing" />
-        <item itemvalue="Python.read_formula" />
+        <item itemvalue="Python.invalidate_transitions" />
       </list>
     </recent_temporary>
   </component>
@@ -337,13 +327,13 @@
   <component name="ToolWindowManager">
     <frame x="992" y="24" width="928" height="1056" extended-state="4" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49372384" visible="true" weight="0.24208145" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49372384" weight="0.24208145" />
       <window_info id="Structure" order="1" sideWeight="0.50627613" side_tool="true" weight="0.24095023" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32918552" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49886876" weight="0.2751046" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.37238494" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49886876" visible="true" weight="0.2751046" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.37238494" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3294979" />
@@ -439,33 +429,43 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/find_paths.py</url>
-          <line>85</line>
+          <line>84</line>
           <option name="timeStamp" value="122" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/find_paths.py</url>
-          <line>82</line>
+          <line>81</line>
           <option name="timeStamp" value="149" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/accepted_init_states.py</url>
-          <line>20</line>
-          <option name="timeStamp" value="176" />
+          <line>19</line>
+          <option name="timeStamp" value="184" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/accepted_init_states.py</url>
+          <line>18</line>
+          <option name="timeStamp" value="185" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/autom_product.py</url>
-          <line>167</line>
-          <option name="timeStamp" value="177" />
+          <line>318</line>
+          <option name="timeStamp" value="198" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/autom_product.py</url>
-          <line>194</line>
-          <option name="timeStamp" value="182" />
+          <line>304</line>
+          <option name="timeStamp" value="200" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/autom_product.py</url>
-          <line>222</line>
-          <option name="timeStamp" value="183" />
+          <line>329</line>
+          <option name="timeStamp" value="201" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/autom_product.py</url>
+          <line>324</line>
+          <option name="timeStamp" value="203" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -611,20 +611,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-1258493228/numpy/core/_multiarray_umath.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="748" column="4" selection-start-line="748" selection-start-column="4" selection-end-line="748" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/numpy/core/fromnumeric.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="68" column="4" selection-start-line="68" selection-start-column="4" selection-end-line="68" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/numpy/core/multiarray.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
@@ -694,16 +680,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/trans_sys_polytope.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1575">
-          <caret line="150" selection-start-line="150" selection-end-line="150" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/read_data.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
@@ -721,33 +697,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="255" column="14" selection-start-line="255" selection-start-column="14" selection-end-line="255" selection-end-column="14" />
-          <folding>
-            <element signature="e#100#118#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/invalidate_transitions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-690">
-          <caret line="26" column="2" selection-start-line="26" selection-start-column="2" selection-end-line="26" selection-end-column="2" />
-          <folding>
-            <element signature="e#0#66#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/find_paths.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="658">
-          <caret line="82" selection-start-line="82" selection-end-line="82" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/numpy/core/shape_base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
@@ -762,10 +711,85 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/read_formula.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/invalidate_transitions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1590">
+          <caret line="191" column="25" selection-start-line="191" selection-start-column="25" selection-end-line="191" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trans_sys_polytope.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="150" selection-start-line="150" selection-end-line="150" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/numpy/core/fromnumeric.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="1694" column="4" selection-start-line="1694" selection-start-column="4" selection-end-line="1694" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-1258493228/numpy/core/_multiarray_umath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="7766" column="4" selection-start-line="7766" selection-start-column="4" selection-end-line="7766" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/create_buchi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6015">
+          <caret line="406" column="6" selection-start-line="406" selection-start-column="6" selection-end-line="406" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6045">
+          <caret line="411" selection-start-line="411" selection-end-line="411" />
+          <folding>
+            <element signature="e#100#118#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/autom_product.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="161" column="24" lean-forward="true" selection-start-line="161" selection-start-column="24" selection-end-line="161" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/find_paths.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="85" column="34" lean-forward="true" selection-start-line="85" selection-start-column="34" selection-end-line="85" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/find_accepted_run.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
-          <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
         </state>
       </provider>
     </entry>
@@ -775,30 +799,6 @@
           <caret line="28" column="16" lean-forward="true" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="16" />
           <folding>
             <element signature="e#0#65#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/read_formula.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="17" column="118" selection-start-line="17" selection-start-column="118" selection-end-line="17" selection-end-column="118" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/create_buchi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="318" column="30" selection-start-line="318" selection-start-column="30" selection-end-line="318" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/autom_product.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="538">
-          <caret line="224" lean-forward="true" selection-start-line="224" selection-end-line="224" />
-          <folding>
-            <element signature="e#0#66#0" expanded="true" />
           </folding>
         </state>
       </provider>

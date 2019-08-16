@@ -28,10 +28,13 @@ def ismember(a, b):
     #     if elt not in bind:
     #         bind[elt] = i
     # return [bind.get(itm, None) for itm in a]  # None can be replaced by any other "not in b" value
-    ret = []
+    # ret = []
     for counter, i in enumerate(b):
+        ret = False
         if a == i:
-            ret.append(counter)
+            # ret.append(counter)
+            ret = True
+            break
     return ret
 
 def CartesianProduct(Tp_Q, B_S):
@@ -146,6 +149,111 @@ def AutomatonProduct(Tp_Q0, flag, count):
     # Tp_Q = Tp_Q
     Tp_obs = Trans_Sys.Tp_obs
     Tp_adj = Invalid_Transition.updated_Tp_adj
+
+    Debug = False
+
+    if Debug:
+        Tp_adj = np.zeros((33,33))
+        Tp_adj[0,0] = 1
+        Tp_adj[1, 0] = 1
+        Tp_adj[2, 0] = 1
+        Tp_adj[0, 1] = 1
+        Tp_adj[1, 1] = 1
+        Tp_adj[3, 1] = 1
+        Tp_adj[14, 1] = 1
+        Tp_adj[0, 2] = 1
+        Tp_adj[2, 2] = 1
+        Tp_adj[3, 2] = 1
+        Tp_adj[4, 2] = 1
+        Tp_adj[9, 2] = 1
+        Tp_adj[25, 2] = 1
+        Tp_adj[1,3] = 1
+        Tp_adj[2,3] = 1
+        Tp_adj[3,3] = 1
+        Tp_adj[26,3] = 1
+        Tp_adj[2,4] = 1
+        Tp_adj[4,4] = 1
+        Tp_adj[5,5] = 1
+        Tp_adj[6,5] = 1
+        Tp_adj[9,5] = 1
+        Tp_adj[8,7] = 1
+
+        Tp_adj[11,8] = 1
+        Tp_adj[2,9] = 1
+        Tp_adj[9,9] = 1
+        Tp_adj[32,9] = 1
+        Tp_adj[4,10] = 1
+        Tp_adj[12,13] = 1
+        Tp_adj[17,13] = 1
+        Tp_adj[13,14] = 1
+        Tp_adj[14,14] = 1
+        Tp_adj[26,14] = 1
+        Tp_adj[15,15] = 1
+        Tp_adj[15,16] = 1
+        Tp_adj[16,17] = 1
+        Tp_adj[18,18] = 1
+        Tp_adj[21,18] = 1
+        Tp_adj[27,18] = 1
+        Tp_adj[19,19] = 1
+        Tp_adj[20,19] = 1
+        Tp_adj[21,19] = 1
+        Tp_adj[22,19] = 1
+        Tp_adj[23,19] = 1
+        Tp_adj[28,19] = 1
+        Tp_adj[17,20] = 1
+        Tp_adj[19,20] = 1
+        Tp_adj[20,20] = 1
+        Tp_adj[18,21] = 1
+        Tp_adj[19,21] = 1
+        Tp_adj[21,21] = 1
+        Tp_adj[29,21] = 1
+        Tp_adj[19,22] = 1
+        Tp_adj[22,22] = 1
+        Tp_adj[25,22] = 1
+        Tp_adj[30,22] = 1
+        Tp_adj[19,23] = 1
+        Tp_adj[23,23] = 1
+        Tp_adj[25,23] = 1
+        Tp_adj[20,24] = 1
+        Tp_adj[23,24] = 1
+        Tp_adj[2,25] = 1
+        Tp_adj[22,25] = 1
+        Tp_adj[23,25] = 1
+        Tp_adj[25,25] = 1
+        Tp_adj[26,25] = 1
+        Tp_adj[32,25] = 1
+        Tp_adj[3,26] = 1
+        Tp_adj[17,26] = 1
+        Tp_adj[24,26] = 1
+        Tp_adj[25,26] = 1
+        Tp_adj[26,26] = 1
+        Tp_adj[18,27] = 1
+        Tp_adj[27,27] = 1
+        Tp_adj[29,27] = 1
+        Tp_adj[19,28] = 1
+        Tp_adj[28,28] = 1
+        Tp_adj[29,28] = 1
+        Tp_adj[30,28] = 1
+        Tp_adj[21,29] = 1
+        Tp_adj[27,29] = 1
+        Tp_adj[28,29] = 1
+        Tp_adj[29,29] = 1
+        Tp_adj[31,29] = 1
+        Tp_adj[5,30] = 1
+        Tp_adj[22,30] = 1
+        Tp_adj[28,30] = 1
+        Tp_adj[30,30] = 1
+        Tp_adj[32,30] = 1
+        Tp_adj[7,31] = 1
+        Tp_adj[30,31] = 1
+        Tp_adj[9,32]  = 1
+        Tp_adj[25,32] = 1
+        Tp_adj[30,32] = 1
+        Tp_adj[32,32] = 1
+
+
+
+
     # Tp_adj = Tp_adj
     st_no_T = len(_Tp_Q)
     if(counter_for_to_maintain_Tp_size == 0):
@@ -202,21 +310,21 @@ def AutomatonProduct(Tp_Q0, flag, count):
             continue
         # abcderfg = np.shape(tr_q)[0]
         # if np.shape(tr_q)[0] != 0:
-        for j in range(len(tr_q)):
+        for j in range(len(tr_q[0])):
             # if np.shape(tr_s)[0] != 0:
-                for k in range(len(tr_s)):
+                for k in range(len(tr_s[0])):
                     # if not isinstance(B_trans[int(P_S[i,1])][tr_s[0][k]] , type(None)):
                     # if np.shape(tr_q)[0] == 0 or np.shape(tr_s)[0] == 0:
                     #     break
                     # else:
-                    if ismember(Tp_obs[0][tr_q[0][j]] , B_trans[int(P_S[i,1])][tr_s[0][k]]):
+                    if ismember(int(Tp_obs[0][tr_q[0][j]]) , B_trans[int(P_S[i,1])][tr_s[0][k]]):
                         # ind = []
-                        tmp_counter = 0
+                        # tmp_counter = 0
                         for tmp_i in range(np.shape(P_S)[0]):
                             if ((int(P_S[tmp_i,0]) == tr_q[0][j])  and int(P_S[tmp_i,1]) == tr_s[0][k]):
-                                ind = tmp_counter
-                                P_trans[i, ind] = 1
-                            tmp_counter = tmp_counter + 1
+                                # ind = tmp_counter
+                                P_trans[i, tmp_i] = 1
+                            # tmp_counter = tmp_counter + 1
 
     # print("Done")
 

@@ -16,7 +16,6 @@ def findMatches(a,b,c,d):
     for x,y in zip(b,d):
         if x == a and y == c:
             ret.append(counter)
-            break
         counter = counter + 1
     return ret
 
@@ -27,7 +26,7 @@ def findMatchesForNotZero(a,b,c,d):
     for x,y in zip(b,d):
         if x != a and y == c:
             ret.append(counter)
-            break
+            # break
         counter = counter + 1
     return ret
 
@@ -78,14 +77,15 @@ def FindPaths(adj,s,d):
         for i in neigh:
             if dist[i] > dist[x] + adj[x,i]:
                 dist[i] = dist[x] + adj[x,i]
-                predec[0][i] = x
+                predec[0][i] = int(x)
 
     paths = []
     for i in range(len(d)):
-        if (dist[d[i]]) != np.Inf:
+        if dist[d[i]] != np.Inf:
             path = [d[i]]
-            while path[0] != s:
-                path.append(predec[path[0]])
+            while path[0] != s[0]:
+                # path.append(predec[0][path[0]])
+                path.insert(0, predec[0][int(path[0])])
         else:
             path = []
         paths.insert(i,path)
