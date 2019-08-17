@@ -150,7 +150,7 @@ def AutomatonProduct(Tp_Q0, flag, count):
     Tp_obs = Trans_Sys.Tp_obs
     Tp_adj = Invalid_Transition.updated_Tp_adj
 
-    Debug = False
+    Debug = True
 
     if Debug:
         Tp_adj = np.zeros((33,33))

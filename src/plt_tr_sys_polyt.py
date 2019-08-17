@@ -12,6 +12,7 @@ import sys
 from src.trans_sys_polytope import TransSysToPolytope as tran_sys
 from itertools import cycle
 from src.invalidate_transitions import Invalid_Transition as newTp
+# import src.accepted_init_states as initStates
 
 
 def _get_patch(poly1, **kwargs):
@@ -59,10 +60,25 @@ def get_cmap(n, name='hsv'):
 A =np.asarray(ReadData.A[len(ReadData.A) -1])
 b =np.asarray(ReadData.B[len(ReadData.B) -1])
 
+def ismember(a, b):
+    for counter, i in enumerate(b):
+        ret = False
+        if a == i:
+            ret = True
+            break
+    return ret
+
+
 # A = np.array([[-1,0],[1,0],[0,-1],[0,1],[-3,-5],[1,-1],[-1,2.5],[-2,2.5]])
 # b = np.array([[-5,-7,-3,-6,-15,-7,-15,-17.5]])
-class PlotTraSys:
+# class PlotTraSys:
+def PlotTraSys(nargmin, accepted_Q0):
     print("Plotting transition system on polytopes")
+    nargmin = nargmin
+
+    if nargmin:
+        # accepted_Q = initStates.getAccept_Q0()
+        accepted_Q0 = accepted_Q0
 
     # def testAndbConsistency(self):
     #     self.assertTrue(np.shape(A)[0 == np.shape(b)[0]])
@@ -84,15 +100,15 @@ class PlotTraSys:
         print("PLease make sure the state space boundaries form a convex polytope")
         sys.exit(1)
 
-    n = np.shape(A)[1] #space dimension
+    n = np.shape(A)[1]  # space dimension
 
     if(n == 2):
-        ep = (np.amax(Bound, axis=0) - np.amin(Bound,axis=0))/20
+        ep = (np.amax(Bound, axis=0) - np.amin(Bound, axis=0))/20
         # ep = np.reshape(ep,(1,2))
-        xmin = np.amin(Bound[:,0]) - ep[0]
-        xmax = np.amax(Bound[:,0]) + ep[0]
-        ymin = np.amin(Bound[:,1]) - ep[1]
-        ymax = np.amax(Bound[:,1]) + ep[1]
+        xmin = np.amin(Bound[:, 0]) - ep[0]
+        xmax = np.amax(Bound[:, 0]) + ep[0]
+        ymin = np.amin(Bound[:, 1]) - ep[1]
+        ymax = np.amax(Bound[:, 1]) + ep[1]
 
         # p.plot()
         # plt.xlim(xmin,xmax)
@@ -103,16 +119,14 @@ class PlotTraSys:
         plt.pause(0.1)
         # plt.figure(1)
         cycol = cycle('bgrcmk')
-        pad_no = str(len(str(len(tran_sys.Tp_Q))) +1)
-        centr = np.zeros((len(tran_sys.Tp_Q),n))
+        pad_no = str(len(str(len(tran_sys.Tp_Q))) + 1)
+        centr = np.zeros((len(tran_sys.Tp_Q), n))
         for i in range(len(tran_sys.Tp_Q)):
             k = pc.qhull(tran_sys.Tp_vert[i])
             c = get_cmap(len(tran_sys.Tp_Q))
             # tmp = _get_patch(k,color=next(cycol))
             tmp = _get_patch(k,edgecolor="Black", linewidth=0.15, facecolor=None, fill=False)
             ax.add_patch(tmp)
-
-
             plt.xlim(xmin, xmax)
             plt.ylim(ymin, ymax)
             # plt.figure(1)
@@ -121,11 +135,21 @@ class PlotTraSys:
             # plt.close(fig)
             # time.sleep(0.1)
             # plt.show()
-            centr[i,:] = np.mean(tran_sys.Tp_vert[i],axis=0) #taking mean along the columns
+            centr[i,:] = np.mean(tran_sys.Tp_vert[i], axis=0)  # taking mean along the columns
+
+            if nargmin:
+                if ismember(i, accepted_Q0):
+                    k = pc.qhull(tran_sys.Tp_vert[i])
+                    tmp = _get_patch(k, edgecolor="Black", linewidth=0.15, facecolor="Green", fill=True)
+                    ax.add_patch(tmp)
+                else:
+                    k = pc.qhull(tran_sys.Tp_vert[i])
+                    tmp = _get_patch(k, edgecolor="Black", linewidth=0.15, facecolor="Blue", fill=True)
+                    ax.add_patch(tmp)
 
         for i in range(len(tran_sys.Tp_Q)):
             neigh = []
-            tmp_neigh = np.nonzero(newTp.updated_Tp_adj[i,:])
+            tmp_neigh = np.nonzero(newTp.updated_Tp_adj[i, :])
             neig_w_smaller_index = np.where((tmp_neigh[0] < i))
             neig_w_smaller_index = [int(x) for x in neig_w_smaller_index[0]]
             for j in  neig_w_smaller_index:
@@ -152,9 +176,13 @@ class PlotTraSys:
             #             plt.plot(centr[i,:],centr[j,:],'ro-')
             #             plt.pause(0.1)
 
-            if (newTp.updated_Tp_adj[i,j] != 0):
-                plt.plot(centr[i,:],'r.')
+            if newTp.updated_Tp_adj[i, j] != 0:
+                plt.plot(centr[i, :], 'r.')
                 plt.pause(0.1)
+
+        for i in range(len(tran_sys.Tp_Q)):
+            plt.text(centr[i, 0], centr[i, 1], "q_" + str(i), fontsize=8, horizontalalignment='center',
+                     verticalalignment='center')
 
         # plt.show()
 

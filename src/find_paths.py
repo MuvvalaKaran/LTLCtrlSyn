@@ -47,12 +47,16 @@ def indiceswhere0Elements(n):
 
 def FindPaths(adj,s,d):
 
-    d = [item for sublist in d for item in sublist]  # convert d appropriate list
+    if isinstance(d[0], list):
+        d = [item for sublist in d for item in sublist]  # convert d appropriate list
     n = np.shape(adj)[0]  # no. of nodes
     visited = np.zeros((1,n))  # if a node was considered, it has a value 1 in vector "visited"
     dist = np.ones((1,n)) * np.inf  # disatnces from the s node (will be modifies)
     dist = [item for sublist in dist for item in sublist]
-    dist[s[0]] = 0
+    if isinstance(s,int):
+        dist[s] = 0
+    else:
+        dist[s[0]] = 0
     predec = np.zeros((1,n))  # predecessor to each node
 
     #  search until all nodes are visited
@@ -83,10 +87,15 @@ def FindPaths(adj,s,d):
     for i in range(len(d)):
         if dist[d[i]] != np.Inf:
             path = [d[i]]
-            while path[0] != s[0]:
-                # path.append(predec[0][path[0]])
-                path.insert(0, predec[0][int(path[0])])
+            if isinstance(s,int):
+                while path[0] != s:
+                    # path.append(predec[0][path[0]])
+                    path.insert(0, predec[0][int(path[0])])
+            else:
+                while path[0] != s[0]:
+                    # path.append(predec[0][path[0]])
+                    path.insert(0, predec[0][int(path[0])])
         else:
             path = []
-        paths.insert(i,path)
+        paths.insert(i, path)
     return paths
