@@ -81,7 +81,7 @@ full_descrition = True
 
 if (full_descrition):
     try:
-        ltl2ba_args = ["ltl2ba/ltl2ba","-d", "-f", formula]
+        ltl2ba_args = ["src/ltl2ba/ltl2ba","-d", "-f", formula]
         process = Popen(ltl2ba_args, stdout=PIPE)
         (output, err) = process.communicate()
         exit_code = process.wait()
