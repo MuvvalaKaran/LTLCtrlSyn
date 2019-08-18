@@ -43,7 +43,7 @@ def findInitState(A,b,x0,signs, acceptQ0):
             s0.append(0)
 
     copy = np.tile(s0,(sp_no, 1))
-    equal = np.argwhere(copy == signs)  # this might not work now
+    # equal = np.argwhere(copy == signs)  # this might not work now
     equal = []
     for row in range(len(signs)):
         equal_row = []

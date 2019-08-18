@@ -98,56 +98,57 @@ class Invalid_Transition:
                 in_f = set(list(index_for_in_f)).difference({ex_f})
                 in_f = list(in_f)
 
-                if(rank_method):
-                    H_rep_A = np.vstack((ReadData.U_A,np.matmul(-1*F_n[ex_f,:],ReadData.D_B)))
-                    if(len(in_f) == 1):
-                        H_rep_A = np.vstack((H_rep_A ,np.matmul(F_n[in_f[0],:],ReadData.D_B)))
+                if rank_method:
+                    H_rep_A = np.vstack((ReadData.U_A, np.matmul(-1*F_n[ex_f, :], ReadData.D_B)))
+                    if len(in_f) == 1:
+                        H_rep_A = np.vstack((H_rep_A, np.matmul(F_n[in_f[0], :], ReadData.D_B)))
                     else:
                         H_rep_A = np.vstack((H_rep_A, np.matmul(F_n[in_f[0]:in_f[1], :], ReadData.D_B)))
 
-                    abc =  np.matmul(ReadData.D_A,tranfosefor1dvector(V[l,:],1)) + ReadData.D_b
-                    H_rep_B = np.vstack((-1 * ReadData.U_b, (np.matmul(F_n[ex_f,:],abc) - prec) ))
-                    abc = np.matmul(ReadData.D_A,tranfosefor1dvector(V[l,:],1)) + ReadData.D_b
-                    if(len(in_f) == 1):
-                        H_rep_B = np.vstack((H_rep_B ,np.matmul(-1 * F_n[in_f[0],:] ,abc) - prec))
+                    abc = np.matmul(ReadData.D_A, tranfosefor1dvector(V[l, :], 1)) + ReadData.D_b
+                    H_rep_B = np.vstack((-1 * ReadData.U_b, (np.matmul(F_n[ex_f, :], abc) - prec)))
+                    abc = np.matmul(ReadData.D_A, tranfosefor1dvector(V[l, :], 1)) + ReadData.D_b
+                    if len(in_f) == 1:
+                        H_rep_B = np.vstack((H_rep_B, np.matmul(-1 * F_n[in_f[0], :], abc) - prec))
                     else:
                         H_rep_B = np.vstack((H_rep_B, np.matmul(-1 * F_n[in_f[0]:in_f[1], :], abc) - prec))
-                    p = pc.Polytope(H_rep_A,H_rep_B)
+                    p = pc.Polytope(H_rep_A, H_rep_B)
 
                     try:
                         V_rep = pc.extreme(p)
                     except:
                         #if error from v-rep of polytope then disable this transition
-                        updated_Tp_adj[i,j] = 0
+                        updated_Tp_adj[i, j] = 0
 
                     # abc = np.ones((np.shape(V_rep)[0],1))
                     # if(np.linalg.matrix_rank(np.vstack((V_rep, abc)))) != (m+1):
                     # the above two lines a re a better alternative than this
-                    if (isinstance(V_rep , type(None))):
+                    if isinstance(V_rep, type(None)):
                         # trans_sys.Tp_adj[i,j] = 0
-                        updated_Tp_adj[i,j] = 0
+                        updated_Tp_adj[i, j] = 0
                         break
 
-                if(linprog_method):
-                    if(len(in_f) == 1):
-                        abcd1 = np.vstack((np.matmul(-1*F_n[ex_f,:],ReadData.D_B),np.matmul(F_n[in_f[0],:],ReadData.D_B)))
+                if linprog_method:
+                    if len(in_f) == 1:
+                        abcd1 = np.vstack((np.matmul(-1*F_n[ex_f, :], ReadData.D_B), np.matmul(F_n[in_f[0], :], ReadData.D_B)))
                     else:
                         abcd1 = np.vstack((np.matmul(-1 * F_n[ex_f, :], ReadData.D_B), np.matmul(F_n[in_f[0]:in_f[1], :], ReadData.D_B)))
-                    A_check = np.vstack((ReadData.U_A,abcd1))
+                    A_check = np.vstack((ReadData.U_A, abcd1))
 
-                    tmp  = np.matmul(ReadData.D_A,tranfosefor1dvector(V[l,:],1)) + ReadData.D_b
+                    tmp = np.matmul(ReadData.D_A, tranfosefor1dvector(V[l, :], 1)) + ReadData.D_b
                     # tmp1 = np.matmul(-1*F_n[in_f,:],tmp) + ReadData.D_b
-                    if(len(in_f) == 1):
-                        last_stack = np.matmul(-1*F_n[in_f[0],:],tmp) - prec
+                    if len(in_f) == 1:
+                        last_stack = np.matmul(-1*F_n[in_f[0], :], tmp) - prec
                     else:
-                        last_stack = np.matmul(-1*F_n[in_f[0]:in_f[1],:],tmp) - prec
-                    tmp = np.matmul(ReadData.D_A,tranfosefor1dvector(V[l,:],1)) + ReadData.D_b
-                    second_last_stack = np.matmul(F_n[ex_f,:],tmp) - prec
-                    abcd2 = np.vstack((second_last_stack,last_stack))
-                    B_check = np.vstack((-1*ReadData.U_b,abcd2))
-                    sol = opt.linprog(np.matmul(-1*F_n[ex_f,:],ReadData.D_B),A_check,B_check,None, None, bounds=(None, None))
-                    if(sol.__getattr__("success") == False):
-                        updated_Tp_adj[i,j] = 0
+                        last_stack = np.matmul(-1*F_n[in_f[0]:in_f[1], :], tmp) - prec
+                    tmp = np.matmul(ReadData.D_A, tranfosefor1dvector(V[l, :], 1)) + ReadData.D_b
+                    second_last_stack = np.matmul(F_n[ex_f, :], tmp) - prec
+                    abcd2 = np.vstack((second_last_stack, last_stack))
+                    B_check = np.vstack((-1*ReadData.U_b, abcd2))
+                    sol = opt.linprog(np.matmul(-1*F_n[ex_f, :], ReadData.D_B), A_check, B_check, None, None,
+                                      bounds=(None, None))
+                    if not sol.__getattr__("success"):
+                        updated_Tp_adj[i, j] = 0
                     break
 
         for m in range(0,v_no):
@@ -168,24 +169,24 @@ class Invalid_Transition:
                 except:
                     updated_Tp_adj[i, i] = 0
 
-                if(isinstance(V_rep,type(None))):
+                if isinstance(V_rep,type(None)):
                     # trans_sys.Tp_adj[i,i] = 0
                     updated_Tp_adj[i, i] = 0
 
-            if(linprog_method):
-                if(len(in_f) == 1):
-                    tmp = np.matmul(F_n[in_f[0],:],ReadData.D_B)
+            if linprog_method:
+                if len(in_f) == 1:
+                    tmp = np.matmul(F_n[in_f[0], :], ReadData.D_B)
                 else:
-                    tmp = np.matmul(F_n[in_f[0]:in_f[1],:],ReadData.D_B)
-                A_check = np.vstack((ReadData.U_A,tmp))
-                tmp = np.matmul(ReadData.D_A,tranfosefor1dvector(V[m,:],1)) + ReadData.D_b
-                if(len(in_f) == 1):
-                    B_check = np.vstack((-1*ReadData.U_b,np.matmul(-1*F_n[in_f[0],:],tmp)))
+                    tmp = np.matmul(F_n[in_f[0]:in_f[1], :], ReadData.D_B)
+                A_check = np.vstack((ReadData.U_A, tmp))
+                tmp = np.matmul(ReadData.D_A, tranfosefor1dvector(V[m, :], 1)) + ReadData.D_b
+                if len(in_f) == 1:
+                    B_check = np.vstack((-1*ReadData.U_b, np.matmul(-1*F_n[in_f[0], :], tmp)))
                 else:
-                    B_check = np.vstack((-1*ReadData.U_b,np.matmul(-1*F_n[in_f[0]:in_f[1],:],tmp)))
+                    B_check = np.vstack((-1*ReadData.U_b, np.matmul(-1*F_n[in_f[0]:in_f[1], :], tmp)))
 
                 sol = opt.linprog(V[m,:] - centr, A_check, B_check, None, None, bounds=(None, None))
-                if (sol.__getattr__("success") == False):
+                if not sol.__getattr__("success"):
                     updated_Tp_adj[i, i] = 0
                 break
     # print("DOne")

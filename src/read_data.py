@@ -140,9 +140,9 @@ class ReadData:
         # A = np.array([[0,1],[1,-1],[4,1],[4,-7],[-2,-1],[-1,-12],[-1,-1],[1,0],[0,-1],[-6,4.5],[[-1,0],[1,0],[0,-1],[0,1],[-3,-5],[1,-1],[-1,2.5],[-2,2.5]]])
         B = [np.array([0]),np.array([0]),np.array([12]),np.array([34]),np.array([4]),np.array([31]),np.array([11]),np.array([-3]),np.array([-1.5]),np.array([-12]),np.array([[-5],[-7],[-3],[-6],[-15],[-7],[-15],[-17.5]])]
         D_A = np.array([[0.2,-0.3],[0.5,-0.5]])
-        D_b = np.array([[0.5],[0.5]])
-        D_B = np.array([[1,0],[0,1]])
-        U_A = np.array([[1,0],[0,1],[-1,0],[0,-1]])
+        D_b = np.array([[0.5], [0.5]])
+        D_B = np.array([[1, 0], [0, 1]])
+        U_A = np.array([[1, 0], [0, 1], [-1, 0], [0, -1]])
         U_b = np.array([[-2],[-2],[-2],[-2]])
         # use this guy in future - np.concatenate
 
@@ -154,4 +154,4 @@ class ReadData:
     # print(U_A,"\n")
     # print(U_b,"\n")
 
-# print(ReadData.A)
+# print(ReadData.D_b.shape)
