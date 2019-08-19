@@ -187,8 +187,8 @@ def control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, run_Tp):
             ctrl_2.append(controls)
             Speed_2.append(speeds)
 
-    ctrl_2.append(ctrl_1)  # insert at the last element
-    Speed_2.append(Speed_1)  # insert at the last element
+    ctrl_2.append(ctrl_1[-1])  # insert at the last element
+    Speed_2.append(Speed_1[-1])  # insert at the last element
 
     ctrl = [ctrl_1] + [ctrl_2]
     Speed = [Speed_1] + [Speed_2]

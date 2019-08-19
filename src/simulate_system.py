@@ -23,33 +23,88 @@ def simulatesystem(Tp, D_A, D_B, D_b, x0, run_Tp, ctrl, time_step, rep_suf):
     t_ev = []
 
     compl_run = [int(item) for cell in run_Tp for subcell in cell for item in subcell]
-    compl_ctrl = [array for sublist in ctrl for array in sublist]
+    # compl_ctrl = [array for sublist in ctrl for array in sublist]
+    compl_ctrl = []
 
+    for sublist in ctrl:
+        for array in sublist:
+            compl_ctrl.append(array)
     if len(run_Tp[0][1]) != 1:
         for i in range(rep_suf - 1):
-            compl_run.append([i  for i in run_Tp[0][1]])
-            compl_ctrl.append([array for array in ctrl[0][1]])
+            # compl_run.append([i  for i in run_Tp[0][1]])
+            # compl_ctrl.append([array for array in ctrl[0][1]])
+            compl_run = compl_run + run_Tp[0][1]
+            # compl_ctrl = compl_ctrl + ctrl[0][1]
+            for counter,sublist in enumerate(ctrl):
+                for array in sublist:
+                    if counter == 1:
+                        compl_ctrl.append(array)
 
     x0 = np.asarray(x0)
-    X = [x0.tolist()]
+    x0 = x0.transpose()
+    X = [x0]
     for i in range(len(compl_run)):
         Vert = Tp.get("Tp.vert")[compl_run[i]]
         Ctr = compl_ctrl[i]
 
         tes = Delaunay(Vert)
         # find = tes.vertex_to_simplex(tes.find_simplex(x0.transpose()))
-        isinsidepoly = tes.find_simplex(np.transpose(x0)) # i belive this is probably right
+        xfortes = X[-1].transpose()
+        isinsidepoly = tes.find_simplex(np.transpose(xfortes)) # i belive this is probably right
         # find  = tes.find_simplex()
 
         # simpl = tes.vertex_to_simplex()
         print("Testing testing")
-        while  isinsidepoly != -1 and stop != 1:
+        while isinsidepoly != -1 and stop is not True:
             t_s = t_s + 1
             x = X[-1]
-            new_Ctr = []
-            for i in range(len(tes.__getattribute__('vertices').shape()[1])):
-                new_Ctr.append(Ctr[tes.__getattribute__('vertices')[isinsidepoly, i], :])
-            # Ctr[tes.__getattribute__('vertices')[isinsidepoly, :], :]
+            x = x.transpose()
+            new_Ctr = np.ndarray((3,2))
+            for_inv = np.ndarray((3,2))
+            for i in range(np.shape(tes.vertices)[1]):
+                new_Ctr[i, :] = Ctr[tes.vertices[isinsidepoly, i], :]
+                for_inv[i, :] = Vert[tes.vertices[isinsidepoly, i], :]
+                # if i == 0:
+                #     new_Ctr = np.ndarray(Ctr[tes.vertices[isinsidepoly, i], :])
+                #     for_inv = np.ndarray(Vert[tes.vertices[isinsidepoly, i], :])
+                # else:
+                #     new_Ctr = np.vstack((new_Ctr, Ctr[tes.vertices[isinsidepoly, i], :]))
+                #     for_inv = np.vstack((for_inv, Vert[tes.vertices[isinsidepoly, i], :]))
+                # new_Ctr.append(np.asarray(Ctr[tes.vertices[isinsidepoly, i], :]))
+                # for_inv.append(np.asarray(Vert[tes.vertices[isinsidepoly, i], :]))
 
+            # tmp = np.vstack((np.transpose(np.asarray(new_Ctr)), np.transpose(np.asarray(for_inv))))
+            # new_Ctr = np.asarray(new_Ctr)
+            # for_inv = np.asarray(for_inv)
+            stackedtomakesquarematrix = np.vstack((for_inv.transpose(), np.ones((1, n+1))))
+            inverseofabovematix = np.linalg.inv(stackedtomakesquarematrix)
+
+            # tmp = np.matmul(np.transpose(np.asarray(new_Ctr)), np.linalg.inv(np.transpose(np.asarray(for_inv))))
+            # tmp1 = np.vstack((tmp, np.ones((1, n+1))))
+            tmp = np.matmul(new_Ctr.transpose(), inverseofabovematix)
+            getxmatrixtoshape = np.vstack((x0.transpose(), [1]))
+            u_x = np.matmul(tmp, getxmatrixtoshape)
+            speed = np.matmul(D_A,x) + np.matmul(D_B,u_x) + D_b
+
+            new_x = x + (speed*time_step)
+            X.append(new_x.transpose())
+            C = u_x.transpose()
+            S = speed.transpose()
+
+            isinsidepoly = tes.find_simplex(X[-1])
+            if i == len(run_Tp[0][0]) and np.linalg.norm(new_x - x) <= prec:
+                stop = True
+
+        if i > len(run_Tp[0][0]) and np.mod((i - len(run_Tp[0][0])), len(run_Tp[0][1])) == 0:
+            t_ev.append(t_s)
+
+            # Ctr[tes.__getattribute__('vertices')[isinsidepoly, :], :]
+            # np.invert()
+    if t_ev[-1] != t_s:
+        t_ev.append(t_s)
+
+    X.append([])
+
+    return t_ev, X, C, S
 
 

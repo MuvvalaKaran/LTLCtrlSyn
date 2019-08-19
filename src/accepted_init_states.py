@@ -2,7 +2,6 @@ from src.trans_sys_polytope import TransSysToPolytope as TransSys
 from src.autom_product import AutomatonProduct as product
 from src.invalidate_transitions import Invalid_Transition
 from src.find_accepted_run import FindRuns
-from src.plt_tr_sys_polyt import PlotTraSys as plot
 import src.plt_tr_sys_polyt as trans_plot
 
 # class to find all possible initial states of Tp from which there
