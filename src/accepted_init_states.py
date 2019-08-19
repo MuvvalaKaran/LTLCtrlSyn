@@ -12,55 +12,69 @@ import src.plt_tr_sys_polyt as trans_plot
 
 def pltfig():
     print("Plotting figures")
-    trans_plot.PlotTraSys(True, accepted_Q0= Accepted_Q0.accept_Q0)
-    ax = trans_plot.plt
-    ax.show()
+    # # trans_plot.PlotTraSys(True, accepted_Q0= Accepted_Q0.accept_Q0)
+    # ax = trans_plot.plt
+    # ax.show()
 
 
 class Accepted_Q0:
-    # hmm = []
-    accept_Q0 = []
-    accept_run = []
-    flag = 0
-    Tp_Q = TransSys.Tp_Q
-    no_of_states = len(TransSys.Tp_Q)
-    for i in Tp_Q:
-        Tp_Q0 = i
-        P_F, P_S0, P_S, P_trans = product(Tp_Q0, flag, no_of_states)
-        # hmm.append(P_trans)
-        flag = flag + 1
-        # Tp_adj = updated_Tp_adj
-        run_tp = FindRuns(P_F,P_S0,P_S,P_trans)
-        if not isinstance(run_tp, type(None)):
-            if len(accept_Q0) == 0:
-                print("Indices of Initial states of transition system on polytopes from which LTL formula "
-                      "can be satisfied: \n")
 
-            accept_Q0.append(i)
-            accept_run.append(run_tp)
-            print(i)
-        if i == (len(Tp_Q) - 1):
-            # pltfig()
-            print("Plotting figures")
-            trans_plot.PlotTraSys(True, accepted_Q0=accept_Q0)
-            ax = trans_plot.plt
-            ax.show()
+    def __init__(self, Tp, B):
+        self.Tp = Tp
+        self.B = B
 
-    print("\n")
+    def acceptedQ0(self):
 
-    # if i == len(Tp_Q):
-    #     # plot.nargmin = True
-    #     trans_plot.PlotTraSys(True)
-    #     ax = trans_plot.plt
-    #     ax.show()
+        Tp = self.Tp
+        B = self.B
+
+        Tp_Q = Tp.get("Tp.Q")
 
 
-    if len(accept_Q0) == 0:
-        print("There are no initial states from which the LTL formula can be satisfied \n")
-        # P_S = product.P_S
-        # P_F = product.P_trans
-        # P_S0 = product.P_S0
-        # P_F = product.P_F
+        accept_Q0 = []
+        accept_run = []
+        flag = 0
+        # Tp_Q = TransSys.Tp_Q
+        no_of_states = len(Tp_Q)
+        for i in Tp_Q:
+            Tp_Q0 = i
+            P_F, P_S0, P_S, P_trans = product(Tp, B, Tp_Q0, flag, no_of_states)
+
+            flag = flag + 1
+            # Tp_adj = updated_Tp_adj
+            run_tp = FindRuns(P_F,P_S0,P_S,P_trans)
+            if not isinstance(run_tp, type(None)):
+                if len(accept_Q0) == 0:
+                    print("Indices of Initial states of transition system on polytopes from which LTL formula "
+                          "can be satisfied: \n")
+
+                accept_Q0.append(i)
+                accept_run.append(run_tp)
+                print(i)
+            # if i == (len(Tp_Q) - 1):
+            #     # pltfig()
+            #     print("Plotting figures")
+            #     # trans_plot.PlotTraSys(True, accepted_Q0=accept_Q0)
+            #
+            #     ax = trans_plot.plt
+            #     ax.show()
+
+        print("\n")
+
+        # if i == len(Tp_Q):
+        #     # plot.nargmin = True
+        #     trans_plot.PlotTraSys(True)
+        #     ax = trans_plot.plt
+        #     ax.show()
+
+
+        if len(accept_Q0) == 0:
+            print("There are no initial states from which the LTL formula can be satisfied \n")
+            # P_S = product.P_S
+            # P_F = product.P_trans
+            # P_S0 = product.P_S0
+            # P_F = product.P_F
+        return accept_Q0, accept_run
 
 def getAccept_Q0():
     return Accepted_Q0.accept_Q0

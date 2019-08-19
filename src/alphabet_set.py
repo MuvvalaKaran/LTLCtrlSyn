@@ -45,3 +45,4 @@ class Alphs_set:
         Alph_s.append(alphabet[len(alphabet)-1])
         # print(Alph_s)
         # print(len(Alph_s))
+        return Alph_s

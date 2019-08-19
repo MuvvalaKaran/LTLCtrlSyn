@@ -27,65 +27,76 @@ def ismember(__a, __b):
     return ret
 
 
-[n, A, b, U_A, U_b, D_A, D_B, D_b, alphabet, orig_alph] = read_data.ReadData()
+n, A, b, U_A, U_b, D_A, D_B, D_b, alphabet, orig_alph = read_data.ReadData().readdata()
 
 start = os.times()[4]
-Tp = trans_sys_polytope.TransSysToPolytope(A, b)
+Tp = trans_sys_polytope.TransSysToPolytope(A, b).transystopolytope()
+# Tp = Tmp.transystopolytope()
 stop = os.times()[4]
 
-print("\n Transition sustem has", len(Tp.get("Tp.Q")), "sub-polytopes;  \n\t time spent for creating"
+print("\n Transition sustem has", len(Tp["Tp.Q"]), "sub-polytopes;  \n\t time spent for creating"
                                                     " it (without disabling unfeasible transitions) :", str(stop - start), "secs")
 start = os.times()[4]
-Tp = invalidate_transitions.Invalid_Transition(Tp, U_A, U_b, D_A, D_B, D_b, A)
+Tp = invalidate_transitions.Invalid_Transition(Tp, U_A, U_b, D_A, D_B, D_b, A).invalidtransitions()
 stop = os.times()[4]
 
 print("\n Time spent for eliminating unfeasible tranisitions", str(start - stop), "secs \n")
 
 if n == 2 or n == 3:
-    init_fig = plt_tr_sys_polyt.PlotTransitionSystem(Tp, A, b)
-    h_vf = plot_drift.PlotDrift(init_fig, D_A, D_b, A[-1], b[-1])
+    init_fig = plt_tr_sys_polyt.PlotTransitionSystem(Tp, A, b).PlotTraSys(False, None)
+    h_vf = plot_drift.PlotDrift(init_fig, D_A, D_b, A[-1], b[-1]).plotdrift()
 
-Alph_s = alphabet_set.Alphs_set(alphabet)
+Alph_s = alphabet_set.Alphs_set(alphabet).alphabetset()
 
 repeat = 'Y'
 Use_mine = True
 
 while repeat == 'Y' or repeat == 'y':
 
-    formula = read_formula.Read_formula(alphabet, orig_alph)
+    formula = read_formula.Read_formula(alphabet, orig_alph).readformula()
 
     start = os.times()[4]
-    B = create_buchi.CreateBuchi(formula, Alph_s)
+    B = create_buchi.CreateBuchi(formula, Alph_s).createbuchi()
     stop = os.times()[4]
     print("\n Buchi automaton has",str(len(B.get("B.S"))), "state; time spent for creating it :", str(start - stop))
 
-    X0 = input("Enter Initial continuous state x0 (column vector) 2 x 1")
-    if Use_mine:
-        X0 = np.array([[-4], [1]])
-
     start = os.times()[4]
-    Tp_Q0 = find_init_state.findInitState(A, B, X0, Tp.get("Tp.signs"),
-                                          accepted_init_state.Accepted_Q0.accept_Q0)
+    accept_Q0, accept_runs = accepted_init_state.Accepted_Q0(Tp, B).acceptedQ0()
     stop = os.times()[4]
+    print("\n Time spent for finding all feasible initial states",str(start - stop), " sec \n")
 
-    tmp_run_tp = [[[14, 1, 0], [2, 25, 22, 19, 22, 25, 2, 0]]]
-    # accepted_init_state.Accepted_Q0.accept_run[Tp_Q0[0]]
+    if n == 2 or n == 3:
+        h_fig = plt_tr_sys_polyt.PlotTransitionSystem(Tp, A, b).PlotTraSys(True, accept_Q0)
 
-    if len(Tp_Q0) == 0 or ismember(Tp_Q0, accepted_init_state.Accepted_Q0.accept_Q0):
-        print("\n Wrong initial state")
+    if len(accept_Q0) != 0:
 
-    else:
-        [ctrl, Speed] = control_sequence.control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, tmp_run_tp)
-        time_step = 0.01
+        X0 = input("Enter Initial continuous state x0 (column vector) 2 x 1")
 
-        [t_ev, X, C, S] = simulate_system.simulatesystem(Tp, D_A, D_B, D_b, X0, tmp_run_tp, ctrl, time_step, 2)
-        print(X)
+        if Use_mine:
+            X0 = np.array([[-4], [1]])
 
-        if n == 2 or n == 3:
-            plot_run.plotrun(Tp, tmp_run_tp, h_vf)
+        start = os.times()[4]
+        Tp_Q0 = find_init_state.findInitState(A, B, X0, Tp.get("Tp.signs"),accept_Q0)
+        stop = os.times()[4]
 
-            plot_trajectory.plottrajectory(h_vf, t_ev, X)
+        tmp_run_tp = [[[14, 1, 0], [2, 25, 22, 19, 22, 25, 2, 0]]]
+        # accepted_init_state.Accepted_Q0.accept_run[Tp_Q0[0]]
 
-        repeat = input("Do you want to try another LTL formula? Y/N")
+        if len(Tp_Q0) == 0 or ismember(Tp_Q0, accept_Q0):
+            print("\n Wrong initial state")
+
+        else:
+            [ctrl, Speed] = control_sequence.control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, tmp_run_tp)
+            time_step = 0.01
+
+            [t_ev, X, C, S] = simulate_system.simulatesystem(Tp, D_A, D_B, D_b, X0, tmp_run_tp, ctrl, time_step, 2)
+            print(X)
+
+            if n == 2 or n == 3:
+                plot_run.plotrun(Tp, tmp_run_tp, h_vf)
+
+                plot_trajectory.plottrajectory(h_vf, t_ev, X)
+
+            repeat = input("Do you want to try another LTL formula? Y/N")
 
 

@@ -2,22 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f13f4232-87ef-4ff2-a7ac-0c1c92a25039" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/plot_run.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/plot_trajectory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LTL_ctrl.py" beforeDir="false" afterPath="$PROJECT_DIR$/LTL_ctrl.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pycdd/pycddlib/test/test_polyhedron.py" beforeDir="false" afterPath="$PROJECT_DIR$/pycdd/pycddlib/test/test_polyhedron.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/accepted_init_states.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/accepted_init_states.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/alphabet_set.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alphabet_set.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/control_sequence.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/control_sequence.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/create_buchi.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/create_buchi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/invalidate_transitions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/invalidate_transitions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plot_drift.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plot_drift.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/autom_product.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/autom_product.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/plt_tr_sys_polyt.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plt_tr_sys_polyt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/read_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/read_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/read_formula.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/read_formula.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/simulate_system.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/simulate_system.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/trans_sys_polytope.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/trans_sys_polytope.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,8 +25,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/create_buchi.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="292">
-              <caret line="70" column="8" selection-start-line="70" selection-start-column="8" selection-end-line="70" selection-end-column="8" />
+            <state relative-caret-position="30">
+              <caret line="61" column="13" selection-start-line="61" selection-start-column="13" selection-end-line="61" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -42,8 +34,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/plot_drift.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="30" lean-forward="true" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+            <state relative-caret-position="147">
+              <caret line="24" column="10" selection-start-line="24" selection-start-column="10" selection-end-line="24" selection-end-column="10" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -52,10 +44,14 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/alphabet_set.py">
+        <entry file="file://$PROJECT_DIR$/src/autom_product.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="18" column="6" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+            <state relative-caret-position="15">
+              <caret line="1" column="57" lean-forward="true" selection-start-line="1" selection-start-column="57" selection-end-line="1" selection-end-column="57" />
+              <folding>
+                <element signature="e#5516#5533#0" />
+                <element signature="e#5766#5793#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -63,28 +59,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/read_formula.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/accepted_init_states.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="42" selection-start-line="3" selection-start-column="42" selection-end-line="3" selection-end-column="42" />
+            <state relative-caret-position="195">
+              <caret line="15" column="34" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simulate_system.py">
+        <entry file="file://$PROJECT_DIR$/src/accepted_init_states.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="30">
+              <caret line="38" column="22" lean-forward="true" selection-start-line="38" selection-start-column="22" selection-end-line="38" selection-end-column="22" />
               <folding>
-                <element signature="e#1414#1432#0" expanded="true" />
+                <element signature="e#0#65#0" expanded="true" />
+                <element signature="e#1621#1641#0" />
               </folding>
             </state>
           </provider>
@@ -93,8 +81,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/plt_tr_sys_polyt.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-373">
-              <caret line="67" column="8" selection-start-line="67" selection-start-column="8" selection-end-line="67" selection-end-column="8" />
+            <state relative-caret-position="346">
+              <caret line="223" column="18" selection-start-line="223" selection-start-column="18" selection-end-line="223" selection-end-column="18" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -105,8 +93,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/trans_sys_polytope.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="154" column="28" selection-start-line="154" selection-start-column="12" selection-end-line="154" selection-end-column="28" />
+            <state relative-caret-position="256">
+              <caret line="153" column="16" selection-start-line="153" selection-start-column="16" selection-end-line="153" selection-end-column="16" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -114,26 +102,32 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/invalidate_transitions.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/LTL_ctrl.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="804">
-              <caret line="220" column="17" lean-forward="true" selection-start-line="220" selection-start-column="17" selection-end-line="220" selection-end-column="17" />
+            <state relative-caret-position="139">
+              <caret line="63" selection-start-line="63" selection-end-line="63" />
               <folding>
-                <element signature="e#0#66#0" expanded="true" />
+                <element signature="e#48#93#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LTL_ctrl.py">
+        <entry file="file://$PROJECT_DIR$/src/alphabet_set.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
-              <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
-              <folding>
-                <element signature="e#48#93#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="448">
+              <caret line="47" column="21" selection-start-line="47" selection-start-column="21" selection-end-line="47" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/polytope/polytope.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="191">
+              <caret line="120" selection-start-line="120" selection-end-line="120" />
             </state>
           </provider>
         </entry>
@@ -149,9 +143,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Alph_s</find>
-      <find>np.tile</find>
-      <find>new_Alph_s</find>
       <find>labels</find>
       <find>Tp_obs</find>
       <find>Tp_Signs</find>
@@ -177,8 +168,11 @@
       <find>trans</find>
       <find>tra</find>
       <find>tran_sys</find>
-      <find>times</find>
       <find>newTp</find>
+      <find>product</find>
+      <find>times</find>
+      <find>Invalid_Transition</find>
+      <find>plt</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -194,7 +188,6 @@
         <option value="$PROJECT_DIR$/src/ltl2ba/auto_product.py" />
         <option value="$PROJECT_DIR$/src/cartesian_product.py" />
         <option value="$PROJECT_DIR$/src/find_accepted.py" />
-        <option value="$PROJECT_DIR$/src/autom_product.py" />
         <option value="$PROJECT_DIR$/src/find_paths.py" />
         <option value="$PROJECT_DIR$/src/find_accepted_run.py" />
         <option value="$PROJECT_DIR$/src/find_init_state.py" />
@@ -204,15 +197,16 @@
         <option value="$PROJECT_DIR$/src/plot_trajectory.py" />
         <option value="$PROJECT_DIR$/src/plot_run.py" />
         <option value="$PROJECT_DIR$/src/read_data.py" />
-        <option value="$PROJECT_DIR$/src/read_formula.py" />
-        <option value="$PROJECT_DIR$/src/alphabet_set.py" />
-        <option value="$PROJECT_DIR$/src/trans_sys_polytope.py" />
         <option value="$PROJECT_DIR$/src/invalidate_transitions.py" />
-        <option value="$PROJECT_DIR$/src/plt_tr_sys_polyt.py" />
         <option value="$PROJECT_DIR$/src/create_buchi.py" />
         <option value="$PROJECT_DIR$/src/plot_drift.py" />
-        <option value="$PROJECT_DIR$/LTL_ctrl.py" />
+        <option value="$PROJECT_DIR$/src/autom_product.py" />
+        <option value="$PROJECT_DIR$/src/trans_sys_polytope.py" />
+        <option value="$PROJECT_DIR$/src/plt_tr_sys_polyt.py" />
+        <option value="$PROJECT_DIR$/src/read_formula.py" />
+        <option value="$PROJECT_DIR$/src/alphabet_set.py" />
         <option value="$PROJECT_DIR$/src/accepted_init_states.py" />
+        <option value="$PROJECT_DIR$/LTL_ctrl.py" />
       </list>
     </option>
   </component>
@@ -407,9 +401,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="992" y="24" width="928" height="1056" extended-state="4" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49372384" weight="0.27828056" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49372384" weight="0.2777471" />
       <window_info id="Structure" order="1" sideWeight="0.50627613" side_tool="true" weight="0.24095023" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32918552" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -496,28 +489,23 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/autom_product.py</url>
-          <line>318</line>
+          <line>322</line>
           <option name="timeStamp" value="198" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/autom_product.py</url>
-          <line>304</line>
+          <line>308</line>
           <option name="timeStamp" value="200" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/autom_product.py</url>
-          <line>329</line>
+          <line>333</line>
           <option name="timeStamp" value="201" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/autom_product.py</url>
-          <line>324</line>
+          <line>328</line>
           <option name="timeStamp" value="203" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/LTL_ctrl.py</url>
-          <line>79</line>
-          <option name="timeStamp" value="256" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/simulate_system.py</url>
@@ -536,8 +524,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/LTL_ctrl.py</url>
-          <line>43</line>
-          <option name="timeStamp" value="271" />
+          <line>63</line>
+          <option name="timeStamp" value="276" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/LTL_ctrl.py</url>
+          <line>78</line>
+          <option name="timeStamp" value="277" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -661,13 +654,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="453">
           <caret line="89" column="36" lean-forward="true" selection-start-line="89" selection-start-column="36" selection-end-line="89" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/polytope/polytope.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2740">
-          <caret line="1873" column="44" selection-start-line="1873" selection-start-column="37" selection-end-line="1873" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -822,25 +808,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/autom_product.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/lib/python3.5/os.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/read_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="526">
-          <caret line="170" column="18" lean-forward="true" selection-start-line="170" selection-start-column="18" selection-end-line="170" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/invalidate_transitions.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -862,71 +831,103 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/plt_tr_sys_polyt.py">
+    <entry file="file://$PROJECT_DIR$/src/read_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-373">
-          <caret line="67" column="8" selection-start-line="67" selection-start-column="8" selection-end-line="67" selection-end-column="8" />
+        <state relative-caret-position="2490">
+          <caret line="166" column="14" selection-start-line="166" selection-start-column="8" selection-end-line="166" selection-end-column="14" />
           <folding>
-            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/trans_sys_polytope.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="154" column="28" selection-start-line="154" selection-start-column="12" selection-end-line="154" selection-end-column="28" />
+        <state relative-caret-position="256">
+          <caret line="153" column="16" selection-start-line="153" selection-start-column="16" selection-end-line="153" selection-end-column="16" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/alphabet_set.py">
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/polytope/polytope.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="18" column="6" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+        <state relative-caret-position="191">
+          <caret line="120" selection-start-line="120" selection-end-line="120" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/autom_product.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="57" lean-forward="true" selection-start-line="1" selection-start-column="57" selection-end-line="1" selection-end-column="57" />
+          <folding>
+            <element signature="e#5516#5533#0" />
+            <element signature="e#5766#5793#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/plot_drift.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="30" lean-forward="true" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+        <state relative-caret-position="147">
+          <caret line="24" column="10" selection-start-line="24" selection-start-column="10" selection-end-line="24" selection-end-column="10" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/plt_tr_sys_polyt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="223" column="18" selection-start-line="223" selection-start-column="18" selection-end-line="223" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/read_formula.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        <state relative-caret-position="195">
+          <caret line="15" column="34" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/create_buchi.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="70" column="8" selection-start-line="70" selection-start-column="8" selection-end-line="70" selection-end-column="8" />
+        <state relative-caret-position="30">
+          <caret line="61" column="13" selection-start-line="61" selection-start-column="13" selection-end-line="61" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LTL_ctrl.py">
+    <entry file="file://$PROJECT_DIR$/src/alphabet_set.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
-          <folding>
-            <element signature="e#48#93#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="448">
+          <caret line="47" column="21" selection-start-line="47" selection-start-column="21" selection-end-line="47" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/accepted_init_states.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="42" selection-start-line="3" selection-start-column="42" selection-end-line="3" selection-end-column="42" />
+        <state relative-caret-position="30">
+          <caret line="38" column="22" lean-forward="true" selection-start-line="38" selection-start-column="22" selection-end-line="38" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#65#0" expanded="true" />
+            <element signature="e#1621#1641#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LTL_ctrl.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="63" selection-start-line="63" selection-end-line="63" />
+          <folding>
+            <element signature="e#48#93#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

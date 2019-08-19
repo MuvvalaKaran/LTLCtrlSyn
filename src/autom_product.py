@@ -128,27 +128,32 @@ def CartesianProduct(Tp_Q, B_S):
 
 
 # class AutomProduct:
-def AutomatonProduct(Tp_Q0, flag, count):
-    # print(type(Trans_Sys.Tp_Q))
-    # def tranfosefor1dvector(array, val):
-    #     # val = 1 for vertical vector n x 1 matrix and 2 for 1 x n matrix
-    #     if (val == 1):
-    #         ret = np.reshape(array, (np.shape(array)[0], 1))
-    #     elif (val == 2):
-    #         ret = np.reshape(array, (1, np.shape(array)[0]))
-    #     return ret
+def AutomatonProduct(Tp, B, Tp_Q0, flag, count):
+
+
+    B_S = B.get("B.S")
+    B_S0 = B.get("B.S0")
+    B_F = B.get("B.F")
+    B_trans = B.get("B.trans")
+
     counter_for_to_maintain_Tp_size = flag
-    B_S = Buchi.B_S
-    B_S0 = Buchi.B_S0
-    B_F = Buchi.B_F
-    B_trans = Buchi.B_trans1
+    # B_S = Buchi.B_S
+    # B_S0 = Buchi.B_S0
+    # B_F = Buchi.B_F
+    # B_trans = Buchi.B_trans1
+
+    Tp_Q0 = Tp_Q0
+    _Tp_Q = Tp.get("Tp.Q")[0:count]
+    # Tp_Q = Tp_Q
+    Tp_obs = Tp.get("Tp.obs")
+    Tp_adj = Tp.get("Tp.adj")
 
     # Tp_Q0 = Accepted_Q0.Tp_Q0
-    Tp_Q0 = Tp_Q0
-    _Tp_Q = Trans_Sys.Tp_Q[0:count]
-    # Tp_Q = Tp_Q
-    Tp_obs = Trans_Sys.Tp_obs
-    Tp_adj = Invalid_Transition.updated_Tp_adj
+    # Tp_Q0 = Tp_Q0
+    # _Tp_Q = Trans_Sys.Tp_Q[0:count]
+    # # Tp_Q = Tp_Q
+    # Tp_obs = Trans_Sys.Tp_obs
+    # Tp_adj = Invalid_Transition.updated_Tp_adj
 
     Debug = True
 
@@ -177,7 +182,6 @@ def AutomatonProduct(Tp_Q0, flag, count):
         Tp_adj[6,5] = 1
         Tp_adj[9,5] = 1
         Tp_adj[8,7] = 1
-
         Tp_adj[11,8] = 1
         Tp_adj[2,9] = 1
         Tp_adj[9,9] = 1

@@ -82,8 +82,8 @@ class PlotTransitionSystem(object):
         # A = np.asarray(ReadData.A[len(ReadData.A) - 1])
         # b = np.asarray(ReadData.B[len(ReadData.B) - 1])
         Tp = self.Tp
-        A = self.A
-        b = self.b
+        A = self.A[-1]
+        b = self.b[-1]
 
         Tp_Q = Tp.get("Tp.Q")
         Tp_vert = Tp.get("Tp.vert")
@@ -200,10 +200,8 @@ class PlotTransitionSystem(object):
                 plt.text(centr[i, 0], centr[i, 1], "q_" + str(i), fontsize=8, horizontalalignment='center',
                          verticalalignment='center')
 
-            # plt.show()
-
         elif( n ==3):
-            print()
+            pass
         else:
             print("Cannot display more than 3 dimension transition system")
 
@@ -220,6 +218,8 @@ class PlotTransitionSystem(object):
         # tmp = pc.qhull(V_rep)
         # print(tmp)
         # print("$#$####")
+
+        return plt
 
 # if __name__ == '__main__':
 #     test = PlotTransitionSystem()

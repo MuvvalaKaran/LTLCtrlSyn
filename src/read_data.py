@@ -7,7 +7,7 @@ class ReadData:
 
 
     def __init__(self):
-        self
+        pass
 
     def readdata(self):
 
