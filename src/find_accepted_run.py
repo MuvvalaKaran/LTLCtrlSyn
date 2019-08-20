@@ -10,6 +10,16 @@ import numpy as np
 #  (if the suffix has just an element (fs), then fs has a loop in itself, which will be repeated infinitely often)
 #  the returned run_Tp will be the run with the shortest prefix and shortest suffix for that prefix
 
+def findtheshortestlistWInd(multilist):
+    min = np.Inf
+    ret = 0
+    for counter, sublist in enumerate(multilist):
+        if len(sublist) < min:
+            min = len(sublist)
+            ret = counter
+    return min, ret
+
+
 def findemptycellsinlist(list):
 
     #  we assign 1s to cells where are empty
@@ -33,14 +43,15 @@ def FindRuns(P_F,P_S0,P_S,P_trans):
                 prefix[sublist][item] = int(prefix[sublist][item])
 
         # print("In Find runs", prefix)
-        sh_p = [] # a list to stor prefix lengths
+        # sh_p = [] # a list to stor prefix lengths
         # ind = np.arange(0,len(prefix))
         ind = []
         if len(prefix) != 0:
-            sh_p = prefix.sort(key=len)
+            sh_p = sorted(prefix, key=len)
             # ind.append([len(i) for i in prefix])
             # ind = [item for sublist in ind for item in sublist]
             ind = list(range(len(prefix)))
+            # a, ind = findtheshortestlistWInd(prefix)
             for j in ind:
                 suffix = []
                 if P_trans[prefix[j][-1],prefix[j][-1]] == 1:
@@ -48,26 +59,29 @@ def FindRuns(P_F,P_S0,P_S,P_trans):
                 else:
                     neigh = []
                     for loop_index in range(len(P_trans[0])):
-                        if P_trans[loop_index, prefix[j][-1]] ==1:
+                        if P_trans[loop_index, prefix[j][-1]] == 1:
                             neigh.append(loop_index)
 
                     if not isinstance(neigh, type(None)):
-                        suffix = FindPaths(P_trans,prefix[j][-1],neigh)
+                        suffix = FindPaths(P_trans, prefix[j][-1], neigh)
                         suffix = [sublist for sublist in suffix if len(sublist) != 0]
                         for sublist in range(len(suffix)):
                             for item in range(len(suffix[sublist])):
                                 suffix[sublist][item] = int(suffix[sublist][item])
 
-                        sh_s = []
-                        ind_suf = np.arange(0,len(suffix)) # need to add a if to avoid len being 0
+                        # sh_s = []
+                        # ind_suf = np.arange(0,len(suffix)) # need to add a if to avoid len being 0
                         # if not isinstance(suffix, type(None)):
                         if len(suffix) != 0:
-                            sh_s = suffix.sort(key=len)
-                            ind_suf = ind_suf[0]
-                            suffix = suffix[ind_suf][1:-2]
+                            # sh_s = suffix.sort(key=len)
+                            # ind_suf = ind_suf[0]
+                            sh_s, ind_suf = findtheshortestlistWInd(suffix)
+                            tmp = suffix[ind_suf][1:]
+                            tmp.append(suffix[ind_suf][0])
+                            suffix = tmp
                 if len(suffix) != 0:
                     if not isinstance(suffix[0],type(None)):
-                        run_P.insert(i,[prefix[j]] + [suffix])  #maybe declare run_p as a list
+                        run_P.insert(i, [prefix[j]] + [suffix])  #maybe declare run_p as a list
                         break
 
     run_P = [sublist for sublist in run_P if len(sublist) != 0]
@@ -95,10 +109,10 @@ def FindRuns(P_F,P_S0,P_S,P_trans):
     suffix_run_tp = []
     for append_ind in range(len(run_P[ind[0]][0])):
         if append_ind > 0:
-            prefix_run_tp.append(P_S[run_P[ind[0]][0][append_ind], 1])
+            prefix_run_tp.append(P_S[run_P[ind[0]][0][append_ind], 0])
 
     for append_ind in range(len(run_P[ind[0]][1])):
-        suffix_run_tp.append(P_S[run_P[ind[0]][1][append_ind], 1])
+        suffix_run_tp.append(P_S[run_P[ind[0]][1][append_ind], 0])
 
     run_Tp.append([prefix_run_tp, suffix_run_tp])
 

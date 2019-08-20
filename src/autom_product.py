@@ -148,6 +148,9 @@ def AutomatonProduct(Tp, B, Tp_Q0, flag, count):
     Tp_obs = Tp.get("Tp.obs")
     Tp_adj = Tp.get("Tp.adj")
 
+    for counter, i in enumerate(Tp_obs[0]):
+        Tp_obs[0][counter] = int(i) - 1
+
     # Tp_Q0 = Accepted_Q0.Tp_Q0
     # Tp_Q0 = Tp_Q0
     # _Tp_Q = Trans_Sys.Tp_Q[0:count]
@@ -321,7 +324,7 @@ def AutomatonProduct(Tp, B, Tp_Q0, flag, count):
                     # if np.shape(tr_q)[0] == 0 or np.shape(tr_s)[0] == 0:
                     #     break
                     # else:
-                    if ismember(int(Tp_obs[0][tr_q[0][j]]) , B_trans[int(P_S[i,1])][tr_s[0][k]]):
+                    if ismember(int(Tp_obs[0][tr_q[0][j]]), B_trans[int(P_S[i,1])][tr_s[0][k]]):
                         # ind = []
                         # tmp_counter = 0
                         for tmp_i in range(np.shape(P_S)[0]):

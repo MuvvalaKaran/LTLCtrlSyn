@@ -69,25 +69,25 @@ def FindPaths(adj,s,d):
             new_dist.append(dist[i])
         d_m = np.min(new_dist)
         # x = np.where(np.any(dist == d_m and visited == 0))
-        x = findMatches(d_m,dist,0,visited[0,:])
+        x = findMatches(d_m, dist, 0, visited[0, :])
         # if len(x) == 0:
         #     continue
         x = x[0]  # if there are mode nodes at the same distance, they will be considered at the following iteration
         visited[0][x] = 1
         # neigh = np.where(adj[x,:] != 0 and visited == 0)
-        neigh = findMatchesForNotZero(0,adj[x,:],0,visited[0,:])
+        neigh = findMatchesForNotZero(0, adj[x, :], 0, visited[0, :])
         if len(neigh) == 0:
             continue
         for i in neigh:
-            if dist[i] > dist[x] + adj[x,i]:
-                dist[i] = dist[x] + adj[x,i]
+            if dist[i] > dist[x] + adj[x, i]:
+                dist[i] = dist[x] + adj[x, i]
                 predec[0][i] = int(x)
 
     paths = []
     for i in range(len(d)):
         if dist[d[i]] != np.Inf:
             path = [d[i]]
-            if isinstance(s,int):
+            if isinstance(s, int):
                 while path[0] != s:
                     # path.append(predec[0][path[0]])
                     path.insert(0, predec[0][int(path[0])])

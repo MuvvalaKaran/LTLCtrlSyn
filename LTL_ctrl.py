@@ -35,12 +35,13 @@ Tp = trans_sys_polytope.TransSysToPolytope(A, b).transystopolytope()
 stop = os.times()[4]
 
 print("\n Transition sustem has", len(Tp["Tp.Q"]), "sub-polytopes;  \n\t time spent for creating"
-                                                    " it (without disabling unfeasible transitions) :", str(stop - start), "secs")
+                                                    " it (without disabling unfeasible transitions) :",
+      str(stop - start), "secs")
 start = os.times()[4]
 Tp = invalidate_transitions.Invalid_Transition(Tp, U_A, U_b, D_A, D_B, D_b, A).invalidtransitions()
 stop = os.times()[4]
 
-print("\n Time spent for eliminating unfeasible tranisitions", str(start - stop), "secs \n")
+print("\n Time spent for eliminating unfeasible tranisitions", str(stop - start), "secs \n")
 
 if n == 2 or n == 3:
     init_fig = plt_tr_sys_polyt.PlotTransitionSystem(Tp, A, b).PlotTraSys(False, None)
@@ -58,12 +59,12 @@ while repeat == 'Y' or repeat == 'y':
     start = os.times()[4]
     B = create_buchi.CreateBuchi(formula, Alph_s).createbuchi()
     stop = os.times()[4]
-    print("\n Buchi automaton has",str(len(B.get("B.S"))), "state; time spent for creating it :", str(start - stop))
+    print("\n Buchi automaton has", str(len(B.get("B.S"))), "state; time spent for creating it :", str(stop - start))
 
     start = os.times()[4]
     accept_Q0, accept_runs = accepted_init_state.Accepted_Q0(Tp, B).acceptedQ0()
     stop = os.times()[4]
-    print("\n Time spent for finding all feasible initial states",str(start - stop), " sec \n")
+    print("\n Time spent for finding all feasible initial states", str(stop - start), " sec \n")
 
     if n == 2 or n == 3:
         h_fig = plt_tr_sys_polyt.PlotTransitionSystem(Tp, A, b).PlotTraSys(True, accept_Q0)
@@ -76,26 +77,26 @@ while repeat == 'Y' or repeat == 'y':
             X0 = np.array([[-4], [1]])
 
         start = os.times()[4]
-        Tp_Q0 = find_init_state.findInitState(A, B, X0, Tp.get("Tp.signs"),accept_Q0)
+        Tp_Q0 = find_init_state.FindInitState(A, b, X0, Tp.get("Tp.Signs"), accept_Q0).findInitState()
         stop = os.times()[4]
+        print("\n Time spent to determine the starting polytope i.e", str(Tp_Q0), "is: ", str(stop - start), "secs \n")
 
-        tmp_run_tp = [[[14, 1, 0], [2, 25, 22, 19, 22, 25, 2, 0]]]
         # accepted_init_state.Accepted_Q0.accept_run[Tp_Q0[0]]
 
         if len(Tp_Q0) == 0 or ismember(Tp_Q0, accept_Q0):
             print("\n Wrong initial state")
 
         else:
-            [ctrl, Speed] = control_sequence.control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, tmp_run_tp)
+            [ctrl, Speed] = control_sequence.control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, accept_Q0[Tp_Q0])
             time_step = 0.01
 
-            [t_ev, X, C, S] = simulate_system.simulatesystem(Tp, D_A, D_B, D_b, X0, tmp_run_tp, ctrl, time_step, 2)
+            [t_ev, X, C, S] = simulate_system.simulatesystem(Tp, D_A, D_B, D_b, X0, accept_Q0[Tp_Q0], ctrl, time_step, 2)
             print(X)
 
             if n == 2 or n == 3:
-                plot_run.plotrun(Tp, tmp_run_tp, h_vf)
+                plot_run.plotrun(Tp, accept_Q0[Tp_Q0], h_fig)
 
-                plot_trajectory.plottrajectory(h_vf, t_ev, X)
+                plot_trajectory.plottrajectory(h_fig, t_ev, X)
 
             repeat = input("Do you want to try another LTL formula? Y/N")
 

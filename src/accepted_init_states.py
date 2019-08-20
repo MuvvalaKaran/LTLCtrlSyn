@@ -42,7 +42,7 @@ class Accepted_Q0:
 
             flag = flag + 1
             # Tp_adj = updated_Tp_adj
-            run_tp = FindRuns(P_F,P_S0,P_S,P_trans)
+            run_tp = FindRuns(P_F, P_S0, P_S, P_trans)
             if not isinstance(run_tp, type(None)):
                 if len(accept_Q0) == 0:
                     print("Indices of Initial states of transition system on polytopes from which LTL formula "

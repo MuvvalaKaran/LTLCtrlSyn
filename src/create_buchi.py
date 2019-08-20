@@ -94,7 +94,7 @@ class CreateBuchi(object):
         # print(formula)
         full_descrition = True
 
-        if (full_descrition):
+        if full_descrition:
             try:
                 ltl2ba_args = ["src/ltl2ba/ltl2ba","-d", "-f", formula]
                 process = Popen(ltl2ba_args, stdout=PIPE)
@@ -249,8 +249,8 @@ class CreateBuchi(object):
 
                     B_trans1[i][k] = list(set(B_trans1[i][k]).union(set(labels)))
 
-            for i in range(len(S_names)-1):
-                for j in range(len(S_names)-1):
+            for i in range(len(S_names)):
+                for j in range(len(S_names)):
                     B_trans1[i][j].sort()
 
         else:
@@ -412,8 +412,8 @@ class CreateBuchi(object):
                     B_trans[int(n)][int(column_index)] = list(sig)
             B_trans[len(S_names)-1][len(S_names)-1] = list(sig) #the accepting state will always have a self transition
 
-            for i in range(len(S_names)-1):
-                for j in range(len(S_names)-1):
+            for i in range(len(S_names)):
+                for j in range(len(S_names)):
                     B_trans[i][j].sort()
 
         # storing by default b_trains1 value. Declare it up
