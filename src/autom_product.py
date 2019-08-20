@@ -148,8 +148,8 @@ def AutomatonProduct(Tp, B, Tp_Q0, flag, count):
     Tp_obs = Tp.get("Tp.obs")
     Tp_adj = Tp.get("Tp.adj")
 
-    for counter, i in enumerate(Tp_obs[0]):
-        Tp_obs[0][counter] = int(i) - 1
+    # for counter, i in enumerate(Tp_obs[0]):
+    #     Tp_obs[0][counter] = int(i) - 1
 
     # Tp_Q0 = Accepted_Q0.Tp_Q0
     # Tp_Q0 = Tp_Q0

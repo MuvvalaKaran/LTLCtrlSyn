@@ -83,18 +83,18 @@ while repeat == 'Y' or repeat == 'y':
 
         # accepted_init_state.Accepted_Q0.accept_run[Tp_Q0[0]]
 
-        if len(Tp_Q0) == 0 or ismember(Tp_Q0, accept_Q0):
+        if len(Tp_Q0) == 0 or not ismember(Tp_Q0[0], accept_Q0):
             print("\n Wrong initial state")
 
         else:
-            [ctrl, Speed] = control_sequence.control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, accept_Q0[Tp_Q0])
+            [ctrl, Speed] = control_sequence.control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, accept_runs[Tp_Q0[0]])
             time_step = 0.01
 
-            [t_ev, X, C, S] = simulate_system.simulatesystem(Tp, D_A, D_B, D_b, X0, accept_Q0[Tp_Q0], ctrl, time_step, 2)
+            [t_ev, X, C, S] = simulate_system.simulatesystem(Tp, D_A, D_B, D_b, X0, accept_runs[Tp_Q0[0]], ctrl, time_step, 2)
             print(X)
 
             if n == 2 or n == 3:
-                plot_run.plotrun(Tp, accept_Q0[Tp_Q0], h_fig)
+                plot_run.plotrun(Tp, accept_runs[Tp_Q0[0]], h_fig)
 
                 plot_trajectory.plottrajectory(h_fig, t_ev, X)
 

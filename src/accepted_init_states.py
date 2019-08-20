@@ -32,7 +32,7 @@ class Accepted_Q0:
 
 
         accept_Q0 = []
-        accept_run = []
+        accept_run = [[] for k in range(len(Tp_Q))]
         flag = 0
         # Tp_Q = TransSys.Tp_Q
         no_of_states = len(Tp_Q)
@@ -49,7 +49,9 @@ class Accepted_Q0:
                           "can be satisfied: \n")
 
                 accept_Q0.append(i)
-                accept_run.append(run_tp)
+                # accept_run.append(run_tp)
+                # accept_run.insert(i, run_tp)
+                accept_run[i] = run_tp
                 print(i)
             # if i == (len(Tp_Q) - 1):
             #     # pltfig()

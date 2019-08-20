@@ -22,6 +22,8 @@ def simulatesystem(Tp, D_A, D_B, D_b, x0, run_Tp, ctrl, time_step, rep_suf):
     stop = 0
     t_ev = []
 
+    # run_Tp = [int(item) for cell in run_Tp for subcell in cell for item in subcell]
+
     compl_run = [int(item) for cell in run_Tp for subcell in cell for item in subcell]
     # compl_ctrl = [array for sublist in ctrl for array in sublist]
     compl_ctrl = []
@@ -33,7 +35,7 @@ def simulatesystem(Tp, D_A, D_B, D_b, x0, run_Tp, ctrl, time_step, rep_suf):
         for i in range(rep_suf - 1):
             # compl_run.append([i  for i in run_Tp[0][1]])
             # compl_ctrl.append([array for array in ctrl[0][1]])
-            compl_run = compl_run + run_Tp[0][1]
+            compl_run = compl_run + [int(item) for item in run_Tp[0][1]]
             # compl_ctrl = compl_ctrl + ctrl[0][1]
             for counter,sublist in enumerate(ctrl):
                 for array in sublist:
