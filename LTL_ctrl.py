@@ -34,14 +34,14 @@ Tp = trans_sys_polytope.TransSysToPolytope(A, b).transystopolytope()
 # Tp = Tmp.transystopolytope()
 stop = os.times()[4]
 
-print("\n Transition sustem has", len(Tp["Tp.Q"]), "sub-polytopes;  \n\t time spent for creating"
+print("\n Transition system has", len(Tp["Tp.Q"]), "sub-polytopes;  \n\t time spent for creating"
                                                     " it (without disabling unfeasible transitions) :",
       str(stop - start), "secs")
 start = os.times()[4]
 Tp = invalidate_transitions.Invalid_Transition(Tp, U_A, U_b, D_A, D_B, D_b, A).invalidtransitions()
 stop = os.times()[4]
 
-print("\n Time spent for eliminating unfeasible tranisitions", str(stop - start), "secs \n")
+print("\n Time spent for eliminating unfeasible transitions", str(stop - start), "secs \n")
 
 if n == 2 or n == 3:
     init_fig = plt_tr_sys_polyt.PlotTransitionSystem(Tp, A, b).PlotTraSys(False, None)
@@ -74,7 +74,7 @@ while repeat == 'Y' or repeat == 'y':
         X0 = input("Enter Initial continuous state x0 (column vector) 2 x 1")
 
         if Use_mine:
-            X0 = np.array([[-4], [1]])
+            X0 = np.array([[-3.7], [1.5]])
 
         start = os.times()[4]
         Tp_Q0 = find_init_state.FindInitState(A, b, X0, Tp.get("Tp.Signs"), accept_Q0).findInitState()
@@ -94,10 +94,17 @@ while repeat == 'Y' or repeat == 'y':
             print(X)
 
             if n == 2 or n == 3:
-                plot_run.plotrun(Tp, accept_runs[Tp_Q0[0]], h_fig)
+                plot_run.PlotRun(Tp, accept_runs[Tp_Q0[0]], h_fig).plotrun()
 
-                plot_trajectory.plottrajectory(h_fig, t_ev, X)
+                plot_trajectory.PlotTrajectory(h_fig, t_ev, X).plottrajectory()
 
             repeat = input("Do you want to try another LTL formula? Y/N")
+
+    else:
+        repeat = input("Did not find any initial state satisfying the formula. "
+                       "Do you want to try with another formula Y/N :")
+
+        if repeat != 'y' or repeat != 'Y':
+            print("Done with the code")
 
 

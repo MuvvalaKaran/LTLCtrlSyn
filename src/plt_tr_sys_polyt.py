@@ -66,8 +66,9 @@ class PlotTransitionSystem(object):
 
 
     def ismember(a, b):
+        ret = False
         for counter, i in enumerate(b):
-            ret = False
+
             if a == i:
                 ret = True
                 break
@@ -219,7 +220,7 @@ class PlotTransitionSystem(object):
         # print(tmp)
         # print("$#$####")
 
-        return plt
+        return ax
 
 # if __name__ == '__main__':
 #     test = PlotTransitionSystem()

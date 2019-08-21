@@ -2,6 +2,7 @@ import src.plt_tr_sys_polyt as trans_plot
 from src.read_data import ReadData
 import numpy as np
 import polytope as pc
+import matplotlib.pyplot as plt
 
 # A =np.asarray(ReadData.A[len(ReadData.A) -1])
 # b =np.asarray(ReadData.B[len(ReadData.B) -1])
@@ -43,7 +44,8 @@ class PlotDrift:
             ax.quiver(X, Y, Gx, Gy)
             # ax.xaxis.set_ticks([])
             # ax.yaxis.set_ticks([])
-            ax.show()
+            # ax.show()
+            plt.show()
 
         if n ==3:
             z_start = np.amin(Bound_V[:, 2], axis=0)
@@ -54,7 +56,9 @@ class PlotDrift:
             Gy = D_A[1, 0] * X + D_A[1, 1] * Y + D_b[1, 0]
             Gz = D_A[2, 0] * X + D_A[2, 1] * Y + D_b[2, 0]
             ax.quiver(X, Y, Z, Gx, Gy, Gz)
-            ax.show()
+            # ax.show()
+            plt.show()
+
 
         return ax
 

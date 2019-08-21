@@ -100,11 +100,9 @@ class Invalid_Transition(object):
             for j in neigh:
                 tmp = np.matmul(H.A, np.transpose(np.mean(Tp_vert[j], axis=0)))
                 counter = 0
-                tmp_T = np.reshape(tmp, (np.shape(tmp)[0], 1))
-                for x, y in zip(tmp_T, H.b):
+                # tmp_T = np.reshape(tmp, (np.shape(tmp)[0], 1))
+                for x, y in zip(tmp, H.b):
                     if x > y:
-                        pass
-                    else:
                         break
                     counter = counter + 1
                 ex_f = counter
@@ -170,7 +168,7 @@ class Invalid_Transition(object):
                                           bounds=(None, None))
                         if not sol.__getattr__("success"):
                             updated_Tp_adj[i, j] = 0
-                        break
+                            break
 
             for m in range(0, v_no):
                 in_f = np.nonzero(F_v[:, m])
@@ -209,7 +207,7 @@ class Invalid_Transition(object):
                     sol = opt.linprog(V[m, :] - centr, A_check, B_check, None, None, bounds=(None, None))
                     if not sol.__getattr__("success"):
                         updated_Tp_adj[i, i] = 0
-                    break
+                        break
         Tp_new = {
             "Tp.adj": updated_Tp_adj
         }

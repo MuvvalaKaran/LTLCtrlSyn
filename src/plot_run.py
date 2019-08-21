@@ -3,6 +3,7 @@ run is represented by coloring the polytopes ()
 this run satisfies LTL formula '''
 import numpy as np
 import polytope as pc
+import matplotlib.pyplot as plt
 
 def _get_patch(poly1, **kwargs):
     """Return matplotlib patch for given Polytope.
@@ -41,29 +42,43 @@ def _get_patch(poly1, **kwargs):
     patch.set_zorder(0)
     return patch
 
-def plotrun(Tp, run_Tp, h_fig):
-    n = np.shape(Tp.get("Tp.vert")[0])[1]
-    plt = h_fig
-    Tp_vert = Tp.get("Tp.vert")
+class PlotRun():
 
-    if len(run_Tp) == 0:
-        print("LTL formula cannot be satisfied")
-        return
+    def __init__(self, Tp, run_Tp, h_fig):
+        self.Tp = Tp
+        self.run_Tp = run_Tp
+        self.h_fig = h_fig
 
-    if n == 2:
-        states = run_Tp[0]
-        for i in states:
-            k = pc.qhull(Tp_vert[i])
-            tmp = _get_patch(k, edgecolor="Black", linewidth=0.15, facecolor="Green", fill=True)
-            plt.add_patch(tmp)
-            plt.pause(0.1)
+    def plotrun(self):
 
-        states = run_Tp[0][0][-1] + run_Tp[0][1]
+        Tp = self.Tp
+        run_Tp = self.run_Tp
+        n = np.shape(Tp.get("Tp.vert")[0])[1]
+        ax = self.h_fig
+        Tp_vert = Tp.get("Tp.vert")
+        # fig = plt.figure()
+        # ax = fig.add_subplot(111)
 
-        for i in states[-1]:
-            k = pc.qhull(Tp_vert[i])
-            tmp = _get_patch(k, edgecolor="Black", linewidth=0.15, facecolor="Red", fill=True)
-            plt.add_patch(tmp)
-            plt.pause(0.1)
+        if len(run_Tp) == 0:
+            print("LTL formula cannot be satisfied")
+            return
 
+        if n == 2:
+            states = run_Tp[0][0]
+            for i in states:
+                k = pc.qhull(Tp_vert[int(i)])
+                tmp = _get_patch(k, edgecolor="Black", linewidth=0.15, facecolor="gray", fill=True)
+                ax.add_patch(tmp)
+                # plt.pause(0.1)
+                plt.pause(0.1)
+
+            states = run_Tp[0][0][-1] + run_Tp[0][1]
+            states = [int(i) for i in states]
+
+            for i in states[:-1]:
+                k = pc.qhull(Tp_vert[i])
+                tmp = _get_patch(k, edgecolor="Black", linewidth=0.15, facecolor="pink", fill=True)
+                ax.add_patch(tmp)
+                plt.pause(0.1)
+                # ax.show()
 

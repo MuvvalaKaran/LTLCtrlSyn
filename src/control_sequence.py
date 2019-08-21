@@ -82,10 +82,8 @@ def control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, run_Tp):
             tmp = np.matmul(H.A, np.transpose(np.mean(Tp.get("Tp.vert")[s_j], axis=0)))
             counter = 0
             tmp_T = np.reshape(tmp, (np.shape(tmp)[0], 1))
-            for x, y in zip(tmp_T, H.b):
+            for x, y in zip(tmp, H.b):
                 if x > y:
-                    pass
-                else:
                     break
                 counter = counter + 1
             ex_f = counter

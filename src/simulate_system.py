@@ -97,7 +97,7 @@ def simulatesystem(Tp, D_A, D_B, D_b, x0, run_Tp, ctrl, time_step, rep_suf):
             if i == len(run_Tp[0][0]) and np.linalg.norm(new_x - x) <= prec:
                 stop = True
 
-        if i > len(run_Tp[0][0]) and np.mod((i - len(run_Tp[0][0])), len(run_Tp[0][1])) == 0:
+        if i >= len(run_Tp[0][0]) and np.mod((i - len(run_Tp[0][0])), len(run_Tp[0][1])) == 0:
             t_ev.append(t_s)
 
             # Ctr[tes.__getattribute__('vertices')[isinsidepoly, :], :]
