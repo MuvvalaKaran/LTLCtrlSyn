@@ -98,7 +98,7 @@ def simulatesystem(Tp, D_A, D_B, D_b, x0, run_Tp, ctrl, time_step, rep_suf):
             # tmp = np.matmul(np.transpose(np.asarray(new_Ctr)), np.linalg.inv(np.transpose(np.asarray(for_inv))))
             # tmp1 = np.vstack((tmp, np.ones((1, n+1))))
             tmp = np.matmul(new_Ctr.transpose(), inverseofabovematix)
-            getxmatrixtoshape = np.vstack((x0.transpose(), [1]))
+            getxmatrixtoshape = np.vstack((x, [1]))
             u_x = np.matmul(tmp, getxmatrixtoshape)
             speed = np.matmul(D_A,x) + np.matmul(D_B,u_x) + D_b
 

@@ -2,13 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f13f4232-87ef-4ff2-a7ac-0c1c92a25039" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LTL_ctrl.py" beforeDir="false" afterPath="$PROJECT_DIR$/LTL_ctrl.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/control_sequence.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/control_sequence.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/invalidate_transitions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/invalidate_transitions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plot_run.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plot_run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plt_tr_sys_polyt.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plt_tr_sys_polyt.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/simulate_system.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/simulate_system.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,20 +15,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LTL_ctrl.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
-              <caret line="101" selection-start-line="101" selection-end-line="101" />
+            <state relative-caret-position="576">
+              <caret line="93" selection-start-line="93" selection-end-line="93" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/numpy/core/shape_base.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="222">
+              <caret line="282" selection-start-line="282" selection-end-line="282" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/simulate_system.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="497">
-              <caret line="125" selection-start-line="125" selection-end-line="125" />
+            <state relative-caret-position="122">
+              <caret line="100" column="45" selection-start-line="100" selection-start-column="32" selection-end-line="100" selection-end-column="51" />
               <folding>
                 <element signature="e#1414#1432#0" expanded="true" />
               </folding>
@@ -44,21 +46,9 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/plt_tr_sys_polyt.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-208">
-              <caret line="168" column="26" selection-start-line="168" selection-start-column="19" selection-end-line="168" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#21#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/matplotlib/axes/_base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
+            <state relative-caret-position="1260">
               <caret line="117" selection-start-line="117" selection-end-line="117" />
             </state>
           </provider>
@@ -67,7 +57,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/matplotlib/pyplot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
+            <state relative-caret-position="41415">
               <caret line="2810" selection-start-line="2810" selection-end-line="2810" />
             </state>
           </provider>
@@ -76,7 +66,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/plot_run.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="443">
+            <state relative-caret-position="1080">
               <caret line="74" selection-start-line="74" selection-end-line="74" />
               <folding>
                 <element signature="e#148#166#0" expanded="true" />
@@ -88,12 +78,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/control_sequence.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
+            <state relative-caret-position="470">
               <caret line="193" selection-start-line="193" selection-end-line="193" />
               <folding>
                 <element signature="e#1033#1051#0" expanded="true" />
-                <element signature="e#6070#6104#0" />
-                <element signature="e#8040#8110#0" />
               </folding>
             </state>
           </provider>
@@ -102,8 +90,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/polytope/polytope.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4530">
-              <caret line="1521" column="23" lean-forward="true" selection-start-line="1521" selection-start-column="23" selection-end-line="1521" selection-end-column="23" />
+            <state relative-caret-position="22665">
+              <caret line="1521" column="23" selection-start-line="1521" selection-start-column="23" selection-end-line="1521" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -120,7 +108,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/invalidate_transitions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="562">
+            <state relative-caret-position="3210">
               <caret line="218" selection-start-line="218" selection-end-line="218" />
               <folding>
                 <element signature="e#0#66#0" expanded="true" />
@@ -201,9 +189,9 @@
         <option value="$PROJECT_DIR$/src/invalidate_transitions.py" />
         <option value="$PROJECT_DIR$/src/plot_run.py" />
         <option value="$PROJECT_DIR$/src/control_sequence.py" />
-        <option value="$PROJECT_DIR$/src/simulate_system.py" />
         <option value="$PROJECT_DIR$/LTL_ctrl.py" />
         <option value="$PROJECT_DIR$/src/plt_tr_sys_polyt.py" />
+        <option value="$PROJECT_DIR$/src/simulate_system.py" />
       </list>
     </option>
   </component>
@@ -379,7 +367,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
+    <frame x="64" y="-4" width="1857" height="1085" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49372384" weight="0.35180995" />
       <window_info id="Structure" order="1" sideWeight="0.50627613" side_tool="true" weight="0.24095023" />
@@ -697,13 +685,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/numpy/core/shape_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="282" selection-start-line="282" selection-end-line="282" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/lib/python3.5/os.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -866,20 +847,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/polytope/polytope.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4530">
-          <caret line="1521" column="23" lean-forward="true" selection-start-line="1521" selection-start-column="23" selection-end-line="1521" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/trans_sys_polytope.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -890,33 +857,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/invalidate_transitions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="562">
-          <caret line="218" selection-start-line="218" selection-end-line="218" />
-          <folding>
-            <element signature="e#0#66#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/matplotlib/axes/_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="117" selection-start-line="117" selection-end-line="117" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/matplotlib/pyplot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="2810" selection-start-line="2810" selection-end-line="2810" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/plt_tr_sys_polyt.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-208">
+        <state relative-caret-position="2340">
           <caret line="168" column="26" selection-start-line="168" selection-start-column="19" selection-end-line="168" selection-end-column="26" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
@@ -924,31 +867,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/control_sequence.py">
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/matplotlib/axes/_base.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="193" selection-start-line="193" selection-end-line="193" />
-          <folding>
-            <element signature="e#1033#1051#0" expanded="true" />
-            <element signature="e#6070#6104#0" />
-            <element signature="e#8040#8110#0" />
-          </folding>
+        <state relative-caret-position="1260">
+          <caret line="117" selection-start-line="117" selection-end-line="117" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/simulate_system.py">
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/matplotlib/pyplot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="125" selection-start-line="125" selection-end-line="125" />
-          <folding>
-            <element signature="e#1414#1432#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="41415">
+          <caret line="2810" selection-start-line="2810" selection-end-line="2810" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/plot_run.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
+        <state relative-caret-position="1080">
           <caret line="74" selection-start-line="74" selection-end-line="74" />
           <folding>
             <element signature="e#148#166#0" expanded="true" />
@@ -956,10 +891,61 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/polytope/polytope.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22665">
+          <caret line="1521" column="23" selection-start-line="1521" selection-start-column="23" selection-end-line="1521" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/invalidate_transitions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3210">
+          <caret line="218" selection-start-line="218" selection-end-line="218" />
+          <folding>
+            <element signature="e#0#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/control_sequence.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="470">
+          <caret line="193" selection-start-line="193" selection-end-line="193" />
+          <folding>
+            <element signature="e#1033#1051#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/LTL_ctrl.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="101" selection-start-line="101" selection-end-line="101" />
+        <state relative-caret-position="576">
+          <caret line="93" selection-start-line="93" selection-end-line="93" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/numpy/core/shape_base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="282" selection-start-line="282" selection-end-line="282" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simulate_system.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="100" column="45" selection-start-line="100" selection-start-column="32" selection-end-line="100" selection-end-column="51" />
+          <folding>
+            <element signature="e#1414#1432#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
