@@ -74,7 +74,8 @@ while repeat == 'Y' or repeat == 'y':
         X0 = input("Enter Initial continuous state x0 (column vector) 2 x 1")
 
         if Use_mine:
-            X0 = np.array([[-3.7], [1.5]])
+            # X0 = np.array([[-3.7], [1.5]])
+            X0 = np.array([[1.0], [5]])
 
         start = os.times()[4]
         Tp_Q0 = find_init_state.FindInitState(A, b, X0, Tp.get("Tp.Signs"), accept_Q0).findInitState()

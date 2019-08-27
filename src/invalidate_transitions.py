@@ -39,7 +39,7 @@ class Invalid_Transition(object):
         updated_Tp_adj = Tp.get("Tp.adj")
         Tp_Q = Tp.get("Tp.Q")
         Tp_vert = Tp.get("Tp.vert")
-        rank_method = True  # this is faster but more restrictive method that eliminates lots of possible transitions
+        rank_method = False  # this is faster but more restrictive method that eliminates lots of possible transitions
         linprog_method = True  # this method is slightly slower but has more spurious transitions
         # a mix and match also gives a mixed result but seems to be the closest one.
 
@@ -164,7 +164,7 @@ class Invalid_Transition(object):
                         second_last_stack = np.matmul(F_n[ex_f, :], tmp) - prec
                         abcd2 = np.vstack((second_last_stack, last_stack))
                         B_check = np.vstack((-1*U_b, abcd2))
-                        sol = opt.linprog(np.matmul(-1*F_n[ex_f, :], D_B), A_check, B_check, None, None,
+                        sol = opt.linprog(np.matmul(-1*F_n[ex_f, :], D_B), A_check, B_check.flatten(), None, None,
                                           bounds=(None, None))
                         if not sol.__getattr__("success"):
                             updated_Tp_adj[i, j] = 0
@@ -204,7 +204,7 @@ class Invalid_Transition(object):
                     else:
                         B_check = np.vstack((-1*U_b, np.matmul(-1*F_n[in_f[0]:in_f[1], :], tmp)))
 
-                    sol = opt.linprog(V[m, :] - centr, A_check, B_check, None, None, bounds=(None, None))
+                    sol = opt.linprog(V[m, :] - centr, A_check, B_check.flatten(), None, None, bounds=(None, None))
                     if not sol.__getattr__("success"):
                         updated_Tp_adj[i, i] = 0
                         break

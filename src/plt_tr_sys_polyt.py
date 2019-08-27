@@ -157,51 +157,66 @@ class PlotTransitionSystem(object):
                 if nargmin:
                     if PlotTransitionSystem.ismember(i, accepted_Q0):
                         k = pc.qhull(Tp_vert[i])
-                        tmp = PlotTransitionSystem._get_patch(k, edgecolor="Black", linewidth=0.15, facecolor="Green", fill=True)
+                        tmp = PlotTransitionSystem._get_patch(k, edgecolor="Black", linewidth=0.15, facecolor="Green",
+                                                              fill=True)
                         ax.add_patch(tmp)
                     else:
                         k = pc.qhull(Tp_vert[i])
-                        tmp = PlotTransitionSystem._get_patch(k, edgecolor="Black", linewidth=0.15, facecolor="Blue", fill=True)
+                        tmp = PlotTransitionSystem._get_patch(k, edgecolor="Black", linewidth=0.15, facecolor="Blue",
+                                                              fill=True)
                         ax.add_patch(tmp)
 
-            for i in range(len(Tp_Q)):
-                neigh = []
-                tmp_neigh = np.nonzero(updated_Tp_adj[i, :])
-                neig_w_smaller_index = np.where((tmp_neigh[0] < i))
-                neig_w_smaller_index = [int(x) for x in neig_w_smaller_index[0]]
-                for j in  neig_w_smaller_index:
-                    neigh.append(tmp_neigh[0][j])
+            if not nargmin:
+                for i in range(len(Tp_Q)):
+                    j = [0 for k in range(len(Tp_Q))]
+                    neigh = []
+                    tmp_neigh = np.nonzero(updated_Tp_adj[i, :])
+                    neig_w_smaller_index = np.where((tmp_neigh[0] < i))
+                    neig_w_smaller_index = [int(x) for x in neig_w_smaller_index[0]]
+                    for element in neig_w_smaller_index:
+                        neigh.append(tmp_neigh[0][element])
 
-                # for j in neigh[neig_w_smaller_index]: #might give an issue
-                # if(len(neigh) != 0):
-                #     for j in neigh:
-                #         if (newTp.updated_Tp_adj[i,j] == 0):
-                #             plt.plot(centr[i,:],centr[j,:],'ro-')
-                #             plt.pause(0.1)
+                    neigh_w_larger_index = np.where(tmp_neigh[0] > i)
+                    neigh_w_larger_index = [int(x) for x in neigh_w_larger_index[0]]
+                    for element in neigh_w_larger_index:
+                        neigh.append(tmp_neigh[0][element])
 
-                neigh_w_larger_index = np.where(tmp_neigh[0] > i)
-                neigh_w_larger_index = [int(x) for x in neigh_w_larger_index[0]]
-                for j in neigh_w_larger_index:
-                    neigh.append(tmp_neigh[0][j])
+                    for index in neig_w_smaller_index:
+                        j[index] = 1
 
-                # if(len(neigh) != 0):
-                #     for j in neigh:
-                #         if(newTp.updated_Tp_adj[i,j] == 0):
-                #             plt.plot(centr[i,:],centr[j,:],'ro-')
-                #             plt.pause(0.1)
-                #         else :
-                #             plt.plot(centr[i,:],centr[j,:],'ro-')
-                #             plt.pause(0.1)
+                    for index in neigh_w_larger_index:
+                        j[index] = 1
 
-                if updated_Tp_adj[i, j] != 0:
-                    plt.plot(centr[i, :], 'r.')
-                    plt.pause(0.1)
+                    for counter, index_of_j in enumerate(j):
+                        if counter < i:
+                            if updated_Tp_adj[i, counter] != 0:
+                                plt.plot([centr[i, 0], centr[counter, 0]], [centr[i, 1], centr[counter, 1]], linestyle='--',
+                                         color='r')
+                                plt.plot(centr[i, 0], centr[counter, 0], centr[i, 0], centr[i, 1],'ro')
+                                plt.pause(0.1)
+                            # else:
+                                # plt.plot(centr[i, 0], centr[i, 1], centr[counter, 0], centr[counter, 1], 'g.')
+                                # plt.pause(0.1)
+
+                        elif counter > i:
+                            if updated_Tp_adj[i, counter] != 0:
+                                plt.plot([centr[i, 0], centr[counter, 0]], [centr[i, 1], centr[counter, 1]], linestyle='-',
+                                         color='r')
+                                plt.plot(centr[i, 0], centr[counter, 0], centr[i, 0], centr[i, 1], 'ro')
+                                plt.pause(0.1)
+                            # else:
+                            #     plt.plot(centr[i, 0], centr[i, 1], centr[counter, 0], centr[counter, 1], 'g.')
+                            #     plt.pause(0.1)
+
+                    if updated_Tp_adj[i, i] != 0:
+                        plt.plot(centr[i, 0], centr[i, 1], 'r*')
+                        plt.pause(0.1)
 
             for i in range(len(Tp_Q)):
                 plt.text(centr[i, 0], centr[i, 1], "q_" + str(i), fontsize=8, horizontalalignment='center',
                          verticalalignment='center')
 
-        elif( n ==3):
+        elif n == 3:
             pass
         else:
             print("Cannot display more than 3 dimension transition system")

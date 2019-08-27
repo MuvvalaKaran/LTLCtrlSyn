@@ -72,7 +72,7 @@ class PlotRun():
                 # plt.pause(0.1)
                 plt.pause(0.1)
 
-            states = run_Tp[0][0][-1] + run_Tp[0][1]
+            states = [run_Tp[0][0][-1]] + run_Tp[0][1]
             states = [int(i) for i in states]
 
             for i in states[:-1]:

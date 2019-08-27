@@ -37,10 +37,10 @@ def tranfosefor1dvector(array, val):
 
 
 def control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, run_Tp):
-    ctrl =  []
+    # ctrl =  []
     ctrl_1= []  # ctrl cell 1
     ctrl_2 = []  # ctrl cell 2
-    Speed = []
+    # Speed = []
     Speed_1 = []  # Speed cell 1
     Speed_2 = []  # Speed cell 1
     n = np.shape(D_A)[0]
@@ -61,23 +61,23 @@ def control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, run_Tp):
         F_n = np.zeros((f_no, n))
 
         for k in range(f_no):
-            for counter,x in enumerate(list(F_v[k,:]),0):
+            for counter,x in enumerate(list(F_v[k, :]), 0):
                 if x == 1:
                     index = counter
                     break
 
-            vect = V[index,:] - centr
-            vect_transpose = np.reshape(vect,(np.shape(vect)[0],1))
-            if(np.shape(np.sign(np.matmul(H.A[k,:], vect_transpose)))[0] == 1):
-                tmp =  np.asscalar(np.sign(np.matmul(H.A[k,:], vect_transpose)))
-                F_n[k,:] =  (tmp * H.A[k,:])/np.linalg.norm(H.A[k,:])
+            vect = V[index, :] - centr
+            vect_transpose = np.reshape(vect,(np.shape(vect)[0], 1))
+            if np.shape(np.sign(np.matmul(H.A[k, :], vect_transpose)))[0] == 1:
+                tmp = np.asscalar(np.sign(np.matmul(H.A[k, :], vect_transpose)))
+                F_n[k, :] = (tmp * H.A[k, :])/np.linalg.norm(H.A[k, :])
             else:
-                F_n[k, :] = (np.matmul(np.sign(np.matmul(H.A[k,:], vect_transpose)),H.A[k, :])) / np.linalg.norm(H.A[k, :])
+                F_n[k, :] = (np.matmul(np.sign(np.matmul(H.A[k, :], vect_transpose)), H.A[k, :])) / np.linalg.norm(H.A[k, :])
 
         controls = np.zeros((v_no, np.shape(D_B)[1]))
         speeds = np.zeros((v_no, n))
 
-        if s_i != s_j :
+        if s_i != s_j:
             # for j in neigh:
             tmp = np.matmul(H.A, np.transpose(np.mean(Tp.get("Tp.vert")[s_j], axis=0)))
             counter = 0
@@ -112,7 +112,7 @@ def control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, run_Tp):
                 sol = opt.linprog(np.matmul(-1 * F_n[ex_f, :], D_B), A_Check, B_Check, None, None,
                                   bounds=(None, None))
 
-                x = sol.__getitem__('x')  # current colution vector
+                x = sol.__getitem__('x')  # current solution vector
                 fun = sol.__getitem__('fun')  # current value of the object function
                 success = sol.__getitem__('success')  # flag for optimization success or failure
                 controls[l, :] = tranfosefor1dvector(x, 2)

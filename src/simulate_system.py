@@ -12,6 +12,7 @@ the simulation will be done by following the prefix of run and rep_suf-times its
 if final state is a stay-inside state (only one state in run{2}), simulation is stopped when a small distance (prec) is covered in a time_step  '''
 import numpy as np
 import polytope as pc
+import matplotlib.pyplot as plt
 from scipy.spatial import Delaunay
 
 
@@ -45,14 +46,27 @@ def simulatesystem(Tp, D_A, D_B, D_b, x0, run_Tp, ctrl, time_step, rep_suf):
     x0 = np.asarray(x0)
     x0 = x0.transpose()
     X = [x0]
+    C = []
+    S = []
     for i in range(len(compl_run)):
         Vert = Tp.get("Tp.vert")[compl_run[i]]
         Ctr = compl_ctrl[i]
-
+        H = pc.qhull(Vert)  # tmp thing to verify stuff
         tes = Delaunay(Vert)
+        # plt.triplot(Vert[:, 0], Vert[:, 1], tes.simplices)
+        for simplices in tes.simplices:
+        #     for vertex in simplices:
+            plt.triplot(tes.points[simplices, 0], tes.points[simplices, 1])
+        plt.plot(Vert[:, 0], Vert[:, 1], 'o')
+        plt.pause(0.1)
+        plt.show()
+
+
+
+
         # find = tes.vertex_to_simplex(tes.find_simplex(x0.transpose()))
         xfortes = X[-1].transpose()
-        isinsidepoly = tes.find_simplex(np.transpose(xfortes)) # i belive this is probably right
+        isinsidepoly = tes.find_simplex(np.transpose(xfortes))  # i believe this is probably right
         # find  = tes.find_simplex()
 
         # simpl = tes.vertex_to_simplex()
@@ -90,10 +104,12 @@ def simulatesystem(Tp, D_A, D_B, D_b, x0, run_Tp, ctrl, time_step, rep_suf):
 
             new_x = x + (speed*time_step)
             X.append(new_x.transpose())
-            C = u_x.transpose()
-            S = speed.transpose()
+            C.append(u_x.transpose())
+            S.append(speed.transpose())
 
             isinsidepoly = tes.find_simplex(X[-1])
+            if isinsidepoly == -1:
+                print("Changing Polytope at time step :", t_s)
             if i == len(run_Tp[0][0]) and np.linalg.norm(new_x - x) <= prec:
                 stop = True
 
