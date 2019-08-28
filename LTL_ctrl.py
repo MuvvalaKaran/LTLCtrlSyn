@@ -21,17 +21,40 @@ def ismember(__a, __b):
     for counter, i in enumerate(__b):
         ret = False
         if __a == i:
-            # ret.append(counter)
             ret = True
             break
     return ret
+
+def matrixinput(Flag):
+    # flag 1 : ask user about no. of r and c #flag 2 is fixed
+    # need to update this function to make it more general
+    matrix = None
+
+    if Flag == 1:
+        r = int(input("Enter the number of rows:"))
+        c = int(input("Enter the number of columns:"))
+
+        print("Enter the entries in a single line (separated by space): ")
+
+
+        # User input of entries in a
+        # single line separated by space
+        entries = list(map(int, input().split()))
+        # For printing the matrix
+        matrix = np.array(entries).reshape(r, c)
+
+    elif Flag == 2:
+        print("Enter a", n, "x 1 column vector for the initial position")
+        entries = list(map(int, input().split()))
+        matrix = np.array(entries).reshape(2, 1)
+
+    return matrix
 
 
 n, A, b, U_A, U_b, D_A, D_B, D_b, alphabet, orig_alph = read_data.ReadData().readdata()
 
 start = os.times()[4]
 Tp = trans_sys_polytope.TransSysToPolytope(A, b).transystopolytope()
-# Tp = Tmp.transystopolytope()
 stop = os.times()[4]
 
 print("\n Transition system has", len(Tp["Tp.Q"]), "sub-polytopes;  \n\t time spent for creating"
@@ -50,7 +73,6 @@ if n == 2 or n == 3:
 Alph_s = alphabet_set.Alphs_set(alphabet).alphabetset()
 
 repeat = 'Y'
-Use_mine = True
 
 while repeat == 'Y' or repeat == 'y':
 
@@ -71,10 +93,10 @@ while repeat == 'Y' or repeat == 'y':
 
     if len(accept_Q0) != 0:
 
-        X0 = input("Enter Initial continuous state x0 (column vector) 2 x 1")
+        # X0 = input("Enter Initial continuous state x0 (column vector) 2 x 1")
 
-        if Use_mine:
-            # X0 = np.array([[-3.7], [1.5]])
+        X0 = matrixinput(2)
+        if len(X0) == 0:
             X0 = np.array([[1.0], [5]])
 
         start = os.times()[4]
@@ -99,7 +121,7 @@ while repeat == 'Y' or repeat == 'y':
 
                 plot_trajectory.PlotTrajectory(h_fig, t_ev, X).plottrajectory()
 
-            repeat = input("Do you want to try another LTL formula? Y/N")
+                repeat = input("Do you want to try another LTL formula? Y/N")
 
     else:
         repeat = input("Did not find any initial state satisfying the formula. "

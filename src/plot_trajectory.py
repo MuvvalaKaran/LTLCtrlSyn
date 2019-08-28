@@ -24,11 +24,8 @@ class PlotTrajectory():
                 continue
             big_array[counter, :] = i
 
-
-
         n = np.shape(big_array)[1]
         ax = self.h_fig
-
 
         if n == 2:
             plt.plot(big_array[0, 0], big_array[1, 1])
@@ -37,5 +34,4 @@ class PlotTrajectory():
                 plt.plot(big_array[t_ev[0]::, 0], big_array[t_ev[0]::, 1])
             else:
                 plt.plot(big_array[t_ev[0], 0], big_array[t_ev[0], 1])
-
-        print("checking")
+                plt.show()

@@ -83,7 +83,7 @@ class TransSysToPolytope(object):
                     tmp_lst_of_ints = [int(x) for x in lst[i]]
                     Tp_Signs.append(np.array(tmp_lst_of_ints))
 
-        print("Done with the first loop and now entering the second loop")
+        # print("Done with the first loop and now entering the second loop")
         signs = []
         Tp_Q = [i for i in range(sp_no)]
         # TODO if this guy should be initiliazed as empty or zeros_as_empty inserts sporadic numbers

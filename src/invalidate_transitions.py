@@ -63,7 +63,8 @@ class Invalid_Transition(object):
                 return array
 
             def tranfosefor1dvector(array, val):
-                #val = 1 for vertical vector n x 1 matrix and 2 for 1 x n matrix
+
+                # val = 1 for vertical vector n x 1 matrix and 2 for 1 x n matrix
                 if val == 1:
                     ret = np.reshape(array, (np.shape(array)[0], 1))
                 elif val == 2:
@@ -74,7 +75,7 @@ class Invalid_Transition(object):
             centr = np.mean(V, axis=0)
             F_n = np.zeros((f_no,n))
             for k in range(f_no):
-                for counter,x in enumerate(list(F_v[k,:]),0):
+                for counter, x in enumerate(list(F_v[k, :]), 0):
                     if x == 1:
                         index = counter
                         break
@@ -85,7 +86,8 @@ class Invalid_Transition(object):
                     tmp = np.asscalar(np.sign(np.matmul(H.A[k, :], vect_transpose)))
                     F_n[k, :] = (tmp * H.A[k, :])/np.linalg.norm(H.A[k, :])
                 else:
-                    F_n[k, :] = (np.matmul(np.sign(np.matmul(H.A[k, :], vect_transpose)), H.A[k, :])) / np.linalg.norm(H.A[k, :])
+                    F_n[k, :] = (np.matmul(np.sign(np.matmul(H.A[k, :], vect_transpose)), H.A[k, :]))\
+                                / np.linalg.norm(H.A[k, :])
 
             # test f exits to neighbours are feasible (due to control restrictions and drift)
             index_for_neigh = []
@@ -107,7 +109,8 @@ class Invalid_Transition(object):
                     counter = counter + 1
                 ex_f = counter
 
-            # for all vertices of si check feasibility by checking non-emptiness of optimisation set (imposed by restrictions)
+                # for all vertices of si check feasibility by checking non-emptiness of optimisation set
+                # (imposed by restrictions)
                 for l in range(v_no):
                     index_for_in_f = []
                     for counter, x in enumerate(F_v[:, l], 0):
@@ -143,7 +146,6 @@ class Invalid_Transition(object):
                         # if(np.linalg.matrix_rank(np.vstack((V_rep, abc)))) != (m+1):
                         # the above two lines a re a better alternative than this
                         if isinstance(V_rep, type(None)):
-                            # trans_sys.Tp_adj[i,j] = 0
                             updated_Tp_adj[i, j] = 0
                             break
 
@@ -213,7 +215,4 @@ class Invalid_Transition(object):
         }
 
         Tp.update(Tp_new)
-        # Tp.get("Tp.adj").set = updated_Tp_adj
-        # print("DOne")
-        # print(np.transpose(np.nonzero(updated_Tp_adj)))
         return Tp

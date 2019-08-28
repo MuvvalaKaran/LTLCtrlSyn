@@ -100,32 +100,32 @@ class PlotTransitionSystem(object):
         # def testAndbConsistency(self):
         #     self.assertTrue(np.shape(A)[0 == np.shape(b)[0]])
 
-        if(np.shape(A)[0] == np.shape(b)[0]):
+        if np.shape(A)[0] == np.shape(b)[0]:
             pass
         else:
             print("Ensure the number of row of A and b matrix corresponding to the state space boundaries are same")
 
-        p = pc.Polytope(A,b)
-        Bound = pc.extreme(p)
+        p = pc.Polytope(A, b)
+        bound = pc.extreme(p)
 
-        if isinstance(Bound,type(None)):
+        if isinstance(bound, type(None)):
             p = pc.Polytope(A, -1*b)
-            Bound = pc.extreme(p)
+            bound = pc.extreme(p)
             print("Tried with reversing the signs of b matrix")
 
-        if isinstance(Bound,type(None)):
+        if isinstance(bound, type(None)):
             print("PLease make sure the state space boundaries form a convex polytope")
             sys.exit(1)
 
         n = np.shape(A)[1]  # space dimension
 
         if n == 2:
-            ep = (np.amax(Bound, axis=0) - np.amin(Bound, axis=0))/20
+            ep = (np.amax(bound, axis=0) - np.amin(bound, axis=0))/20
             # ep = np.reshape(ep,(1,2))
-            xmin = np.amin(Bound[:, 0]) - ep[0]
-            xmax = np.amax(Bound[:, 0]) + ep[0]
-            ymin = np.amin(Bound[:, 1]) - ep[1]
-            ymax = np.amax(Bound[:, 1]) + ep[1]
+            xmin = np.amin(bound[:, 0]) - ep[0]
+            xmax = np.amax(bound[:, 0]) + ep[0]
+            ymin = np.amin(bound[:, 1]) - ep[1]
+            ymax = np.amax(bound[:, 1]) + ep[1]
 
             # p.plot()
             # plt.xlim(xmin,xmax)

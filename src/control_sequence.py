@@ -81,7 +81,6 @@ def control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, run_Tp):
             # for j in neigh:
             tmp = np.matmul(H.A, np.transpose(np.mean(Tp.get("Tp.vert")[s_j], axis=0)))
             counter = 0
-            tmp_T = np.reshape(tmp, (np.shape(tmp)[0], 1))
             for x, y in zip(tmp, H.b):
                 if x > y:
                     break
@@ -130,27 +129,8 @@ def control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, run_Tp):
                 for counter, x in enumerate(F_v[:, l], 0):
                     if x != 0:
                         in_f.append(counter)
-                        # index_for_in_f.append(counter)
-                # list_A_for_in_f = index_for_in_f
-                # in_f = set(list(index_for_in_f)).difference({ex_f})
-                # in_f = list(index_for_in_f)
 
-
-
-                # A_Check = np.vstack((U_A, np.matmul(-1 * F_n[ex_f, :], D_B)))
-                # if (len(in_f) == 1):
-                #     A_Check = np.vstack((A_Check, np.matmul(F_n[in_f[0], :], D_B)))
-                # else:
-                #     A_Check = np.vstack((A_Check, np.matmul(F_n[in_f[0]:in_f[1], :], D_B)))
-                # abc = np.matmul(D_A, tranfosefor1dvector(V[l, :], 1)) + D_b
-                # B_Check = np.vstack((-1 * U_b, (np.matmul(F_n[ex_f, :], abc) - prec)))
-                # abc = np.matmul(D_A, tranfosefor1dvector(V[l, :], 1)) + D_b
-                # if len(in_f) == 1:
-                #     B_Check = np.vstack((B_Check, np.matmul(-1 * F_n[in_f[0], :], abc) - prec))
-                # else:
-                #     B_Check = np.vstack((B_Check, np.matmul(-1 * F_n[in_f[0]:in_f[1], :], abc) - prec))
-
-                if (len(in_f) == 1):
+                if len(in_f) == 1:
                     tmp = np.matmul(F_n[in_f[0], :], D_B)
                 else:
                     tmp = np.matmul(F_n[in_f[0]:in_f[1], :], D_B)
@@ -168,12 +148,7 @@ def control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, run_Tp):
                 fun = sol.__getitem__('fun')  # current value of the object function
                 success = sol.__getitem__('success')  # flag for optimization success or failure
                 controls[l, :] = tranfosefor1dvector(x, 2)
-                # tmp1 = tranfosefor1dvector(np.matmul(D_A, np.transpose(V[l, :])), 1)
-                # tmp2 = np.ravel(np.matmul(D_B, tranfosefor1dvector(x, 1)))
-                # tmp3 = np.ravel(D_b)
-                # tmp4 = tmp1 + tmp2 + tmp3
                 speeds[l, :] = np.matmul(D_A, np.transpose(V[l, :])) + np.ravel( np.matmul(D_B, tranfosefor1dvector(x, 1))) + np.ravel(D_b)
-                # speeds[l, :] = tmp1 + tmp2 + tmp3
 
                 if not sol.__getattr__("success"):
                     print("Bad Optimization for self-loop in state " + str(s_i))

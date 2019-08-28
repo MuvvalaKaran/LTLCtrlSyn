@@ -15,6 +15,7 @@ import polytope as pc
 import matplotlib.pyplot as plt
 from scipy.spatial import Delaunay
 
+Debug = False
 
 def simulatesystem(Tp, D_A, D_B, D_b, x0, run_Tp, ctrl, time_step, rep_suf):
     prec = pow(10, 5) * np.finfo(float).eps
@@ -51,26 +52,22 @@ def simulatesystem(Tp, D_A, D_B, D_b, x0, run_Tp, ctrl, time_step, rep_suf):
     for i in range(len(compl_run)):
         Vert = Tp.get("Tp.vert")[compl_run[i]]
         Ctr = compl_ctrl[i]
-        H = pc.qhull(Vert)  # tmp thing to verify stuff
         tes = Delaunay(Vert)
-        # plt.triplot(Vert[:, 0], Vert[:, 1], tes.simplices)
-        for simplices in tes.simplices:
-        #     for vertex in simplices:
-            plt.triplot(tes.points[simplices, 0], tes.points[simplices, 1])
-        plt.plot(Vert[:, 0], Vert[:, 1], 'o')
-        plt.pause(0.1)
-        plt.show()
 
+        if Debug:
+            for simplices in tes.simplices:
 
-
+                plt.triplot(tes.points[simplices, 0], tes.points[simplices, 1])
+            plt.plot(Vert[:, 0], Vert[:, 1], 'o')
+            plt.pause(0.1)
+            plt.show()
 
         # find = tes.vertex_to_simplex(tes.find_simplex(x0.transpose()))
         xfortes = X[-1].transpose()
         isinsidepoly = tes.find_simplex(np.transpose(xfortes))  # i believe this is probably right
-        # find  = tes.find_simplex()
 
         # simpl = tes.vertex_to_simplex()
-        print("Testing testing")
+        # print("Testing testing")
         while isinsidepoly != -1 and stop is not True:
             t_s = t_s + 1
             x = X[-1]
@@ -80,23 +77,10 @@ def simulatesystem(Tp, D_A, D_B, D_b, x0, run_Tp, ctrl, time_step, rep_suf):
             for i in range(np.shape(tes.vertices)[1]):
                 new_Ctr[i, :] = Ctr[tes.vertices[isinsidepoly, i], :]
                 for_inv[i, :] = Vert[tes.vertices[isinsidepoly, i], :]
-                # if i == 0:
-                #     new_Ctr = np.ndarray(Ctr[tes.vertices[isinsidepoly, i], :])
-                #     for_inv = np.ndarray(Vert[tes.vertices[isinsidepoly, i], :])
-                # else:
-                #     new_Ctr = np.vstack((new_Ctr, Ctr[tes.vertices[isinsidepoly, i], :]))
-                #     for_inv = np.vstack((for_inv, Vert[tes.vertices[isinsidepoly, i], :]))
-                # new_Ctr.append(np.asarray(Ctr[tes.vertices[isinsidepoly, i], :]))
-                # for_inv.append(np.asarray(Vert[tes.vertices[isinsidepoly, i], :]))
 
-            # tmp = np.vstack((np.transpose(np.asarray(new_Ctr)), np.transpose(np.asarray(for_inv))))
-            # new_Ctr = np.asarray(new_Ctr)
-            # for_inv = np.asarray(for_inv)
             stackedtomakesquarematrix = np.vstack((for_inv.transpose(), np.ones((1, n+1))))
             inverseofabovematix = np.linalg.inv(stackedtomakesquarematrix)
 
-            # tmp = np.matmul(np.transpose(np.asarray(new_Ctr)), np.linalg.inv(np.transpose(np.asarray(for_inv))))
-            # tmp1 = np.vstack((tmp, np.ones((1, n+1))))
             tmp = np.matmul(new_Ctr.transpose(), inverseofabovematix)
             getxmatrixtoshape = np.vstack((x, [1]))
             u_x = np.matmul(tmp, getxmatrixtoshape)
@@ -108,16 +92,15 @@ def simulatesystem(Tp, D_A, D_B, D_b, x0, run_Tp, ctrl, time_step, rep_suf):
             S.append(speed.transpose())
 
             isinsidepoly = tes.find_simplex(X[-1])
-            if isinsidepoly == -1:
-                print("Changing Polytope at time step :", t_s)
+            if Debug:
+                if isinsidepoly == -1:
+                    print("Changing Polytope at time step :", t_s)
             if i == len(run_Tp[0][0]) and np.linalg.norm(new_x - x) <= prec:
                 stop = True
 
         if i >= len(run_Tp[0][0]) and np.mod((i - len(run_Tp[0][0])), len(run_Tp[0][1])) == 0:
             t_ev.append(t_s)
 
-            # Ctr[tes.__getattribute__('vertices')[isinsidepoly, :], :]
-            # np.invert()
     if t_ev[-1] != t_s:
         t_ev.append(t_s)
 

@@ -45,7 +45,7 @@ class PlotDrift:
             # ax.xaxis.set_ticks([])
             # ax.yaxis.set_ticks([])
             # ax.show()
-            plt.show()
+            plt.pause(0.01)
 
         if n ==3:
             z_start = np.amin(Bound_V[:, 2], axis=0)
@@ -57,8 +57,7 @@ class PlotDrift:
             Gz = D_A[2, 0] * X + D_A[2, 1] * Y + D_b[2, 0]
             ax.quiver(X, Y, Z, Gx, Gy, Gz)
             # ax.show()
-            plt.show()
-
+            plt.pause(0.01)
 
         return ax
 
