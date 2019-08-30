@@ -4,7 +4,7 @@ Synthesis of a controller for system with linear dynamics using restricted LTL f
 
 ## Instructions to run
 
-Run the LTL_ctrl.py program. The read_data file does not currently support reading user input and no please select read_dat from file to load pre-entered data.
+Run the LTL_ctrl.py program. The read_data file does not currently support reading user input and so please select 'y' when prompted to read data from file to load pre-entered data.
 
 Future iteration will have more added feafture.
 
