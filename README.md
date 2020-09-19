@@ -2,8 +2,6 @@
 
 This repository contains the code for the course project for ASEN 6519 - Hybrid Systems: Theory, computation, and Applications. The main objective of the project is to generate a trajectory for a contorl affine system using feedback control law that satisfies a given specification specificed within the Linear Temporal Logic framework. The specification is usually of the form - visit certain regions-of-interest while avoiding obstacles - thus assuring guarantees with respect to the given specification.
 
-Synthesis of a controller for an affine system with linear dynamics using restricted Linear Temporal Logic formula in python.
-
 **Table of Contents**
 * [Conda env installation](https://github.com/MuvvalaKaran/LTLCtrlSyn/blob/master/README.md#Instructions-to-run)
 * [About the project](https://github.com/MuvvalaKaran/LTLCtrlSyn/blob/master/README.md#Introduction)
@@ -145,7 +143,7 @@ Note: This is not the exact specification used but one that is easy to interpret
 The final trajectory is as follows: 
 
 <p align="center">
-<img src="images/trajectory.png" width="1000" height="800" alt="Final Plot">
+<img src="images/trajectory.png" width="1000" height="700" alt="Final Plot">
 </p>
 
 <!--
@@ -154,7 +152,7 @@ The final trajectory is as follows:
 
 # DISCLAIMER
 
-Sometimes you might not see any trajectories at all or the trajectory plotted may or may not specifcy the given speciifcation. I will try to fix in the near future. This project is a work in progress and any kind of feedback is welcome!
+Sometimes you might not see any trajectories at all or the trajectory plotted may or may not specifcy the given speciifcation. I will try to fix it in the near future. This project is still a work in progress and any kind of feedback is welcome!
 
 # Contact
 
