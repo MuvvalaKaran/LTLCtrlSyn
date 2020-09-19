@@ -35,8 +35,6 @@ def matrixinput(Flag):
         c = int(input("Enter the number of columns:"))
 
         print("Enter the entries in a single line (separated by space): ")
-
-
         # User input of entries in a
         # single line separated by space
         entries = list(map(int, input().split()))
@@ -45,7 +43,8 @@ def matrixinput(Flag):
 
     elif Flag == 2:
         print("Enter a", n, "x 1 column vector for the initial position")
-        entries = list(map(int, input().split()))
+        # entries = list(map(int, input().split()))
+        entries = [0, 1]
         matrix = np.array(entries).reshape(2, 1)
 
     return matrix

@@ -5,6 +5,7 @@ import numpy as np
 import polytope as pc
 import matplotlib.pyplot as plt
 
+
 def _get_patch(poly1, **kwargs):
     """Return matplotlib patch for given Polytope.
 
@@ -42,8 +43,13 @@ def _get_patch(poly1, **kwargs):
     patch.set_zorder(0)
     return patch
 
-class PlotRun():
 
+class PlotRun():
+    """
+    A class that represents a run on transition system (if found). Run is represented by coloring the polytopes.
+
+    This run does satisfy the give specification - LTL formula
+    """
     def __init__(self, Tp, run_Tp, h_fig):
         self.Tp = Tp
         self.run_Tp = run_Tp

@@ -1,15 +1,3 @@
-'''function that simulates the continuous system, by computing the control in each point from continuous trajectory, computing resulted speed and integrating with a time_step
-the start point is x0, and should be inside the polytope corresponding to the first state from run (we will start from centroid of this polytope)
-the polytope in which we are is triangularized, we find the triangle containing the current position x and we find the control,
-having the controls at simplex vertices already computed (in structure ctrl); when the polytope is left, the next one from run will be hit, and we will do the same thing
-the function returns three matrices
-X is a matrix t_fin x n, giving the position at each time instant (n is the space dimension)
-C is a matrix t_fin x m, giving the control applied at each time (m is the number of input controls)
-S is the speed (matrix t_fin x n), giving the actual speeds
-vector t_ev is a vector with number of time_steps when an "event" happened: the prefix is finished or an iteration of suffix is finished
-(if final state has a self-loop, t_ev has only one element (when prefix was finished)) t_fin used above is the last element of t_ev
-the simulation will be done by following the prefix of run and rep_suf-times its suffix
-if final state is a stay-inside state (only one state in run{2}), simulation is stopped when a small distance (prec) is covered in a time_step  '''
 import numpy as np
 import polytope as pc
 import matplotlib.pyplot as plt
@@ -17,7 +5,36 @@ from scipy.spatial import Delaunay
 
 Debug = False
 
+
 def simulatesystem(Tp, D_A, D_B, D_b, x0, run_Tp, ctrl, time_step, rep_suf):
+    """
+    function that simulates the continuous system, by computing the control in each point from continuous trajectory,
+    computing resulted speed and integrating with a time_step
+
+    the polytope in which we are is triangularized, we find the triangle containing the current position x and we find the control,
+    having the controls at simplex vertices already computed (in structure ctrl); when the polytope is left, the next one from run will be hit, and we will do the same thing
+    the function returns three matrices
+
+    the start point is x0, and should be inside the polytope corresponding to the first state from run
+    (we will start from centroid of this polytope)
+
+    X is a matrix t_fin x n, giving the position at each time instant (n is the space dimension)
+    C is a matrix t_fin x m, giving the control applied at each time (m is the number of input controls)
+    S is the speed (matrix t_fin x n), giving the actual speeds
+    vector t_ev is a vector with number of time_steps when an "event" happened: the prefix is finished or an
+    iteration of suffix is finished
+
+    :param Tp:
+    :param D_A:
+    :param D_B:
+    :param D_b:
+    :param x0:
+    :param run_Tp:
+    :param ctrl:
+    :param time_step:
+    :param rep_suf:
+    :return:
+    """
     prec = pow(10, 5) * np.finfo(float).eps
     n = np.shape(D_A)[0]
     t_s = 0

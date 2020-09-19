@@ -13,8 +13,11 @@ def ismember(a, b):
             break
     return ret
 
-class FindInitState(object):
 
+class FindInitState:
+    """
+    A class used to find the initial state when its given by a point x_0
+    """
     def __init__(self, A, b, x0, Tp_signs, accept_Q0):
         self.A = A
         self.b = b

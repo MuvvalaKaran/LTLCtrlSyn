@@ -1,15 +1,15 @@
-'''plot trajectory obtained from simulation in the same figure as runs
- vector t_ev and marix X are returned by function simulate_system'''
 import numpy as np
 import matplotlib.pyplot as plt
 
-class PlotTrajectory():
 
+class PlotTrajectory:
+    """
+    plot trajectory obtained from simulation in the same figure as runs
+    """
     def __init__(self, h_fig, t_ev, X):
         self.h_fig = h_fig
         self.t_ev = t_ev
         self.X = X
-
 
     def plottrajectory(self):
 
@@ -34,4 +34,4 @@ class PlotTrajectory():
                 plt.plot(big_array[t_ev[0]::, 0], big_array[t_ev[0]::, 1])
             else:
                 plt.plot(big_array[t_ev[0], 0], big_array[t_ev[0], 1])
-                plt.show()
+                # plt.show()

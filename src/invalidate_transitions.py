@@ -4,16 +4,21 @@ import polytope as pc
 import numpy as np
 import scipy.optimize as opt
 
-# eliminate from Tp transitions that cannot be satisfied due to drift and restrictions on control
-# Tp currently has transitions based only on adjacency of states, and loops in every state
-# due to system dynamics, some transitions canot be satisfied (we cannot gurantee that from every inital state in a polytope we will reach a neighbour polytope )
-# Also, it is possible that not all initial conditions from a polytope can be kept inside, case in which we will eliminate the self-loop
-# Transitions will be invalidated if we cannot find control for all the vertices such that some properties be satisfied
-
-# using the combination of both lin and rank produces pretty accurate matrix with few spurious transitions
 
 class Invalid_Transition(object):
+    """
+    A class that helps eliminate from Tp transitions that cannot be satisfied due to drift and restrictions on control
 
+    Tp currently has transitions based only on adjacency of states, and loops in every state
+    due to system dynamics, some transitions can not be satisfied
+    (we cannot gurantee that from every inital state in a polytope we will reach a neighbour polytope)
+
+    Also, it is possible that not all initial conditions from a polytope can be kept inside,
+    case in which we will eliminate the self-loop
+    Transitions will be invalidated if we cannot find control for all the vertices such that some properties be satisfied
+
+    using the combination of both lin and rank produces pretty accurate matrix with few spurious transitions
+    """
     def __init__(self, Tp, U_A, U_b, D_A, D_B, D_b, A):
         self.Tp = Tp
         self.U_A = U_A

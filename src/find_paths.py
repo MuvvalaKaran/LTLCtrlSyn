@@ -1,14 +1,5 @@
 import numpy as np
 
-#  find the paths with minimum cost (shortest path) in a graph, from a source node s to several nodes (d)
-#  the graph is known through an adjacency matrix, where adj(i,j)=cost for going from i to j; exception if adj(i,j)==0 - see below
-#  Dijkstra's algorithm is used (since it finds minimal costs for all nodes in graph), with the following small modification:
-#  if adj(i,j)==0, (i~=j), then there is no transition from i to j, so this 0 is not a cost
-#  (this is done because we want that adj be a sparse matrix, for managing more states;
-#  we will check to not have costs less than precision, which could be approximated with 0)
-#  s - index for soure node (scalar), d - row vector with indices for destination nodes
-#  path will be a cell array, path{i} will be a vector giving the path s -> d(i)
-
 def findMatches(a,b,c,d):
     # a value and b matrix and c value and d matrix
     ret = []
@@ -18,6 +9,7 @@ def findMatches(a,b,c,d):
             ret.append(counter)
         counter = counter + 1
     return ret
+
 
 def findMatchesForNotZero(a,b,c,d):
     # a value and b matrix and c value and d matrix
@@ -30,6 +22,7 @@ def findMatchesForNotZero(a,b,c,d):
         counter = counter + 1
     return ret
 
+
 def indiceswhere0Elements(n):
     #n is a 1 X n  matrix
     ret = []
@@ -38,15 +31,21 @@ def indiceswhere0Elements(n):
             ret.append(counter)
     return ret
 
-# def findMin(array):
-#     #given an array find the min element in it
 
+def FindPaths(adj, s, d):
+    """
+    find the paths with minimum cost (shortest path) in a graph, from a source node s to several nodes (d)
 
+    Dijkstra's algorithm is used (since it finds minimal costs for all nodes in graph), with the following small
+    modification:
 
+        if adj(i,j)==0, (i~=j), then there is no transition from i to j, so this 0 is not a cost
 
-
-def FindPaths(adj,s,d):
-
+    :param adj: The adjacency matrix (tells the neighbouring polytopes of given a polytope)
+    :param s: index source node (scalar)
+    :param d: row vector with indices for destination nodes
+    :return: a cell array, path{i} will be a vector giving the path s -> d(i)
+    """
     if isinstance(d[0], list):
         d = [item for sublist in d for item in sublist]  # convert d appropriate list
     n = np.shape(adj)[0]  # no. of nodes

@@ -4,9 +4,6 @@ from src.invalidate_transitions import Invalid_Transition
 from src.find_accepted_run import FindRuns
 import src.plt_tr_sys_polyt as trans_plot
 
-# class to find all possible initial states of Tp from which there
-# there exists a run satisfying the LTL formula represented by Buchi Automaton B
-
 
 # Tp_adj = Invalid_Transition.updated_Tp_adj
 
@@ -18,6 +15,10 @@ def pltfig():
 
 
 class Accepted_Q0:
+    """
+    A class to find all possible initial states of Tp from which there there exists a run satisfying
+    the LTL formula represented by Buchi Automaton B
+    """
 
     def __init__(self, Tp, B):
         self.Tp = Tp
@@ -76,9 +77,7 @@ class Accepted_Q0:
             # P_F = product.P_trans
             # P_S0 = product.P_S0
             # P_F = product.P_F
-        return accept_Q0, accept_run
 
-def getAccept_Q0():
-    return Accepted_Q0.accept_Q0
+        return accept_Q0, accept_run
 
 

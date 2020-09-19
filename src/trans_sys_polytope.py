@@ -12,6 +12,19 @@ class TransSysToPolytope(object):
         self.b = b
 
     def transystopolytope(self):
+        """
+        Create a transition system by partitioning the boundaries in disjoint sub-polytopes.
+
+        The transition system is dictionary of the form Tp = (Q, Q_0, adj, obs, vert, Signs)
+
+        Q - labels of states (1, 2, 3 ...)
+        Q0 - A scalar or a row vector with label(s) of initial states
+        adj - adjacency matrix ; adj(i,j) = 1 iff we can transit to that state else and adj(i,i) = 1 (all diag ele)
+        obs - row vector with observables for each state
+        vert -  a list of polytopes that makes the workspace
+        signs - signs for each proposition for each state
+        :return:
+        """
 
         A = self.A
         b = self.b
@@ -24,40 +37,38 @@ class TransSysToPolytope(object):
         for i in range(len(b)-1):
             Bin.append(b[i])
         Bin = np.array(Bin)
-        x,n = Ain.shape
-        Nh,y = Bin.shape # numbr of hyperplanes
-        sp_no = 0 #subpolytop number
+        x, n = Ain.shape
+        Nh, y = Bin.shape  # numbr of hyperplanes
+        sp_no = 0  # subpolytop number
         N_p = len(A) - 1
         ind = []
         # Nh = 11
         if Nh > 10:
             n_h = 5
             step_n = 5
-            x = min(step_n,(Nh-n_h))
-            for i in range(pow(2,Nh)-1):
+            x = min(step_n, (Nh-n_h))
+            for i in range(pow(2, Nh)-1):
                 ind.append(i)
                 # ind = np.array(ind)
             while x > 0:
                 new_ind = []
                 for i in range(len(ind)):
-                    for j in range(pow(2,x-1)-1):
-                        index = j*pow(2,n_h)+i
+                    for j in range(pow(2, x-1)-1):
+                        index = j*pow(2, n_h)+i
     # need to work from here on. Also need to understand on whats going on in this code.
-
-
         else:
             for i in range(pow(2,Nh)):
                 ind.append(i)
         lst = []
-        signs = [] #probably should be initialized inside the for loop
-        Tp_vert = [] # equivalent of Tp.Vert
-        Tp_Signs = [] # equivalent of Tp.signs
-        for i in range(pow(2,Nh)):
+        signs = []  # probably should be initialized inside the for loop
+        Tp_vert = []  # equivalent of Tp.Vert
+        Tp_Signs = []  # equivalent of Tp.signs
+        for i in range(pow(2, Nh)):
 
-            a = format(i,'b')
+            a = format(i, 'b')
             addZeros = 10 - len(a)
-            string_val   = "".join('0' for i in range(addZeros)) #this is our s
-            lst.append(string_val + a) # this is equivalent to matlab dec2bin except matlab stores the numbers in matrix
+            string_val = "".join('0' for i in range(addZeros))  # this is our s
+            lst.append(string_val + a)  # this is equivalent to matlab dec2bin except matlab stores the numbers in matrix
 
             #format while in our case of python it is being stored as str
             tmplist = []
@@ -92,7 +103,7 @@ class TransSysToPolytope(object):
         for i in range(0,sp_no):
             #find adjacency for polytope i
             signs = Tp_Signs[i]
-            Tp_adj[i,i] = 1
+            Tp_adj[i, i] = 1
             # j~=i; it's possible to have more than one difference of sign between 2
             # adjacent states (see below) - if some props define the same hyperplane
             j = set(list(range(0, sp_no))).difference({i})
@@ -146,7 +157,7 @@ class TransSysToPolytope(object):
                     alph_ind[0][alp_index] = 1
                 #covert the laph_ind into one string
                 tmp = convert(alph_ind.tolist()[0])
-                Tp_obs[0][i] = int(tmp,2)
+                Tp_obs[0][i] = int(tmp, 2)
         # created a dictionary of Transition system
         Tp = {
             "Tp.vert": Tp_vert,

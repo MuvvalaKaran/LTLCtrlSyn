@@ -1,7 +1,4 @@
-from src.read_data import ReadData
 import numpy as np
-
-# alphabet = ReadData.alphabet
 
 def Find1inStrofArray(list):
     ind = []
@@ -14,10 +11,10 @@ def Find1inStrofArray(list):
             counter = counter +1
     return ind
 
-
-
 class Alphs_set:
-
+    """
+    A class the computes the set of all possible atomic propositions - alphabet
+    """
     def __init__(self, alphabet):
         self.alphabet = alphabet
 

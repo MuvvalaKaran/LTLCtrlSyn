@@ -5,22 +5,6 @@ from src.invalidate_transitions import Invalid_Transition
 import src.create_buchi as Buchi
 import numpy as np
 
-# performs the product of 2 automaton
-# first automaton (T) is in fact a finite transition system with observables
-# (a state has ONLY one observable - a label from set of subsets of all possible observables - see alphabet_set & trasition system for sub-polytopes construction)
-# second one (B) is one with guards on transitions (in this case a Buchi automata)
-# a guard can be any combination of observables (as they would have "or" between them) - any subset of sets of alphabet_set
-# (the alphabet of B (set of guards) is (must be) included (or equal) in the set of observations of T, given by alphabet_set)
-# T and B are implemented as structures (see functions trans_sys_polytope and create_buchi, which construct T and B, respectivelly)
-#
-# T has fields Q, Q0, obs, adj(from invalidate_trans) (set of observables is 1:length(alphabet_set))
-# B has fields S, S0, F, trans
-# P is the product automaton
-#
-# a dummy initial state will be temporarly added to T (in order to check if parts of formula are verified (or whole formula is false) from start)
-# the dummy state has transitions only to initial states of T and no state has transitions to it
-# the dummy state is the last (has the biggest label), has no observable and no vertices
-# when a run is searched in the product automaton, the first state (the dummy one) will be removed
 
 def ismember(a, b):
     # bind = {}
@@ -37,7 +21,15 @@ def ismember(a, b):
             break
     return ret
 
+
 def CartesianProduct(Tp_Q, B_S):
+    """
+    Takes the cartesian product of the two input sets  - both the sets are input rows.
+    :param Tp_Q:
+    :param B_S:
+    :return:
+    """
+
     varargin = []
     N = []
     number_of_arg = 2
@@ -126,10 +118,23 @@ def CartesianProduct(Tp_Q, B_S):
     return set
 
 
-
-# class AutomProduct:
 def AutomatonProduct(Tp, B, Tp_Q0, flag, count):
+    """
+    performs the product of 2 automaton
 
+    a dummy initial state will be temporarily added to T (in order to check if parts of formula are verified
+    (or whole formula is false) from start)
+    the dummy state has transitions only to initial states of T and no state has transitions to it
+    the dummy state is the last (has the biggest label), has no observable and no vertices
+    when a run is searched in the product automaton, the first state (the dummy one) will be removed
+
+    :param Tp: finite transition system
+    :param B: Buchi automaton
+    :param Tp_Q0: The initial state
+    :param flag:
+    :param count:
+    :return:
+    """
 
     B_S = B.get("B.S")
     B_S0 = B.get("B.S0")
@@ -161,8 +166,8 @@ def AutomatonProduct(Tp, B, Tp_Q0, flag, count):
     Debug = False
 
     if Debug:
-        Tp_adj = np.zeros((33,33))
-        Tp_adj[0,0] = 1
+        Tp_adj = np.zeros((33, 33))
+        Tp_adj[0, 0] = 1
         Tp_adj[1, 0] = 1
         Tp_adj[2, 0] = 1
         Tp_adj[0, 1] = 1
@@ -175,88 +180,88 @@ def AutomatonProduct(Tp, B, Tp_Q0, flag, count):
         Tp_adj[4, 2] = 1
         Tp_adj[9, 2] = 1
         Tp_adj[25, 2] = 1
-        Tp_adj[1,3] = 1
-        Tp_adj[2,3] = 1
-        Tp_adj[3,3] = 1
-        Tp_adj[26,3] = 1
-        Tp_adj[2,4] = 1
-        Tp_adj[4,4] = 1
-        Tp_adj[5,5] = 1
-        Tp_adj[6,5] = 1
-        Tp_adj[9,5] = 1
-        Tp_adj[8,7] = 1
-        Tp_adj[11,8] = 1
-        Tp_adj[2,9] = 1
-        Tp_adj[9,9] = 1
-        Tp_adj[32,9] = 1
-        Tp_adj[4,10] = 1
-        Tp_adj[12,13] = 1
-        Tp_adj[17,13] = 1
-        Tp_adj[13,14] = 1
-        Tp_adj[14,14] = 1
-        Tp_adj[26,14] = 1
-        Tp_adj[15,15] = 1
-        Tp_adj[15,16] = 1
-        Tp_adj[16,17] = 1
-        Tp_adj[18,18] = 1
-        Tp_adj[21,18] = 1
-        Tp_adj[27,18] = 1
-        Tp_adj[19,19] = 1
-        Tp_adj[20,19] = 1
-        Tp_adj[21,19] = 1
-        Tp_adj[22,19] = 1
-        Tp_adj[23,19] = 1
-        Tp_adj[28,19] = 1
-        Tp_adj[17,20] = 1
-        Tp_adj[19,20] = 1
-        Tp_adj[20,20] = 1
-        Tp_adj[18,21] = 1
-        Tp_adj[19,21] = 1
-        Tp_adj[21,21] = 1
-        Tp_adj[29,21] = 1
-        Tp_adj[19,22] = 1
-        Tp_adj[22,22] = 1
-        Tp_adj[25,22] = 1
-        Tp_adj[30,22] = 1
-        Tp_adj[19,23] = 1
-        Tp_adj[23,23] = 1
-        Tp_adj[25,23] = 1
-        Tp_adj[20,24] = 1
-        Tp_adj[23,24] = 1
-        Tp_adj[2,25] = 1
-        Tp_adj[22,25] = 1
-        Tp_adj[23,25] = 1
-        Tp_adj[25,25] = 1
-        Tp_adj[26,25] = 1
-        Tp_adj[32,25] = 1
-        Tp_adj[3,26] = 1
-        Tp_adj[17,26] = 1
-        Tp_adj[24,26] = 1
-        Tp_adj[25,26] = 1
-        Tp_adj[26,26] = 1
-        Tp_adj[18,27] = 1
-        Tp_adj[27,27] = 1
-        Tp_adj[29,27] = 1
-        Tp_adj[19,28] = 1
-        Tp_adj[28,28] = 1
-        Tp_adj[29,28] = 1
-        Tp_adj[30,28] = 1
-        Tp_adj[21,29] = 1
-        Tp_adj[27,29] = 1
-        Tp_adj[28,29] = 1
-        Tp_adj[29,29] = 1
-        Tp_adj[31,29] = 1
-        Tp_adj[5,30] = 1
-        Tp_adj[22,30] = 1
-        Tp_adj[28,30] = 1
-        Tp_adj[30,30] = 1
-        Tp_adj[32,30] = 1
-        Tp_adj[7,31] = 1
-        Tp_adj[30,31] = 1
-        Tp_adj[9,32]  = 1
-        Tp_adj[25,32] = 1
-        Tp_adj[30,32] = 1
-        Tp_adj[32,32] = 1
+        Tp_adj[1, 3] = 1
+        Tp_adj[2, 3] = 1
+        Tp_adj[3, 3] = 1
+        Tp_adj[26, 3] = 1
+        Tp_adj[2, 4] = 1
+        Tp_adj[4, 4] = 1
+        Tp_adj[5, 5] = 1
+        Tp_adj[6, 5] = 1
+        Tp_adj[9, 5] = 1
+        Tp_adj[8, 7] = 1
+        Tp_adj[11, 8] = 1
+        Tp_adj[2, 9] = 1
+        Tp_adj[9, 9] = 1
+        Tp_adj[32, 9] = 1
+        Tp_adj[4, 10] = 1
+        Tp_adj[12, 13] = 1
+        Tp_adj[17, 13] = 1
+        Tp_adj[13, 14] = 1
+        Tp_adj[14, 14] = 1
+        Tp_adj[26, 14] = 1
+        Tp_adj[15, 15] = 1
+        Tp_adj[15, 16] = 1
+        Tp_adj[16, 17] = 1
+        Tp_adj[18, 18] = 1
+        Tp_adj[21, 18] = 1
+        Tp_adj[27, 18] = 1
+        Tp_adj[19, 19] = 1
+        Tp_adj[20, 19] = 1
+        Tp_adj[21, 19] = 1
+        Tp_adj[22, 19] = 1
+        Tp_adj[23, 19] = 1
+        Tp_adj[28, 19] = 1
+        Tp_adj[17, 20] = 1
+        Tp_adj[19, 20] = 1
+        Tp_adj[20, 20] = 1
+        Tp_adj[18, 21] = 1
+        Tp_adj[19, 21] = 1
+        Tp_adj[21, 21] = 1
+        Tp_adj[29, 21] = 1
+        Tp_adj[19, 22] = 1
+        Tp_adj[22, 22] = 1
+        Tp_adj[25, 22] = 1
+        Tp_adj[30, 22] = 1
+        Tp_adj[19, 23] = 1
+        Tp_adj[23, 23] = 1
+        Tp_adj[25, 23] = 1
+        Tp_adj[20, 24] = 1
+        Tp_adj[23, 24] = 1
+        Tp_adj[2, 25] = 1
+        Tp_adj[22, 25] = 1
+        Tp_adj[23, 25] = 1
+        Tp_adj[25, 25] = 1
+        Tp_adj[26, 25] = 1
+        Tp_adj[32, 25] = 1
+        Tp_adj[3, 26] = 1
+        Tp_adj[17, 26] = 1
+        Tp_adj[24, 26] = 1
+        Tp_adj[25, 26] = 1
+        Tp_adj[26, 26] = 1
+        Tp_adj[18, 27] = 1
+        Tp_adj[27, 27] = 1
+        Tp_adj[29, 27] = 1
+        Tp_adj[19, 28] = 1
+        Tp_adj[28, 28] = 1
+        Tp_adj[29, 28] = 1
+        Tp_adj[30, 28] = 1
+        Tp_adj[21, 29] = 1
+        Tp_adj[27, 29] = 1
+        Tp_adj[28, 29] = 1
+        Tp_adj[29, 29] = 1
+        Tp_adj[31, 29] = 1
+        Tp_adj[5, 30] = 1
+        Tp_adj[22, 30] = 1
+        Tp_adj[28, 30] = 1
+        Tp_adj[30, 30] = 1
+        Tp_adj[32, 30] = 1
+        Tp_adj[7, 31] = 1
+        Tp_adj[30, 31] = 1
+        Tp_adj[9, 32] = 1
+        Tp_adj[25, 32] = 1
+        Tp_adj[30, 32] = 1
+        Tp_adj[32, 32] = 1
 
 
 
@@ -335,5 +340,5 @@ def AutomatonProduct(Tp, B, Tp_Q0, flag, count):
 
     # print("Done")
 
-    return P_F,P_S0,P_S,P_trans
+    return P_F, P_S0, P_S, P_trans
 

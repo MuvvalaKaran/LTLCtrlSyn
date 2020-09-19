@@ -1,6 +1,6 @@
 import src.read_formula as old_formula
 import src.alphabet_set as Alph
-from subprocess import Popen,PIPE
+from subprocess import Popen, PIPE
 import numpy as np
 import re
 import sys

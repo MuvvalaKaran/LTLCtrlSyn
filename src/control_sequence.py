@@ -1,17 +1,4 @@
-'''
-find sequence of controls to be applied at vertices of polytopes from run
-ctrl will be a 1x2 cell;
-element ctrl{1}{i} refers to the i-th state from run{1} (prefix); it is a matrix v x m (v-number of vertices of current
-polytope, m-number of controls)
-the order of lines (giving controls for each vertex) corresponds to the order from Tp.Vert{run{1}(i)} (vertices of current state)
-ctrl{2} refers to the suffix of run, which must be repeated infinitely
-this structure for control is because there may exist states with different controls at different times, depending on
-their position in run
-the non-emptiness of run must be tested before running this function
-Speed is a structure as control, containing the resulted speeds (drift+control) at vertices of polytopes from run (Speed{1}{i}(j,:)
-is a row vector with speed at vertex j)
-structure Speed will be useful in plotting speeds at vertices (2D and 3D cases, function plot_vertex_speeds) and can be
-used in simulation (if we want to avoid computing control at each point)'''
+
 import numpy as np
 import polytope as pc
 import scipy.optimize as opt
@@ -37,10 +24,26 @@ def tranfosefor1dvector(array, val):
 
 
 def control_sequence(Tp, U_A, U_b, D_A, D_B, D_b, run_Tp):
-    # ctrl =  []
-    ctrl_1= []  # ctrl cell 1
+    '''
+    find sequence of controls to be applied at vertices of polytopes from run
+    ctrl will be a 1x2 cell;
+    element ctrl{1}{i} refers to the i-th state from run{1} (prefix); it is a matrix v x m (v-number of vertices of current
+    polytope, m-number of controls)
+    the order of lines (giving controls for each vertex) corresponds to the order from Tp.Vert{run{1}(i)} (vertices of current state)
+    ctrl{2} refers to the suffix of run, which must be repeated infinitely
+    this structure for control is because there may exist states with different controls at different times, depending on
+    their position in run
+    the non-emptiness of run must be tested before running this function
+    Speed is a structure as control, containing the resulted speeds (drift+control) at vertices of polytopes from run (Speed{1}{i}(j,:)
+    is a row vector with speed at vertex j)
+    structure Speed will be useful in plotting speeds at vertices (2D and 3D cases, function plot_vertex_speeds) and can be
+    used in simulation (if we want to avoid computing control at each point)
+
+    '''
+
+    ctrl_1 = []  # ctrl cell 1
     ctrl_2 = []  # ctrl cell 2
-    # Speed = []
+
     Speed_1 = []  # Speed cell 1
     Speed_2 = []  # Speed cell 1
     n = np.shape(D_A)[0]

@@ -1,27 +1,22 @@
 import polytope as pc
-from polytope import plot
 import numpy as np
-from src.read_data import ReadData
-import nose
-import unittest
-import time
 import matplotlib.patches
 import matplotlib.pyplot as plt
 import sys
-from src.trans_sys_polytope import TransSysToPolytope as tran_sys
+import os
+import imageio
+import shutil
 from itertools import cycle
-from src.invalidate_transitions import Invalid_Transition as newTp
-
 
 
 class PlotTransitionSystem(object):
 
-    def __init__(self,Tp, A, b):
+    def __init__(self, Tp, A, b):
         self.Tp = Tp
         self.A = A
         self.b = b
 
-    def _get_patch(poly1, **kwargs):
+    def _get_patch(self, poly1, **kwargs):
         """Return matplotlib patch for given Polytope.
 
         Example::
@@ -58,14 +53,7 @@ class PlotTransitionSystem(object):
         patch.set_zorder(0)
         return patch
 
-    def get_cmap(n, name='hsv'):
-        '''Returns a function that maps each index in 0, 1, ..., n-1 to a distinct
-        RGB color; the keyword argument name must be a standard mpl colormap name.'''
-        return plt.cm.get_cmap(name, n)
-
-
-
-    def ismember(a, b):
+    def ismember(self, a, b):
         ret = False
         for counter, i in enumerate(b):
 
@@ -74,14 +62,37 @@ class PlotTransitionSystem(object):
                 break
         return ret
 
+    def make_gif(self, input_folder, save_filepath):
+        episode_frames = []
+        time_per_step = 0.2
+        for root, _, files in os.walk(input_folder):
+            file_paths = [os.path.join(root, file) for file in files]
 
-    # A = np.array([[-1,0],[1,0],[0,-1],[0,1],[-3,-5],[1,-1],[-1,2.5],[-2,2.5]])
-    # b = np.array([[-5,-7,-3,-6,-15,-7,-15,-17.5]])
-    # class PlotTraSys:
+            # sorted by modified time
+            file_paths = sorted(file_paths, key=lambda x: os.path.getmtime(x))
+            episode_frames = [imageio.imread(file_path)
+                              for file_path in file_paths if file_path.endswith('.png')]
+        episode_frames = np.array(episode_frames)
+        imageio.mimsave(save_filepath, episode_frames, duration=time_per_step)
+
     def PlotTraSys(self, nargmin, accepted_Q0):
+        """
+        Plot sub polytopes of the transition sysytem.
+        :param nargmin:
+        :param accepted_Q0:
+        :return:
+        """
 
-        # A = np.asarray(ReadData.A[len(ReadData.A) - 1])
-        # b = np.asarray(ReadData.B[len(ReadData.B) - 1])
+        # create two different names for initial TS and for TS with valid set of initial states for a given
+        # specification
+        if nargmin:
+            # clear the previous frame
+            shutil.rmtree('./frames/')
+            os.makedirs('frames')
+            plot_name = 'ts_init'
+        else:
+            plot_name = 'ts'
+
         Tp = self.Tp
         A = self.A[-1]
         b = self.b[-1]
@@ -96,9 +107,6 @@ class PlotTransitionSystem(object):
         if nargmin:
             # accepted_Q = initStates.getAccept_Q0()
             accepted_Q0 = accepted_Q0
-
-        # def testAndbConsistency(self):
-        #     self.assertTrue(np.shape(A)[0 == np.shape(b)[0]])
 
         if np.shape(A)[0] == np.shape(b)[0]:
             pass
@@ -121,53 +129,64 @@ class PlotTransitionSystem(object):
 
         if n == 2:
             ep = (np.amax(bound, axis=0) - np.amin(bound, axis=0))/20
-            # ep = np.reshape(ep,(1,2))
+
             xmin = np.amin(bound[:, 0]) - ep[0]
             xmax = np.amax(bound[:, 0]) + ep[0]
             ymin = np.amin(bound[:, 1]) - ep[1]
             ymax = np.amax(bound[:, 1]) + ep[1]
 
-            # p.plot()
-            # plt.xlim(xmin,xmax)
-            # plt.ylim(ymin,ymax)
             fig = plt.figure()
+            time_step = 0
+
             ax = fig.add_subplot(111)
-            ax.add_patch(PlotTransitionSystem._get_patch(p,edgecolor="Black", linewidth=0.5, facecolor=None, fill=False))
+            ax.add_patch(self._get_patch(p,
+                                         edgecolor="Black",
+                                         linewidth=0.5,
+                                         facecolor=None,
+                                         fill=False))
             plt.pause(0.1)
-            # plt.figure(1)
-            cycol = cycle('bgrcmk')
-            pad_no = str(len(str(len(Tp_Q))) + 1)
+            plt.savefig(f"frames/{plot_name+str(time_step)}.png", dpi=200)
+
             centr = np.zeros((len(Tp_Q), n))
             for i in range(len(Tp_Q)):
+                time_step += 1
                 k = pc.qhull(Tp_vert[i])
-                # c = PlotTransitionSystem.get_cmap(len(tran_sys.Tp_Q))
-                # tmp = _get_patch(k,color=next(cycol))
-                tmp = PlotTransitionSystem._get_patch(k,edgecolor="Black", linewidth=0.15, facecolor=None, fill=False)
+
+                tmp = self._get_patch(k,
+                                      edgecolor="Black",
+                                      linewidth=0.15,
+                                      facecolor=None,
+                                      fill=False)
                 ax.add_patch(tmp)
                 plt.xlim(xmin, xmax)
                 plt.ylim(ymin, ymax)
-                # plt.figure(1)
+
                 plt.pause(0.1)
-                # plt.show()
-                # plt.close(fig)
-                # time.sleep(0.1)
-                # plt.show()
+                plt.savefig(f"frames/grid_{time_step}.png", dpi=200)
+
                 centr[i, :] = np.mean(Tp_vert[i], axis=0)  # taking mean along the columns
 
                 if nargmin:
-                    if PlotTransitionSystem.ismember(i, accepted_Q0):
+                    if self.ismember(i, accepted_Q0):
                         k = pc.qhull(Tp_vert[i])
-                        tmp = PlotTransitionSystem._get_patch(k, edgecolor="Black", linewidth=0.15, facecolor="Green",
-                                                              fill=True)
+                        tmp = self._get_patch(k,
+                                              edgecolor="Black",
+                                              linewidth=0.15,
+                                              facecolor="Green",
+                                              fill=True)
                         ax.add_patch(tmp)
                     else:
                         k = pc.qhull(Tp_vert[i])
-                        tmp = PlotTransitionSystem._get_patch(k, edgecolor="Black", linewidth=0.15, facecolor="Blue",
-                                                              fill=True)
+                        tmp = self._get_patch(k,
+                                              edgecolor="Black",
+                                              linewidth=0.15,
+                                              facecolor="Blue",
+                                              fill=True)
                         ax.add_patch(tmp)
 
             if not nargmin:
                 for i in range(len(Tp_Q)):
+                    time_step += 1
                     j = [0 for k in range(len(Tp_Q))]
                     neigh = []
                     tmp_neigh = np.nonzero(updated_Tp_adj[i, :])
@@ -190,19 +209,33 @@ class PlotTransitionSystem(object):
                     for counter, index_of_j in enumerate(j):
                         if counter < i:
                             if updated_Tp_adj[i, counter] != 0:
-                                plt.plot([centr[i, 0], centr[counter, 0]], [centr[i, 1], centr[counter, 1]], linestyle='--',
+                                plt.plot([centr[i, 0], centr[counter, 0]],
+                                         [centr[i, 1], centr[counter, 1]],
+                                         linestyle='--',
                                          color='r')
-                                plt.plot(centr[i, 0], centr[counter, 0], centr[i, 0], centr[i, 1],'ro')
+                                plt.plot(centr[i, 0],
+                                         centr[counter, 0],
+                                         centr[i, 0],
+                                         centr[i, 1],
+                                         'ro')
                                 plt.pause(0.1)
+
                             # else:
                                 # plt.plot(centr[i, 0], centr[i, 1], centr[counter, 0], centr[counter, 1], 'g.')
                                 # plt.pause(0.1)
 
                         elif counter > i:
                             if updated_Tp_adj[i, counter] != 0:
-                                plt.plot([centr[i, 0], centr[counter, 0]], [centr[i, 1], centr[counter, 1]], linestyle='-',
+                                plt.plot([centr[i, 0], centr[counter, 0]],
+                                         [centr[i, 1], centr[counter, 1]],
+                                         linestyle='-',
                                          color='r')
-                                plt.plot(centr[i, 0], centr[counter, 0], centr[i, 0], centr[i, 1], 'ro')
+
+                                plt.plot(centr[i, 0],
+                                         centr[counter, 0],
+                                         centr[i, 0],
+                                         centr[i, 1],
+                                         'ro')
                                 plt.pause(0.1)
                             # else:
                             #     plt.plot(centr[i, 0], centr[i, 1], centr[counter, 0], centr[counter, 1], 'g.')
@@ -212,31 +245,22 @@ class PlotTransitionSystem(object):
                         plt.plot(centr[i, 0], centr[i, 1], 'r*')
                         plt.pause(0.1)
 
+                    plt.savefig(f"frames/{plot_name+str(time_step)}.png", dpi=200)
+
             for i in range(len(Tp_Q)):
                 plt.text(centr[i, 0], centr[i, 1], "q_" + str(i), fontsize=8, horizontalalignment='center',
                          verticalalignment='center')
+
+            time_step += 1
+            plt.savefig(f"frames/{plot_name + str(time_step)}.png", dpi=200)
 
         elif n == 3:
             pass
         else:
             print("Cannot display more than 3 dimension transition system")
 
-        # p.plot()
-        # plt.ylim(-8,8)
-        # plt.xlim(-8,8)
-        # plt.show()
-        #
-        #
-        # print(p)
-        # v = pc.extreme(p)
-        # V_rep = np.array([[-5,0],[0,-3],[7,0],[4,-3],[7,6],[0,6],[-2.5,5],[-5,3]])
-        #
-        # tmp = pc.qhull(V_rep)
-        # print(tmp)
-        # print("$#$####")
+        # only make a gif when we plotting the set of valid initial states
+        if nargmin:
+            self.make_gif('./frames/', f'./gifs/ts_init.gif')
 
         return ax
-
-# if __name__ == '__main__':
-#     test = PlotTransitionSystem()
-#     test.PlotTraSys()

@@ -1,21 +1,35 @@
-import src.plt_tr_sys_polyt as trans_plot
-from src.read_data import ReadData
 import numpy as np
 import polytope as pc
+import imageio
+import os
 import matplotlib.pyplot as plt
-
-# A =np.asarray(ReadData.A[len(ReadData.A) -1])
-# b =np.asarray(ReadData.B[len(ReadData.B) -1])
 
 
 class PlotDrift:
+    """
+    A class that plots the drift induces by the dynamics of the system within the space boundaries
 
+    THe affine drift: dot(x) = D_Ax + D_B
+    """
     def __init__(self, init_fig, D_A, D_b, A_bound, B_bound):
         self.init_fig = init_fig
         self.D_A = D_A
         self.D_b = D_b
         self.A_bound = A_bound
         self.b_bound = B_bound
+
+    def make_gif(self, input_folder, save_filepath):
+        episode_frames = []
+        time_per_step = 0.2
+        for root, _, files in os.walk(input_folder):
+            file_paths = [os.path.join(root, file) for file in files]
+
+            # sorted by modified time
+            file_paths = sorted(file_paths, key=lambda x: os.path.getmtime(x))
+            episode_frames = [imageio.imread(file_path)
+                              for file_path in file_paths if file_path.endswith('.png')]
+        episode_frames = np.array(episode_frames)
+        imageio.mimsave(save_filepath, episode_frames, duration=time_per_step)
 
     def plotdrift(self):
 
@@ -51,13 +65,16 @@ class PlotDrift:
             z_start = np.amin(Bound_V[:, 2], axis=0)
             z_stop = np.amax(Bound_V[:, 2], axis=0)
             lin_z = np.array(z_start, z_stop, p_no)
-            X, Y, Z = np.meshgrid(lin_x, lin_y,lin_z)
+            X, Y, Z = np.meshgrid(lin_x, lin_y, lin_z)
             Gx = D_A[0, 0] * X + D_A[0, 1] * Y + D_b[0, 0]
             Gy = D_A[1, 0] * X + D_A[1, 1] * Y + D_b[1, 0]
             Gz = D_A[2, 0] * X + D_A[2, 1] * Y + D_b[2, 0]
             ax.quiver(X, Y, Z, Gx, Gy, Gz)
             # ax.show()
             plt.pause(0.01)
+
+        plt.savefig(f"frames/grid_{1000}.png", dpi=200)
+        self.make_gif('./frames/', f'./gifs/ts.gif')
 
         return ax
 
