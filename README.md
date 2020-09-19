@@ -5,16 +5,16 @@ This repository contains the code for the course project for ASEN 6519 - Hybrid 
 Synthesis of a controller for an affine system with linear dynamics using restricted Linear Temporal Logic formula in python.
 
 **Table of Contents**
-* [conda env installation]()
-* [About the project]()
-* [Approach used]()
-* [Results]()
+* [Conda env installation](https://github.com/MuvvalaKaran/LTLCtrlSyn/blob/master/README.md#Instructions-to-run)
+* [About the project](https://github.com/MuvvalaKaran/LTLCtrlSyn/blob/master/README.md#Introduction)
+* [Approach used](https://github.com/MuvvalaKaran/LTLCtrlSyn/blob/master/README.md#Approach)
+* [Results](https://github.com/MuvvalaKaran/LTLCtrlSyn/blob/master/README.md#Results)
 
 # Instructions to run
 
 Install anaconda on your OS and then run the below mentioned shell commands with conda comand path
 
-##Installing the env 
+## Installing the env 
 
 * Install dependencies - Install conda env
 
@@ -119,9 +119,9 @@ The system used in the code uses the following dynamics:
 
 ![equation](https://latex.codecogs.com/gif.latex?A%20%3D%20%5Cbegin%7Bbmatrix%7D%200.2%20%26%20-0.3%5C%5C%200.5%20%26%20-0.5%20%5Cend%7Bbmatrix%7D)
 
-![euqation](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%201%20%26%200%5C%5C%200%20%26%201%20%5Cend%7Bbmatrix%7D)
+![euqation](https://latex.codecogs.com/gif.latex?B%20%3D%5Cbegin%7Bbmatrix%7D%201%20%26%200%5C%5C%200%20%26%201%20%5Cend%7Bbmatrix%7D)
 
-![equation](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bbmatrix%7D%200.5%5C%5C%200.5%20%5Cend%7Bbmatrix%7D)
+![equation](https://latex.codecogs.com/gif.latex?C%20%3D%5Cbegin%7Bbmatrix%7D%200.5%20%5C%5C%200.5%20%5Cend%7Bbmatrix%7D)
 
 the control matrices A, B and b  are hardcoded in the code. The specification is to visit a three specific regions of interest - which are encoded as a set of predicates in the LTL formula. The also exisits few obstacles in the regions. 
 
@@ -135,16 +135,16 @@ The solid black lines represents the drift induced by the system's dynamics.
 
 Plotting the set of valid initial states from which we can achieve the following specification : `F (q_0 & q_23)`. 
 
-* Green - valid initial states
-* blue - invalid initial states 
+* Green - set o fvalid initial states
+* Blue - set of invalid initial states 
 
 Note: This is not the exact specification used but one that is easy to interpret in this README.
 
 ![](gifs/ts_init.gif "Plotting valid states")
 
-The final trajectory
+The final trajectory is as follows: 
 
-![](images/trajectory.png)
+![](images/trajectory.png "final plot")
 
 # DISCLAIMER
 
