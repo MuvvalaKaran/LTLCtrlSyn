@@ -144,7 +144,13 @@ Note: This is not the exact specification used but one that is easy to interpret
 
 The final trajectory is as follows: 
 
+<p align="center">
+<img src="images/trajectory.png" width="1000" height="800" alt="Final Plot">
+</p>
+
+<!--
 ![](images/trajectory.png "final plot")
+-->
 
 # DISCLAIMER
 
